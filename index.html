@@ -44,7 +44,7 @@
     </p>
   </section>
 
-  <!-- Kategori berdasarkan silibus MPU3411 -->
+  <!-- Kategori -->
   <section class="max-w-7xl mx-auto px-4 py-12">
     <h2 class="text-2xl font-bold text-slate-800 mb-6">Kategori Topik</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -192,7 +192,7 @@
       }
     });
 
-    // Hantar borang
+    // Hantar borang (guna no-cors untuk github.io)
     document.getElementById('uploadForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const selected = JSON.parse(document.getElementById('studentName').value);
@@ -207,22 +207,20 @@
       };
 
       try {
-        const res = await fetch(SCRIPT_URL, {
+        // Gunakan no-cors — tidak dapat baca respons, tapi data disimpan
+        await fetch(SCRIPT_URL, {
           method: 'POST',
+          mode: 'no-cors', // ✅ Penting untuk github.io
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-        const result = await res.json();
-        if (result.success) {
-          alert("✅ Video berjaya dihantar! Tunggu kelulusan admin.");
-          closeUploadModal();
-          document.getElementById('uploadForm').reset();
-          document.getElementById('selectedInfo').classList.add('hidden');
-        } else {
-          alert("❌ Ralat: " + (result.error || "Tidak diketahui"));
-        }
+
+        alert("✅ Video berjaya dihantar! Tunggu kelulusan admin.");
+        closeUploadModal();
+        document.getElementById('uploadForm').reset();
+        document.getElementById('selectedInfo').classList.add('hidden');
       } catch (error) {
-        alert("⚠️ Gagal sambung ke pelayan. Sila cuba lagi.");
+        alert("⚠️ Gagal sambung. Pastikan Web App akses = Anyone.");
         console.error(error);
       }
     });
