@@ -8,7 +8,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Poppins', sans-serif; }
-    .video-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+    }
     .category-card:hover {
       border-color: #3b82f6;
       background-color: #eff6ff;
@@ -37,7 +40,7 @@
   <section class="bg-gradient-to-br from-blue-900 to-indigo-800 text-white text-center py-16 px-4">
     <h1 class="text-4xl md:text-5xl font-bold mb-4">e-Athlete</h1>
     <p class="text-lg max-w-2xl mx-auto opacity-90">
-      Platform pembelajaran oleh pelajar PPSIMP — MPU3411 Kokurikulum Olahraga.
+      Platform pembelajaran oleh pelajar universiti — kongsi video olahraga, dapatkan merit, jadi atlet ilmu.
     </p>
   </section>
 
@@ -115,16 +118,13 @@
           </select>
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">No. Giliran (Auto-fill)</label>
-          <input type="text" id="studentId" readonly
-                 class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-gray-100 cursor-not-allowed">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Kelas</label>
-          <input type="text" id="kelas" readonly
-                 class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-gray-100 cursor-not-allowed">
+        <!-- Papar nama & kelas selepas pilih -->
+        <div id="selectedInfo" class="hidden bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <p class="text-sm text-slate-700">
+            <span class="font-medium">Nama:</span> <span id="previewName">-</span><br>
+            <span class="font-medium">Kelas:</span> <span id="previewClass">-</span><br>
+            <span class="font-medium">No. Giliran:</span> <span id="previewId">-</span>
+          </p>
         </div>
 
         <div>
@@ -153,7 +153,7 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Link Video (YouTube/Vimeo) *</label>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Link Video (YouTube/Vimeo/Drive) *</label>
           <input type="url" id="videoUrl" required placeholder="https://youtube.com/..."
                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
@@ -173,9 +173,10 @@
   </div>
 
   <script>
+    // URL Google Apps Script anda
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7kIs6fMFHhqSJ3eqNEOo8jONvHOJeaWdQuo9boEtuzY6tUAEDhxOC2LifCSVAMb2o/exec";
 
-    // Muat senarai pelajar
+    // Muat senarai pelajar dari Google Sheets
     async function loadStudents() {
       try {
         const res = await fetch(`${SCRIPT_URL}?action=getStudents`);
@@ -189,20 +190,22 @@
           select.appendChild(opt);
         });
       } catch (err) {
-        console.error("Gagal muat senarai pelajar:", err);
-        document.getElementById('studentName').innerHTML = '<option value="">Ralat: Gagal muat senarai</option>';
+        console.error("Ralat muat senarai pelajar:", err);
+        alert("Gagal muat senarai pelajar. Sila cuba lagi.");
       }
     }
 
-    // Isi medan automatik
+    // Papar info pelajar selepas pilih
     document.getElementById('studentName').addEventListener('change', (e) => {
+      const infoDiv = document.getElementById('selectedInfo');
       if (e.target.value) {
         const student = JSON.parse(e.target.value);
-        document.getElementById('studentId').value = student.id;
-        document.getElementById('kelas').value = student.kelas;
+        document.getElementById('previewName').textContent = student.name;
+        document.getElementById('previewClass').textContent = student.kelas;
+        document.getElementById('previewId').textContent = student.id;
+        infoDiv.classList.remove('hidden');
       } else {
-        document.getElementById('studentId').value = '';
-        document.getElementById('kelas').value = '';
+        infoDiv.classList.add('hidden');
       }
     });
 
@@ -211,7 +214,7 @@
       e.preventDefault();
       const selected = JSON.parse(document.getElementById('studentName').value);
       const data = {
-        student_id: selected.id,
+        student_id: selected.id,       // No_Giliran
         student_name: selected.name,
         kelas: selected.kelas,
         category: document.getElementById('category').value,
@@ -231,8 +234,7 @@
           alert("✅ Video berjaya dihantar! Tunggu kelulusan admin.");
           closeUploadModal();
           document.getElementById('uploadForm').reset();
-          document.getElementById('studentId').value = '';
-          document.getElementById('kelas').value = '';
+          document.getElementById('selectedInfo').classList.add('hidden');
         } else {
           alert("❌ Ralat: " + (result.error || "Tidak diketahui"));
         }
@@ -244,15 +246,12 @@
 
     function openUploadModal() {
       document.getElementById('uploadModal').classList.remove('hidden');
-      loadStudents(); // Muat semula senarai setiap kali buka
+      loadStudents(); // Muat semula setiap kali modal dibuka
     }
 
     function closeUploadModal() {
       document.getElementById('uploadModal').classList.add('hidden');
     }
-
-    // Muat senarai pertama kali (opsyenal)
-    // loadStudents();
   </script>
 
 </body>
