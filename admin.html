@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>e-Athlete Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Poppins', sans-serif; }</style>
+</head>
+<body class="bg-gray-50">
+
+  <header class="bg-blue-800 text-white py-4 px-6">
+    <h1 class="text-xl font-bold">e-Athlete – Panel Admin</h1>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold text-slate-800 mb-6">Video Menunggu Kelulusan</h2>
+    
+    <div id="pendingList" class="space-y-4">
+      <p>Memuat senarai...</p>
+    </div>
+  </main>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7kIs6fMFHhqSJ3eqNEOo8jONvHOJeaWdQuo9boEtuzY6tUAEDhxOC2LifCSVAMb2o/exec";
+
+    async function loadPendingVideos() {
+      try {
+        const res = await fetch(`${SCRIPT_URL}?action=getPendingVideos`);
+        const videos = await res.json();
+        const container = document.getElementById('pendingList');
+
+        if (videos.length === 0) {
+          container.innerHTML = '<p class="text-slate-600">Tiada video menunggu kelulusan.</p>';
+          return;
+        }
+
+        container.innerHTML = videos.map(v => `
+          <div class="bg-white p-4 rounded-lg border border-gray-200">
+            <div class="flex justify-between">
+              <div>
+                <h3 class="font-semibold">${v.title}</h3>
+                <p class="text-sm text-slate-600">${v.student_name} • ${v.kelas}</p>
+                <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded mt-1">
+                  ${v.category}
+                </span>
+              </div>
+              <div>
+                <a href="${v.video_url}" target="_blank" class="text-blue-600 hover:underline text-sm">Lihat Video</a>
+              </div>
+            </div>
+            <div class="mt-3 flex items-center space-x-3">
+              <input type="number" value="10" min="1" max="50" 
+                     class="border border-gray-300 rounded w-16 px-2 py-1 text-sm merit-input" 
+                     data-id="${v.video_id}">
+              <button onclick="approveVideo('${v.video_id}', this)" 
+                      class="bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded text-sm">
+                Luluskan
+              </button>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        container.innerHTML = '<p class="text-red-500">Gagal memuat senarai.</p>';
+      }
+    }
+
+    async function approveVideo(video_id, btn) {
+      const merit = parseInt(btn.previousElementSibling.value) || 10;
+      btn.disabled = true;
+      btn.textContent = "Sedang meluluskan...";
+
+      try {
+        await fetch(`${SCRIPT_URL}?action=approveVideo&video_id=${encodeURIComponent(video_id)}&merit=${merit}`);
+        btn.textContent = "✅ Diluluskan";
+        setTimeout(() => btn.closest('.bg-white').remove(), 1000);
+      } catch (err) {
+        alert("Gagal meluluskan");
+        btn.disabled = false;
+        btn.textContent = "Luluskan";
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadPendingVideos);
+  </script>
+
+</body>
+</html>
