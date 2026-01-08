@@ -14,17 +14,31 @@
     <h1 class="text-xl font-bold">e-Athlete – Panel Admin</h1>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-8">
-    <h2 class="text-2xl font-bold text-slate-800 mb-6">Video Menunggu Kelulusan</h2>
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-slate-800">Video Menunggu Kelulusan</h2>
+      <button onclick="loadPendingVideos()" 
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm flex items-center">
+        🔁 Muat Semula
+      </button>
+    </div>
     
     <div id="pendingList" class="space-y-4">
       <p>Memuat senarai...</p>
+    </div>
+
+    <div class="mt-8">
+      <h3 class="text-xl font-bold text-slate-800 mb-4">Hall of Fame – 10 Pelajar Teratas</h3>
+      <div id="hallOfFame" class="bg-white p-4 rounded-lg border border-gray-200">
+        <p>Memuat...</p>
+      </div>
     </div>
   </main>
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7kIs6fMFHhqSJ3eqNEOo8jONvHOJeaWdQuo9boEtuzY6tUAEDhxOC2LifCSVAMb2o/exec";
 
+    // Muat senarai pending
     async function loadPendingVideos() {
       try {
         const res = await fetch(`${SCRIPT_URL}?action=getPendingVideos`);
@@ -33,56 +47,103 @@
 
         if (videos.length === 0) {
           container.innerHTML = '<p class="text-slate-600">Tiada video menunggu kelulusan.</p>';
-          return;
+        } else {
+          container.innerHTML = videos.map(v => `
+            <div class="bg-white p-4 rounded-lg border border-gray-200">
+              <div class="flex justify-between">
+                <div>
+                  <h3 class="font-semibold">${v.title}</h3>
+                  <p class="text-sm text-slate-600">${v.student_name} • ${v.kelas}</p>
+                  <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded mt-1">
+                    ${v.category}
+                  </span>
+                </div>
+                <div>
+                  <a href="${v.video_url}" target="_blank" class="text-blue-600 hover:underline text-sm">Lihat Video</a>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center space-x-3">
+                <input type="number" value="10" min="1" max="50" 
+                       class="border border-gray-300 rounded w-16 px-2 py-1 text-sm" 
+                       id="merit-${v.video_id}">
+                <button onclick="approveVideo('${v.video_id}')" 
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded text-sm">
+                  Luluskan
+                </button>
+              </div>
+            </div>
+          `).join('');
         }
-
-        container.innerHTML = videos.map(v => `
-          <div class="bg-white p-4 rounded-lg border border-gray-200">
-            <div class="flex justify-between">
-              <div>
-                <h3 class="font-semibold">${v.title}</h3>
-                <p class="text-sm text-slate-600">${v.student_name} • ${v.kelas}</p>
-                <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded mt-1">
-                  ${v.category}
-                </span>
-              </div>
-              <div>
-                <a href="${v.video_url}" target="_blank" class="text-blue-600 hover:underline text-sm">Lihat Video</a>
-              </div>
-            </div>
-            <div class="mt-3 flex items-center space-x-3">
-              <input type="number" value="10" min="1" max="50" 
-                     class="border border-gray-300 rounded w-16 px-2 py-1 text-sm merit-input" 
-                     data-id="${v.video_id}">
-              <button onclick="approveVideo('${v.video_id}', this)" 
-                      class="bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded text-sm">
-                Luluskan
-              </button>
-            </div>
-          </div>
-        `).join('');
       } catch (err) {
-        container.innerHTML = '<p class="text-red-500">Gagal memuat senarai.</p>';
+        document.getElementById('pendingList').innerHTML = 
+          '<p class="text-red-500">Gagal memuat senarai.</p>';
       }
     }
 
-    async function approveVideo(video_id, btn) {
-      const merit = parseInt(btn.previousElementSibling.value) || 10;
+    // Muat Hall of Fame
+    async function loadHallOfFame() {
+      try {
+        const res = await fetch(`${SCRIPT_URL}?action=getHallOfFame`);
+        const students = await res.json();
+        const container = document.getElementById('hallOfFame');
+
+        if (students.length === 0) {
+          container.innerHTML = '<p class="text-slate-600">Tiada data merit.</p>';
+        } else {
+          container.innerHTML = `
+            <ol class="space-y-2">
+              ${students.map((s, i) => `
+                <li class="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span class="font-medium">${i + 1}. ${s.name}</span>
+                  <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-sm">
+                    ${s.total_merit} merit
+                  </span>
+                </li>
+              `).join('')}
+            </ol>
+          `;
+        }
+      } catch (err) {
+        container.innerHTML = '<p class="text-red-500">Gagal memuat Hall of Fame.</p>';
+      }
+    }
+
+    // Kelulusan video
+    async function approveVideo(video_id) {
+      const merit = parseInt(document.getElementById(`merit-${video_id}`).value) || 10;
+      const btn = event.target;
       btn.disabled = true;
       btn.textContent = "Sedang meluluskan...";
 
       try {
-        await fetch(`${SCRIPT_URL}?action=approveVideo&video_id=${encodeURIComponent(video_id)}&merit=${merit}`);
-        btn.textContent = "✅ Diluluskan";
-        setTimeout(() => btn.closest('.bg-white').remove(), 1000);
+        const res = await fetch(`${SCRIPT_URL}?action=approveVideo&video_id=${encodeURIComponent(video_id)}&merit=${merit}`);
+        if (res.ok || res.status === 200) {
+          btn.textContent = "✅ Diluluskan";
+          setTimeout(() => {
+            loadPendingVideos();
+            loadHallOfFame();
+          }, 1000);
+        } else {
+          throw new Error("Gagal memanggil API");
+        }
       } catch (err) {
-        alert("Gagal meluluskan");
+        alert("Gagal meluluskan video.");
         btn.disabled = false;
         btn.textContent = "Luluskan";
       }
     }
 
-    document.addEventListener('DOMContentLoaded', loadPendingVideos);
+    // Auto-refresh setiap 15 saat
+    setInterval(() => {
+      loadPendingVideos();
+      loadHallOfFame();
+    }, 15000);
+
+    // Muat mula
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPendingVideos();
+      loadHallOfFame();
+    });
   </script>
 
 </body>
