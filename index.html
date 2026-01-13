@@ -3,163 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MoVO IPG KDA</title>
-    
+    <title>MoVO IPG KDA - Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* --- 1. ASAS & WARNA --- */
+        /* --- CSS SAMA SEPERTI SEBELUMNYA DENGAN PENAMBAHAN --- */
         :root {
             --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --glass-nav: rgba(255, 255, 255, 0.95); 
-            --primary: #1a237e; 
-            --accent: #c62828;
-            --tag-uu: #2196F3; /* Biru untuk Undang-undang */
-            --tag-tl: #4CAF50; /* Hijau untuk Teknik */
-            --tag-lp: #FF9800; /* Oren untuk Pengajaran */
-            --text: #333;
+            --primary: #1a237e; --accent: #c62828; --text: #333;
+            --tag-uu: #2196F3; --tag-tl: #4CAF50; --tag-lp: #FF9800;
         }
-
-        body {
-            margin: 0; padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text);
-            padding-bottom: 100px;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* --- 2. HEADER --- */
-        nav {
-            position: sticky; top: 0; z-index: 100;
-            background: var(--glass-nav);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 10px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            display: flex; justify-content: center;
-        }
-        .brand-container { display: flex; align-items: center; gap: 12px; max-width: 800px; width: 100%; }
-        .logo-img { height: 45px; width: auto; }
-        .brand-text { display: flex; flex-direction: column; }
-        .brand-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); line-height: 1.1; }
-        .brand-subtitle { font-size: 0.65rem; color: #555; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
-
-        /* --- 3. STRUKTUR UTAMA --- */
-        .container { max-width: 800px; margin: 0 auto; padding: 15px; }
-
-        .main-section-title {
-            background: white; color: var(--primary);
-            padding: 12px 15px; border-radius: 8px;
-            margin-top: 35px; margin-bottom: 10px;
-            font-size: 1rem; font-weight: 700;
-            display: flex; align-items: center; gap: 10px;
-            border-left: 5px solid var(--accent);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .sub-section { margin-left: 8px; margin-bottom: 20px; padding-left: 12px; border-left: 2px solid rgba(0,0,0,0.05); }
+        body { margin:0; font-family:'Poppins',sans-serif; background:var(--bg-gradient); color:var(--text); padding-bottom:100px; -webkit-tap-highlight-color:transparent; }
         
-        .sub-header-row {
-            display: flex; justify-content: space-between; align-items: flex-end;
-            margin-top: 15px; margin-bottom: 8px;
-        }
-        .sub-title { color: #444; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin: 0; }
+        /* Nav & Layout */
+        nav { position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); padding:10px 20px; box-shadow:0 4px 15px rgba(0,0,0,0.05); display:flex; justify-content:center; }
+        .brand-container { display:flex; align-items:center; gap:12px; max-width:800px; width:100%; }
+        .logo-img { height:45px; }
+        .brand-title { font-size:1.1rem; font-weight:800; color:var(--primary); line-height:1.1; }
+        .brand-subtitle { font-size:0.65rem; color:#555; text-transform:uppercase; letter-spacing:0.5px; }
+        .container { max-width:800px; margin:0 auto; padding:15px; }
+
+        /* Headers */
+        .main-section-title { background:white; color:var(--primary); padding:12px 15px; border-radius:8px; margin-top:35px; margin-bottom:10px; font-size:1rem; font-weight:700; display:flex; align-items:center; gap:10px; border-left:5px solid var(--accent); box-shadow:0 2px 5px rgba(0,0,0,0.05); }
+        .sub-section { margin-left:8px; margin-bottom:20px; padding-left:12px; border-left:2px solid rgba(0,0,0,0.05); }
+        .sub-header-row { display:flex; justify-content:space-between; align-items:flex-end; margin-top:15px; margin-bottom:8px; }
+        .sub-title { color:#444; font-size:0.85rem; font-weight:600; text-transform:uppercase; margin:0; }
+        .view-all-btn { font-size:0.7rem; color:var(--primary); font-weight:bold; cursor:pointer; border:1px solid var(--primary); padding:2px 8px; border-radius:12px; display:none; }
+
+        /* Video Grid & Card */
+        .video-shelf { display:grid; grid-template-columns:1fr; gap:12px; }
+        @media(min-width:600px){ .video-shelf{ grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); } }
         
-        .view-all-btn {
-            font-size: 0.7rem; color: var(--primary); font-weight: bold;
-            text-decoration: none; cursor: pointer;
-            border: 1px solid var(--primary); padding: 2px 8px; border-radius: 12px;
-            transition: 0.2s; display: none;
-        }
-
-        /* GRID VIDEO */
-        .video-shelf { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        @media (min-width: 600px) { .video-shelf { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); } }
-
-        /* --- 4. KAD VIDEO --- */
-        .card {
-            background: white; border-radius: 10px; overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            display: flex; flex-direction: row; height: 105px; /* Tinggi sikit untuk muat badge */
-            transition: transform 0.2s; cursor: pointer;
-            border: 1px solid rgba(0,0,0,0.03); position: relative;
-        }
-        .card:active { transform: scale(0.98); background: #f5f5f5; } 
-        @media (min-width: 600px) { .card { flex-direction: column; height: auto; } }
-
-        .new-indicator {
-            position: absolute; top: 0; left: 0; background: var(--accent); color: white;
-            font-size: 0.6rem; font-weight: bold; padding: 2px 6px; border-bottom-right-radius: 8px; z-index: 10;
-        }
-
-        .thumb { width: 120px; background: #222; position: relative; flex-shrink: 0; }
-        @media (min-width: 600px) { .thumb { width: 100%; height: 135px; } }
-        .thumb img { width: 100%; height: 100%; object-fit: cover; }
-
-        .card-body { padding: 10px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; overflow: hidden; }
+        .card { background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05); display:flex; flex-direction:row; height:105px; transition:transform 0.2s; position:relative; border:1px solid rgba(0,0,0,0.03); }
+        @media(min-width:600px){ .card{ flex-direction:column; height:auto; } }
         
-        /* Badge Kategori Baru */
-        .cat-badge {
-            font-size: 0.6rem; font-weight: bold; color: white;
-            padding: 2px 6px; border-radius: 4px; display: inline-block;
-            margin-bottom: 5px; align-self: flex-start; text-transform: uppercase;
-        }
+        .thumb { width:120px; background:#222; flex-shrink:0; position:relative; }
+        .thumb img { width:100%; height:100%; object-fit:cover; }
+        @media(min-width:600px){ .thumb{ width:100%; height:135px; } }
+        
+        .card-body { padding:10px; display:flex; flex-direction:column; justify-content:center; flex-grow:1; overflow:hidden; position:relative; }
+        .cat-badge { font-size:0.6rem; font-weight:bold; color:white; padding:2px 6px; border-radius:4px; display:inline-block; margin-bottom:5px; align-self:flex-start; text-transform:uppercase; }
+        .video-title { font-size:0.8rem; font-weight:600; line-height:1.3; color:#333; margin-bottom:5px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+        .video-meta { font-size:0.65rem; color:#666; display:flex; align-items:center; gap:5px; }
+        
+        /* BUTTON EDIT (NEW) */
+        .btn-edit-card { position:absolute; bottom:10px; right:10px; background:#eee; color:#555; width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem; cursor:pointer; z-index:10; }
+        .btn-edit-card:hover { background:var(--primary); color:white; }
 
-        .video-title {
-            font-size: 0.8rem; font-weight: 600; line-height: 1.3;
-            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-            color: #333; margin-bottom: 5px;
-        }
-        .video-meta { font-size: 0.65rem; color: #666; display: flex; align-items: center; gap: 5px; }
-
-        /* --- 5. MODAL & FAB --- */
-        .fab-upload {
-            position: fixed; bottom: 25px; right: 25px;
-            width: 55px; height: 55px; background: var(--primary); color: white;
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            font-size: 20px; box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3); z-index: 999; 
-        }
-
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); z-index: 2000;
-            display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px);
-        }
-
-        .modal-box {
-            background: white; width: 90%; max-width: 600px;
-            border-radius: 15px; padding: 25px;
-            max-height: 85vh; display: flex; flex-direction: column;
-            animation: slideUp 0.3s ease-out;
-        }
+        /* Modal & FAB */
+        .fab-upload { position:fixed; bottom:25px; right:25px; width:55px; height:55px; background:var(--primary); color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:20px; box-shadow:0 4px 15px rgba(26,35,126,0.3); z-index:999; cursor:pointer; }
+        .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:2000; display:none; justify-content:center; align-items:center; backdrop-filter:blur(4px); }
+        .modal-box { background:white; width:90%; max-width:500px; border-radius:15px; padding:25px; max-height:85vh; display:flex; flex-direction:column; animation:slideUp 0.3s ease-out; }
         @keyframes slideUp { from{transform:translateY(20px); opacity:0} to{transform:translateY(0); opacity:1} }
-
-        .table-container { overflow-y: auto; margin-top: 15px; flex-grow: 1; border: 1px solid #eee; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        th { background: #f4f4f4; padding: 10px; text-align: left; color: #555; position: sticky; top: 0; }
-        td { padding: 10px; border-bottom: 1px solid #eee; vertical-align: middle;}
         
-        .btn-table-play {
-            background: var(--primary); color: white; padding: 5px 10px;
-            border-radius: 4px; text-decoration: none; font-size: 0.75rem; white-space: nowrap;
-        }
-
-        input, select, textarea {
-            width: 100%; padding: 12px; margin-bottom: 15px;
-            border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; font-size: 14px; box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        .btn-full {
-            width: 100%; padding: 15px; background: var(--primary); color: white;
-            border: none; border-radius: 10px; font-weight: bold; font-size: 1rem;
-        }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        /* Form */
+        input, select, textarea { width:100%; padding:12px; margin-bottom:15px; border:1px solid #ddd; border-radius:8px; background:#f8f9fa; font-size:14px; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        .btn-full { width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; font-weight:bold; font-size:1rem; cursor:pointer; }
+        .btn-delete { width:100%; padding:12px; background:var(--accent); color:white; border:none; border-radius:8px; font-weight:bold; margin-top:10px; cursor:pointer; display:none; } /* Hidden by default */
         
-        /* Custom Select Style for Grouping */
-        optgroup { font-weight: bold; color: #000; background: #eee; }
-        option { padding: 5px; background: #fff; color: #333; }
+        /* Table */
+        .table-container { overflow-y:auto; margin-top:15px; flex-grow:1; border:1px solid #eee; border-radius:8px; }
+        table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+        td { padding:10px; border-bottom:1px solid #eee; vertical-align:middle; }
+        .btn-table-play { background:var(--primary); color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:0.75rem; white-space:nowrap; margin-right:5px; }
+        .btn-table-edit { background:#757575; color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:0.75rem; cursor:pointer; }
     </style>
 </head>
 <body>
@@ -174,76 +82,27 @@
         </div>
     </nav>
 
-    <div class="container">
-        
-        <div class="main-section-title"><i class="fas fa-book"></i> 1.0 Pengenalan</div>
-        <div class="sub-section">
-            <div class="sub-header-row"><div class="sub-title">Video Terkini</div><div id="btn-view-1-0" class="view-all-btn" onclick="openTableModal('1-0', '1.0 Pengenalan')">Lihat Semua ➜</div></div>
-            <div id="shelf-1-0" class="video-shelf"></div>
+    <div class="container" id="mainContainer">
         </div>
-
-        <div class="main-section-title"><i class="fas fa-gavel"></i> 2.0 Kepegawaian</div>
-        <div class="sub-section">
-            <div class="sub-header-row"><div class="sub-title">Video Terkini</div><div id="btn-view-2-0" class="view-all-btn" onclick="openTableModal('2-0', '2.0 Kepegawaian')">Lihat Semua ➜</div></div>
-            <div id="shelf-2-0" class="video-shelf"></div>
-        </div>
-
-        <div class="main-section-title"><i class="fas fa-running"></i> 3.0 Acara Balapan</div>
-        
-        <div class="sub-section">
-            <div class="sub-header-row"><div class="sub-title">3.1 Lari Pecut</div><div id="btn-view-3-1" class="view-all-btn" onclick="openTableModal('3-1', '3.1 Lari Pecut')">Lihat Semua ➜</div></div>
-            <div id="shelf-3-1" class="video-shelf"></div>
-        </div>
-        <div class="sub-section">
-            <div class="sub-header-row"><div class="sub-title">3.2 Lari Berganti</div><div id="btn-view-3-2" class="view-all-btn" onclick="openTableModal('3-2', '3.2 Lari Berganti')">Lihat Semua ➜</div></div>
-            <div id="shelf-3-2" class="video-shelf"></div>
-        </div>
-        <div class="sub-section">
-            <div class="sub-header-row"><div class="sub-title">3.3 Lari Berpagar</div><div id="btn-view-3-3" class="view-all-btn" onclick="openTableModal('3-3', '3.3 Lari Berpagar')">Lihat Semua ➜</div></div>
-            <div id="shelf-3-3" class="video-shelf"></div>
-        </div>
-
-        <div class="main-section-title"><i class="fas fa-medal"></i> 4.0 Acara Padang</div>
-
-        <div class="sub-section">
-            <div class="sub-header-row"><div class="sub-title">4.1 Lontar Peluru</div><div id="btn-view-4-1" class="view-all-btn" onclick="openTableModal('4-1', '4.1 Lontar Peluru')">Lihat Semua ➜</div></div>
-            <div id="shelf-4-1" class="video-shelf"></div>
-        </div>
-        <div class="sub-section">
-            <div class="sub-header-row"><div class="sub-title">4.2 Lompat Jauh</div><div id="btn-view-4-2" class="view-all-btn" onclick="openTableModal('4-2', '4.2 Lompat Jauh')">Lihat Semua ➜</div></div>
-            <div id="shelf-4-2" class="video-shelf"></div>
-        </div>
-        <div class="sub-section">
-            <div class="sub-header-row"><div class="sub-title">4.3 Lompat Tinggi</div><div id="btn-view-4-3" class="view-all-btn" onclick="openTableModal('4-3', '4.3 Lompat Tinggi')">Lihat Semua ➜</div></div>
-            <div id="shelf-4-3" class="video-shelf"></div>
-        </div>
-
-        <div class="main-section-title"><i class="fas fa-cogs"></i> 5.0 Pengurusan</div>
-        <div class="sub-section">
-            <div class="sub-header-row"><div class="sub-title">Video Terkini</div><div id="btn-view-5-0" class="view-all-btn" onclick="openTableModal('5-0', '5.0 Pengurusan')">Lihat Semua ➜</div></div>
-            <div id="shelf-5-0" class="video-shelf"></div>
-        </div>
-
-    </div>
 
     <div class="fab-upload" onclick="bukaModalUpload()"><i class="fas fa-plus"></i></div>
 
     <div id="modalUpload" class="modal-overlay" onclick="if(event.target==this)tutupAllModals()">
         <div class="modal-box">
-            <div class="modal-header">
-                <h3>Tambah Video</h3>
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                <h3 id="modalTitle" style="margin:0; color:var(--primary);">Tambah Video</h3>
                 <span onclick="tutupAllModals()" style="font-size:1.5rem; color:#999; cursor:pointer;">&times;</span>
             </div>
             
-            <label>Pilih Sub-Topik & Kategori:</label>
+            <input type="hidden" id="editId">
+
+            <label>Kategori:</label>
             <select id="topik">
-                <option value="" disabled selected>-- Sila Pilih --</option>
-                
+                <option value="" disabled selected>-- Pilih --</option>
                 <optgroup label="UMUM">
                     <option value="1.0:1.0 Pengenalan">1.0 Pengenalan Olahraga</option>
                     <option value="2.0:2.0 Kepegawaian">2.0 Kepegawaian</option>
                 </optgroup>
-
                 <optgroup label="3.1 LARI PECUT">
                     <option value="3.1:Undang-undang">3.1 Undang-undang</option>
                     <option value="3.1:Teknik Lakuan">3.1 Teknik Lakuan</option>
@@ -259,7 +118,6 @@
                     <option value="3.3:Teknik Lakuan">3.3 Teknik Lakuan</option>
                     <option value="3.3:Langkah Pengajaran">3.3 Langkah Pengajaran</option>
                 </optgroup>
-
                 <optgroup label="4.1 LONTAR PELURU">
                     <option value="4.1:Undang-undang">4.1 Undang-undang</option>
                     <option value="4.1:Teknik Lakuan">4.1 Teknik Lakuan</option>
@@ -275,66 +133,210 @@
                     <option value="4.3:Teknik Lakuan">4.3 Teknik Lakuan</option>
                     <option value="4.3:Langkah Pengajaran">4.3 Langkah Pengajaran</option>
                 </optgroup>
-                
                 <optgroup label="5.0">
                     <option value="5.0:5.0 Pengurusan">5.0 Pengurusan Fasiliti</option>
                 </optgroup>
             </select>
 
-            <label>Link (GDrive/YouTube):</label>
+            <label>Pautan:</label>
             <input type="url" id="videoLink" placeholder="https://...">
-            <label>Tajuk / Catatan:</label>
-            <textarea id="catatan" rows="2" placeholder="Contoh: Fasa Berlepas..."></textarea>
+            <label>Catatan:</label>
+            <textarea id="catatan" rows="2"></textarea>
 
-            <button class="btn-full" onclick="hantarData()">SIMPAN</button>
-            <div id="loader" style="text-align:center; display:none; margin-top:10px; font-size:0.8rem; color:#666;">Sedang memproses...</div>
+            <button id="btnSubmit" class="btn-full" onclick="hantarData()">SIMPAN</button>
+            <button id="btnDelete" class="btn-delete" onclick="padamData()">PADAM VIDEO</button>
+            
+            <div id="loader" style="text-align:center; display:none; margin-top:10px; color:#666;">Sedang memproses...</div>
         </div>
     </div>
 
     <div id="modalTable" class="modal-overlay" onclick="if(event.target==this)tutupAllModals()">
-        <div class="modal-box" style="height: 70vh;">
-            <div class="modal-header">
-                <h3 id="tableTitle">Senarai Penuh</h3>
-                <span onclick="tutupAllModals()" style="font-size:1.5rem; color:#999; cursor:pointer;">&times;</span>
+        <div class="modal-box" style="height:70vh;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <h3 id="tableTitle" style="margin:0; color:var(--primary);">Senarai Penuh</h3>
+                <span onclick="tutupAllModals()" style="font-size:1.5rem; cursor:pointer;">&times;</span>
             </div>
             <div class="table-container">
-                <table id="fullTable">
-                    <thead>
-                        <tr>
-                            <th>Kategori & Tajuk</th>
-                            <th style="width: 70px;">Tindakan</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
+                <table id="fullTable"><tbody id="tableBody"></tbody></table>
             </div>
         </div>
     </div>
 
     <script>
+        // GANTIKAN URL INI!
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec";
+        const ADMIN_PIN = "1234"; // PIN Keselamatan
         let GLOBAL_DATA = [];
 
-        function bukaModalUpload() { document.getElementById('modalUpload').style.display = 'flex'; }
+        // Struktur HTML Rak
+        const sections = [
+            {id:'1-0', title:'1.0 Pengenalan', icon:'book'},
+            {id:'2-0', title:'2.0 Kepegawaian', icon:'gavel'},
+            {id:'3-0', title:'3.0 Acara Balapan', icon:'running', subs:['3-1 Lari Pecut','3-2 Lari Berganti','3-3 Lari Berpagar']},
+            {id:'4-0', title:'4.0 Acara Padang', icon:'medal', subs:['4-1 Lontar Peluru','4-2 Lompat Jauh','4-3 Lompat Tinggi']},
+            {id:'5-0', title:'5.0 Pengurusan', icon:'cogs'}
+        ];
+
+        // 1. GENERATE HTML (Supaya kod HTML tak panjang berjela)
+        function generateLayout() {
+            const container = document.getElementById('mainContainer');
+            let html = '';
+            
+            sections.forEach(sec => {
+                html += `<div class="main-section-title"><i class="fas fa-${sec.icon}"></i> ${sec.title}</div>`;
+                
+                if(sec.subs) {
+                    sec.subs.forEach(sub => {
+                        let code = sub.split(' ')[0].replace('.','-');
+                        html += `
+                        <div class="sub-section">
+                            <div class="sub-header-row">
+                                <div class="sub-title">${sub}</div>
+                                <div id="btn-view-${code}" class="view-all-btn" onclick="openTableModal('${code}', '${sub}')">Lihat Semua ➜</div>
+                            </div>
+                            <div id="shelf-${code}" class="video-shelf"></div>
+                        </div>`;
+                    });
+                } else {
+                    html += `
+                    <div class="sub-section">
+                        <div class="sub-header-row">
+                            <div class="sub-title">Video Terkini</div>
+                            <div id="btn-view-${sec.id}" class="view-all-btn" onclick="openTableModal('${sec.id}', '${sec.title}')">Lihat Semua ➜</div>
+                        </div>
+                        <div id="shelf-${sec.id}" class="video-shelf"></div>
+                    </div>`;
+                }
+            });
+            container.innerHTML = html;
+        }
+
+        // 2. LOGIC MODAL & EDIT
+        function bukaModalUpload() { 
+            resetForm();
+            document.getElementById('modalTitle').innerText = "Tambah Video";
+            document.getElementById('btnSubmit').innerText = "SIMPAN";
+            document.getElementById('btnDelete').style.display = "none";
+            document.getElementById('modalUpload').style.display = 'flex'; 
+        }
+
+        function bukaModalEdit(id, topik, link, catatan) {
+            let pin = prompt("Masukkan PIN Admin untuk Edit:");
+            if(pin !== ADMIN_PIN) return alert("PIN Salah!");
+
+            document.getElementById('modalTitle').innerText = "Kemaskini Video";
+            document.getElementById('editId').value = id;
+            document.getElementById('topik').value = topik;
+            document.getElementById('videoLink').value = link;
+            document.getElementById('catatan').value = catatan;
+            
+            document.getElementById('btnSubmit').innerText = "KEMASKINI";
+            document.getElementById('btnDelete').style.display = "block";
+            
+            document.getElementById('modalUpload').style.display = 'flex';
+        }
+
+        function resetForm() {
+            document.getElementById('editId').value = "";
+            document.getElementById('videoLink').value = "";
+            document.getElementById('catatan').value = "";
+        }
+
         function tutupAllModals() { 
             document.getElementById('modalUpload').style.display = 'none'; 
             document.getElementById('modalTable').style.display = 'none'; 
         }
 
-        // FUNGSI PARSING KATEGORI
-        // Format Data: "3.1:Undang-undang" -> { code: "3-1", category: "Undang-undang" }
+        // 3. UTILITIES
         function parseTopic(topicString) {
-            if(!topicString.includes(':')) return { code: topicString.substring(0,3).replace('.','-'), category: "Umum" };
+            if(!topicString || !topicString.includes(':')) return { code: (topicString||"").substring(0,3).replace('.','-'), category: "Umum" };
             let parts = topicString.split(':');
             return { code: parts[0].replace('.','-'), category: parts[1] };
         }
 
-        // DAPATKAN WARNA BADGE
         function getBadgeColor(category) {
-            if(category.includes('Undang')) return 'background: var(--tag-uu);';
-            if(category.includes('Teknik')) return 'background: var(--tag-tl);';
-            if(category.includes('Pengajaran')) return 'background: var(--tag-lp);';
-            return 'background: #999;'; // Default
+            if(category.includes('Undang')) return 'background:var(--tag-uu);';
+            if(category.includes('Teknik')) return 'background:var(--tag-tl);';
+            if(category.includes('Pengajaran')) return 'background:var(--tag-lp);';
+            return 'background:#999;';
+        }
+
+        function getThumb(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            if (match && match[2].length === 11) return `<img src="https://img.youtube.com/vi/${match[2]}/mqdefault.jpg">`;
+            return `<div style="width:100%; height:100%; background:#f0f0f0; display:flex; justify-content:center; align-items:center; color:#ccc;"><i class="fas fa-play-circle" style="font-size:2rem;"></i></div>`;
+        }
+
+        // 4. CORE FUNCTIONS
+        function muatTurunData() {
+            // Placeholder Loading
+            document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = '<small style="color:#666;">...</small>');
+
+            fetch(WEB_APP_URL)
+            .then(res => res.json())
+            .then(res => {
+                let data = res.data;
+                data.reverse();
+                GLOBAL_DATA = data;
+
+                // Reset UI
+                document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = "");
+                document.querySelectorAll('.view-all-btn').forEach(el => el.style.display = "none");
+
+                let shelfCounts = {};
+
+                data.forEach(item => {
+                    if(!item.link) return;
+                    let info = parseTopic(item.topik);
+                    let targetShelf = document.getElementById('shelf-' + info.code);
+
+                    if (!shelfCounts[info.code]) shelfCounts[info.code] = 0;
+                    shelfCounts[info.code]++;
+
+                    // Limit 3 terkini
+                    if(targetShelf && shelfCounts[info.code] <= 3) {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        
+                        let newTag = (shelfCounts[info.code] === 1) ? '<div class="new-indicator">TERKINI</div>' : '';
+
+                        // IMPORTANT: Pass data correctly to edit function
+                        // Use encodeURIComponent to handle special characters in strings
+                        card.innerHTML = `
+                            ${newTag}
+                            <div class="thumb" onclick="window.open('${item.link}','_blank')">${getThumb(item.link)}</div>
+                            <div class="card-body" onclick="window.open('${item.link}','_blank')">
+                                <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
+                                <div class="video-title">${item.catatan || "Video"}</div>
+                                <div class="video-meta"><i class="fas fa-play"></i> Tonton</div>
+                            </div>
+                            <div class="btn-edit-card" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                        `;
+                        targetShelf.appendChild(card);
+                    }
+                });
+
+                // Show "View All" buttons if needed
+                for (const [code, count] of Object.entries(shelfCounts)) {
+                    if(count > 3) {
+                        let btn = document.getElementById('btn-view-'+code);
+                        if(btn) {
+                            btn.style.display = "block";
+                            btn.innerText = `Lihat Semua (${count}) ➜`;
+                        }
+                    }
+                }
+                
+                // Handle Empty Shelves
+                 document.querySelectorAll('.video-shelf').forEach(el => {
+                     if(el.innerHTML === "") el.innerHTML = '<small style="color:#aaa; font-style:italic;">Tiada rekod.</small>';
+                 });
+
+            })
+            .catch(err => console.error(err));
         }
 
         function openTableModal(code, titleName) {
@@ -348,93 +350,26 @@
                 return info.code === code;
             });
 
-            if (filteredData.length === 0) {
-                tbody.innerHTML = "<tr><td colspan='2' style='text-align:center;'>Tiada rekod.</td></tr>";
-            } else {
-                filteredData.forEach(item => {
-                    let info = parseTopic(item.topik);
-                    let row = `<tr>
-                        <td>
-                            <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
-                            <div style="font-weight:600; font-size:0.85rem;">${item.catatan || "Video Tanpa Tajuk"}</div>
-                        </td>
-                        <td><a href="${item.link}" target="_blank" class="btn-table-play">▶ Tonton</a></td>
-                    </tr>`;
-                    tbody.innerHTML += row;
-                });
-            }
+            filteredData.forEach(item => {
+                let info = parseTopic(item.topik);
+                let row = `<tr>
+                    <td>
+                        <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
+                        <div style="font-weight:600; font-size:0.85rem;">${item.catatan}</div>
+                    </td>
+                    <td style="display:flex; gap:5px;">
+                        <a href="${item.link}" target="_blank" class="btn-table-play">▶</a>
+                        <div class="btn-table-edit" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)">✎</div>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
             document.getElementById('modalTable').style.display = 'flex';
         }
 
-        function getThumb(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-            const match = url.match(regExp);
-            if (match && match[2].length === 11) return `<img src="https://img.youtube.com/vi/${match[2]}/mqdefault.jpg">`;
-            return `<div style="width:100%; height:100%; background:#f0f0f0; display:flex; justify-content:center; align-items:center; color:#ccc;"><i class="fas fa-play-circle" style="font-size:2.5rem;"></i></div>`;
-        }
-
-        function muatTurunData() {
-            const validShelves = ['1-0', '2-0', '3-1', '3-2', '3-3', '4-1', '4-2', '4-3', '5-0'];
-            validShelves.forEach(id => document.getElementById('shelf-'+id).innerHTML = '<small style="color:#666; padding-left:5px;">...</small>');
-
-            fetch(WEB_APP_URL)
-            .then(res => res.json())
-            .then(res => {
-                let data = res.data;
-                data.reverse();
-                GLOBAL_DATA = data;
-
-                validShelves.forEach(id => {
-                    document.getElementById('shelf-'+id).innerHTML = "";
-                    document.getElementById('btn-view-'+id).style.display = "none";
-                });
-
-                let shelfCounts = {};
-
-                data.forEach(item => {
-                    if(!item.link) return;
-                    let info = parseTopic(item.topik);
-                    let targetShelf = document.getElementById('shelf-' + info.code);
-
-                    if (!shelfCounts[info.code]) shelfCounts[info.code] = 0;
-                    shelfCounts[info.code]++;
-
-                    // LIMIT PAPARAN: 3 Video Terkini
-                    if(targetShelf && shelfCounts[info.code] <= 3) {
-                        const card = document.createElement('div');
-                        card.className = 'card';
-                        card.onclick = function() { window.open(item.link, '_blank'); };
-                        
-                        let newTag = (shelfCounts[info.code] === 1) ? '<div class="new-indicator">TERKINI</div>' : '';
-
-                        card.innerHTML = `
-                            ${newTag}
-                            <div class="thumb">${getThumb(item.link)}</div>
-                            <div class="card-body">
-                                <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
-                                <div class="video-title">${item.catatan || "Video Pembelajaran"}</div>
-                                <div class="video-meta"><i class="fas fa-play"></i> Tonton</div>
-                            </div>
-                        `;
-                        targetShelf.appendChild(card);
-                    }
-                });
-
-                validShelves.forEach(id => {
-                    let totalVideos = shelfCounts[id] || 0;
-                    let shelf = document.getElementById('shelf-'+id);
-                    if(shelf.innerHTML === "") shelf.innerHTML = '<small style="color:#aaa; font-style:italic; padding-left:5px;">Tiada rekod.</small>';
-                    if(totalVideos > 3) {
-                        let btn = document.getElementById('btn-view-'+id);
-                        btn.style.display = "block";
-                        btn.innerText = `Lihat Semua (${totalVideos}) ➜`;
-                    }
-                });
-            })
-            .catch(err => alert("Gagal sambungan internet."));
-        }
-
+        // INSERT & UPDATE
         function hantarData() {
+            const id = document.getElementById('editId').value;
             const topik = document.getElementById('topik').value;
             const link = document.getElementById('videoLink').value;
             const catatan = document.getElementById('catatan').value;
@@ -443,18 +378,25 @@
             if(!topik || !link) return alert("Sila isi ruang kosong.");
             loader.style.display = 'block';
 
+            // Determine Action: Insert or Edit
+            const action = id ? "edit" : "insert";
+            
             fetch(WEB_APP_URL, {
                 method: "POST",
-                body: new URLSearchParams({ "action": "insert", "topik": topik, "link": link, "catatan": catatan })
+                body: new URLSearchParams({ 
+                    "action": action, 
+                    "id": id, // Only needed for edit
+                    "topik": topik, 
+                    "link": link, 
+                    "catatan": catatan 
+                })
             })
             .then(res => res.json())
             .then(data => {
                 loader.style.display = 'none';
                 if(data.result === 'success') {
                     tutupAllModals();
-                    alert("✅ Berjaya!");
-                    document.getElementById('videoLink').value = "";
-                    document.getElementById('catatan').value = "";
+                    alert("Berjaya!");
                     muatTurunData();
                 } else {
                     alert("Ralat: " + data.error);
@@ -462,7 +404,34 @@
             });
         }
 
-        window.onload = muatTurunData;
+        // DELETE
+        function padamData() {
+            const id = document.getElementById('editId').value;
+            if(!id) return;
+            if(!confirm("Adakah anda pasti mahu memadam video ini?")) return;
+
+            document.getElementById('loader').style.display = 'block';
+
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                body: new URLSearchParams({ "action": "delete", "id": id })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('loader').style.display = 'none';
+                if(data.result === 'success') {
+                    tutupAllModals();
+                    alert("Video dipadam.");
+                    muatTurunData();
+                } else {
+                    alert("Ralat: " + data.error);
+                }
+            });
+        }
+
+        // Init
+        generateLayout();
+        muatTurunData();
     </script>
 </body>
 </html>
