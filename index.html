@@ -6,356 +6,305 @@
     <title>Modul Video Olahraga MPU3411</title>
     
     <style>
+        /* --- CSS: REKA BENTUK MODEN & KEMAS --- */
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.2);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --text-color: #ffffff;
-            --input-bg: rgba(255, 255, 255, 0.9);
-            --btn-color: #4a90e2;
+            --bg-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --header-color: #ffffff;
+            --primary-color: #2a5298;
+            --accent-color: #e74c3c;
         }
 
         body {
             margin: 0;
             padding: 20px;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--primary-gradient);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-gradient);
             min-height: 100vh;
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            color: #333;
         }
 
         h1 {
             text-align: center;
+            color: var(--header-color);
+            margin-bottom: 30px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            margin-bottom: 25px;
-            font-size: 1.8rem;
         }
 
-        /* Bekas Utama Glassmorphism */
-        .app-container {
-            background: var(--glass-bg);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
+        /* Bekas Utama (Upload Form) */
+        .upload-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
             padding: 25px;
-            width: 100%;
-            max-width: 500px; /* Saiz sesuai mobile & desktop */
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
 
-        /* Label & Input */
-        label {
-            font-weight: 600;
-            margin-bottom: 5px;
-            display: block;
-            font-size: 0.9rem;
-        }
-
+        /* Input Styles */
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;}
+        
         select, input, textarea {
             width: 100%;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
             border: none;
-            background: var(--input-bg);
-            color: #333;
-            font-size: 1rem;
             box-sizing: border-box;
             font-family: inherit;
         }
 
-        textarea {
-            resize: vertical;
-        }
-
-        /* Butang Utama */
-        button.btn-primary {
-            background-color: var(--btn-color);
+        button.btn-upload {
+            width: 100%;
+            padding: 12px;
+            background: #2ecc71;
             color: white;
-            padding: 15px;
             border: none;
-            border-radius: 12px;
-            font-size: 1rem;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 1rem;
+        }
+        
+        button.btn-upload:hover { background: #27ae60; }
+
+        /* --- BAHAGIAN KATEGORI (UX BARU) --- */
+        .category-section {
+            background: var(--glass-bg);
+            max-width: 800px;
+            margin: 0 auto 25px auto;
+            border-radius: 12px;
+            overflow: hidden; /* Supaya header tak lari */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        button.btn-primary:hover {
-            transform: translateY(-2px);
-            background-color: #357abd;
-        }
-
-        button.btn-refresh {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.4);
+        .category-header {
+            background: var(--primary-color);
             color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            align-self: flex-end;
-        }
-
-        /* Kad Video (Senarai) */
-        .video-list {
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .video-card {
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            border-radius: 15px;
+        .category-content {
             padding: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-height: 50px;
+        }
+
+        /* Kad Video */
+        .video-card {
+            border-left: 5px solid var(--primary-color);
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 4px;
             transition: transform 0.2s;
         }
 
-        .video-card:hover {
-            transform: scale(1.01);
-        }
+        .video-card:hover { transform: translateX(5px); background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        .badge {
-            background-color: #667eea;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 8px;
-        }
-
-        .meta-date {
-            font-size: 0.75rem;
+        .video-meta {
+            font-size: 0.8rem;
             color: #666;
-            float: right;
-            margin-top: 2px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
         }
 
-        .note-text {
-            font-size: 0.95rem;
-            line-height: 1.4;
-            margin: 8px 0 12px 0;
-            color: #444;
-        }
+        .video-title { font-weight: bold; color: #333; margin-bottom: 5px; display: block; }
+        .video-note { font-size: 0.9rem; color: #555; margin-bottom: 10px; font-style: italic; }
 
-        .watch-link {
-            display: block;
-            text-align: center;
-            background: #e74c3c; /* Warna YouTube/Play */
+        .btn-watch {
+            display: inline-block;
+            background: var(--accent-color);
             color: white;
             text-decoration: none;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: bold;
         }
 
-        /* Footer */
-        footer {
-            margin-top: 40px;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.7);
-            text-align: center;
-        }
-
-        /* Loading Spinner */
-        .loader {
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid #fff;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-            display: none;
-        }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Loader */
+        .loader { text-align: center; padding: 20px; color: white; display: none; }
     </style>
 </head>
 <body>
 
-    <h1>Modul Pengajaran Berasaskan Video (MoVO)</h1>
+    <h1>Modul Video Olahraga MPU3411</h1>
 
-    <div class="app-container">
-        <h3 style="margin: 0 0 10px 0; text-align: center;">Muat Naik Bahan Baru</h3>
-
-        <label for="topik">Pilih Topik/Acara (MPU3411):</label>
+    <div class="upload-container">
+        <h3 style="margin-top:0; text-align:center;">📤 Muat Naik Bahan Baru</h3>
+        
+        <label>Pilih Kategori/Acara:</label>
         <select id="topik">
-            <option value="" disabled selected>Sila pilih topik...</option>
-            
+            <option value="" disabled selected>-- Sila Pilih --</option>
             <optgroup label="1.0 Pengenalan">
-                <option value="1.0 Pengenalan Olahraga (Sejarah & Asas)">1.0 Pengenalan Olahraga (Sejarah & Asas)</option>
+                <option value="1.0 Pengenalan Olahraga">1.0 Pengenalan Olahraga</option>
             </optgroup>
-
             <optgroup label="2.0 Kepegawaian">
-                <option value="2.0 Kepegawaian & Undang-undang">2.0 Kepegawaian & Undang-undang</option>
+                <option value="2.0 Kepegawaian">2.0 Kepegawaian & Undang-undang</option>
             </optgroup>
-
-            <optgroup label="3.0 Kemahiran Acara Balapan">
+            <optgroup label="3.0 Balapan">
                 <option value="3.1 Lari Pecut">3.1 Lari Pecut</option>
                 <option value="3.2 Lari Berganti-ganti">3.2 Lari Berganti-ganti</option>
                 <option value="3.3 Lari Berpagar">3.3 Lari Berpagar</option>
             </optgroup>
-
-            <optgroup label="4.0 Kemahiran Acara Padang">
+            <optgroup label="4.0 Padang">
                 <option value="4.1 Lontar Peluru">4.1 Lontar Peluru</option>
                 <option value="4.2 Lompat Jauh">4.2 Lompat Jauh</option>
                 <option value="4.3 Lompat Tinggi">4.3 Lompat Tinggi</option>
             </optgroup>
-
-            <optgroup label="5.0 Pengurusan Fasiliti">
-                <option value="5.0 Penyediaan Trek & Sektor">5.0 Penyediaan Trek & Sektor</option>
+            <optgroup label="5.0 Pengurusan">
+                <option value="5.0 Penyediaan Trek">5.0 Penyediaan Trek & Sektor</option>
             </optgroup>
         </select>
 
-        <label for="videoLink">Pautan Video (Google Drive/YouTube):</label>
+        <label>Pautan Video (GDrive/YouTube):</label>
         <input type="url" id="videoLink" placeholder="https://..." required>
-        <small style="font-size: 0.75rem; color: rgba(255,255,255,0.8);">*Pastikan link Google Drive diset 'Anyone with the link'</small>
 
-        <label for="catatan">Catatan / Arahan:</label>
-        <textarea id="catatan" rows="3" placeholder="Contoh: Fokus pada minit 2:30 untuk teknik lompatan..."></textarea>
+        <label>Catatan:</label>
+        <textarea id="catatan" rows="2" placeholder="Nota ringkas..."></textarea>
 
-        <button class="btn-primary" onclick="hantarData()">Simpan Video</button>
-        
-        <div id="loaderUpload" class="loader"></div>
+        <button class="btn-upload" onclick="hantarData()">Simpan Data</button>
+        <div id="loader" class="loader">Sedang menyimpan...</div>
     </div>
 
-    <div class="app-container" style="margin-top: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="margin: 0;">Senarai Video Terkini</h3>
-            <button class="btn-refresh" onclick="muatTurunData()">↻ Refresh</button>
-        </div>
-
-        <div id="videoList" class="video-list">
-            <p style="text-align: center; opacity: 0.8;">Sedang memuatkan data...</p>
-        </div>
+    <div style="max-width: 800px; margin: 0 auto; text-align: right; margin-bottom: 10px;">
+        <button onclick="muatTurunData()" style="background: white; border:none; padding:8px 15px; border-radius:20px; cursor:pointer;">↻ Kemaskini</button>
     </div>
 
-    <footer>
-        ©2026 Modul Pengajaran olahraga pensyarah mpu3411
+    <div class="category-section">
+        <div class="category-header">1.0 Pengenalan Olahraga</div>
+        <div id="list-1" class="category-content"><small>Tiada video.</small></div>
+    </div>
+
+    <div class="category-section">
+        <div class="category-header">2.0 Kepegawaian & Undang-undang</div>
+        <div id="list-2" class="category-content"><small>Tiada video.</small></div>
+    </div>
+
+    <div class="category-section">
+        <div class="category-header">3.0 Kemahiran Acara Balapan</div>
+        <div id="list-3" class="category-content"><small>Tiada video.</small></div>
+    </div>
+
+    <div class="category-section">
+        <div class="category-header">4.0 Kemahiran Acara Padang</div>
+        <div id="list-4" class="category-content"><small>Tiada video.</small></div>
+    </div>
+
+    <div class="category-section">
+        <div class="category-header">5.0 Pengurusan Fasiliti</div>
+        <div id="list-5" class="category-content"><small>Tiada video.</small></div>
+    </div>
+
+    <footer style="text-align: center; color: rgba(255,255,255,0.6); padding-bottom: 20px;">
+        ©2026 Modul Pengajaran MPU3411
     </footer>
 
     <script>
-        // ==========================================
-        // KONFIGURASI PENTING
-        // Sila masukkan URL Web App (Google Script) anda di dalam tanda petik di bawah
-        // ==========================================
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec"; 
+        // ============================================
+        // MASUKKAN URL APP SCRIPT DI BAWAH
+        // ============================================
+        const WEB_APP_URL = "MASUKKAN_URL_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI"; 
 
-        // 1. Fungsi Hantar Data (Upload)
         function hantarData() {
             const topik = document.getElementById('topik').value;
             const link = document.getElementById('videoLink').value;
             const catatan = document.getElementById('catatan').value;
-            const loader = document.getElementById('loaderUpload');
+            const loader = document.getElementById('loader');
 
-            // Validasi ringkas
-            if (!WEB_APP_URL || WEB_APP_URL.includes("MASUKKAN_URL")) {
-                alert("Ralat: Sila kemaskini kod HTML dengan URL Google Apps Script yang sah!");
-                return;
-            }
-            if (!topik || !link) {
-                alert("Sila lengkapkan Topik dan Pautan Video.");
-                return;
-            }
+            if (!topik || !link) { alert("Sila lengkapkan maklumat."); return; }
 
-            // Tunjukkan loading
-            loader.style.display = "block";
+            loader.style.display = 'block';
 
-            // Hantar ke Google Apps Script
             fetch(WEB_APP_URL, {
                 method: "POST",
-                body: new URLSearchParams({
-                    "action": "insert",
-                    "topik": topik,
-                    "link": link,
-                    "catatan": catatan
-                })
+                body: new URLSearchParams({ "action": "insert", "topik": topik, "link": link, "catatan": catatan })
             })
             .then(res => res.json())
             .then(data => {
-                loader.style.display = "none";
-                if(data.result === "success") {
-                    alert("✅ Berjaya! Video telah ditambah ke pengkalan data.");
-                    // Kosongkan borang
+                loader.style.display = 'none';
+                if(data.result === 'success') {
+                    alert("Berjaya disimpan!");
                     document.getElementById('videoLink').value = "";
                     document.getElementById('catatan').value = "";
-                    // Refresh senarai
-                    muatTurunData();
+                    muatTurunData(); // Refresh senarai
                 } else {
-                    alert("Ralat Sistem: " + data.error);
+                    alert("Ralat: " + data.error);
                 }
-            })
-            .catch(err => {
-                loader.style.display = "none";
-                alert("Gagal menyambung. Periksa internet atau URL API.");
-                console.error(err);
             });
         }
 
-        // 2. Fungsi Papar Data (Read)
         function muatTurunData() {
-            const listContainer = document.getElementById('videoList');
-            listContainer.innerHTML = '<div class="loader" style="display:block"></div>';
-
-            if (!WEB_APP_URL || WEB_APP_URL.includes("MASUKKAN_URL")) {
-                listContainer.innerHTML = '<p style="text-align:center">URL API belum ditetapkan.</p>';
-                return;
-            }
+            // Reset semua kotak kepada "Loading..."
+            ['list-1', 'list-2', 'list-3', 'list-4', 'list-5'].forEach(id => {
+                document.getElementById(id).innerHTML = '<small>Sedang memuatkan...</small>';
+            });
 
             fetch(WEB_APP_URL)
             .then(res => res.json())
             .then(response => {
-                listContainer.innerHTML = ""; // Bersihkan loader
                 const data = response.data;
+                
+                // Kosongkan semua kotak sebelum isi data baru
+                const containers = {
+                    '1': document.getElementById('list-1'),
+                    '2': document.getElementById('list-2'),
+                    '3': document.getElementById('list-3'),
+                    '4': document.getElementById('list-4'),
+                    '5': document.getElementById('list-5')
+                };
 
+                // Bersihkan kandungan
+                for (let key in containers) { containers[key].innerHTML = ""; }
+
+                // Jika tiada data langsung
                 if (data.length === 0) {
-                    listContainer.innerHTML = '<p style="text-align:center">Tiada rekod dijumpai. Sila muat naik video pertama.</p>';
+                    for (let key in containers) { containers[key].innerHTML = "<small>Tiada rekod.</small>"; }
                     return;
                 }
 
-                // Susun data (Terbaru di atas)
+                // Loop setiap video dan masukkan ke kotak yang betul
                 data.reverse().forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'video-card';
                     
-                    // Format tarikh
-                    const dateObj = new Date(item.timestamp);
-                    const dateStr = dateObj.toLocaleDateString('ms-MY') + ' ' + dateObj.toLocaleTimeString('ms-MY', {hour: '2-digit', minute:'2-digit'});
+                    const dateStr = new Date(item.timestamp).toLocaleDateString('ms-MY');
 
                     card.innerHTML = `
-                        <div>
-                            <span class="badge">${item.topik}</span>
-                            <span class="meta-date">${dateStr}</span>
+                        <div class="video-meta">
+                            <span style="background:#ddd; padding:2px 6px; border-radius:4px; font-weight:bold;">${item.topik}</span>
+                            <span>${dateStr}</span>
                         </div>
-                        <div class="note-text">${item.catatan || "Tiada catatan tambahan."}</div>
-                        <a href="${item.link}" target="_blank" class="watch-link">▶ Tonton Video</a>
+                        <div class="video-note">${item.catatan || "Tiada nota."}</div>
+                        <a href="${item.link}" target="_blank" class="btn-watch">▶ Tonton Video</a>
                     `;
-                    listContainer.appendChild(card);
+
+                    // LOGIK PENGASINGAN (SORTING)
+                    // Kita tengok nombor depan topik (1.0, 3.1, dsb)
+                    if (item.topik.startsWith("1")) containers['1'].appendChild(card);
+                    else if (item.topik.startsWith("2")) containers['2'].appendChild(card);
+                    else if (item.topik.startsWith("3")) containers['3'].appendChild(card);
+                    else if (item.topik.startsWith("4")) containers['4'].appendChild(card);
+                    else if (item.topik.startsWith("5")) containers['5'].appendChild(card);
                 });
-            })
-            .catch(err => {
-                listContainer.innerHTML = '<p style="text-align:center; color: #ffcccc;">Ralat memuat turun data.</p>';
-                console.error(err);
+
+                // Cek jika ada kotak yang masih kosong
+                for (let key in containers) {
+                    if (containers[key].innerHTML === "") containers[key].innerHTML = "<small style='color:#888; padding:10px;'>Tiada video untuk kategori ini.</small>";
+                }
             });
         }
 
-        // Auto-run bila halaman dibuka
         window.onload = muatTurunData;
-
     </script>
 </body>
 </html>
