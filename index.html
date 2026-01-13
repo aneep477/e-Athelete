@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MoVO MPU3411</title>
+    <title>MoVO IPG KDA</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* --- 1. ASAS & WARNA --- */
+        /* --- 1. SETTING GLASSMORPHISM & WARNA --- */
         :root {
-            --bg-gradient: linear-gradient(135deg, #1f4037 0%, #99f2c8 100%);
-            --glass-nav: rgba(255, 255, 255, 0.9); 
-            --glass-card: rgba(255, 255, 255, 0.95);
-            --section-bg: rgba(255, 255, 255, 0.1);
-            --primary: #11998e;
-            --accent: #38ef7d;
+            --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); /* Warna cerah & bersih untuk IPG */
+            --glass-nav: rgba(255, 255, 255, 0.95); 
+            --glass-card: rgba(255, 255, 255, 0.9);
+            --primary: #1a237e; /* Biru Gelap Rasmi */
+            --accent: #d32f2f;  /* Merah Sikit */
             --text: #333;
         }
 
@@ -30,88 +29,126 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- 2. HEADER --- */
+        /* --- 2. HEADER PENJENAMAAN BARU --- */
         nav {
             position: sticky; top: 0; z-index: 100;
             background: var(--glass-nav);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            display: flex; justify-content: center;
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex; 
+            align-items: center;
+            justify-content: center; /* Centerkan content */
         }
-        .brand { font-size: 1.2rem; font-weight: 700; color: #1f4037; display: flex; gap: 8px; align-items: center; }
 
-        /* --- 3. STRUKTUR UTAMA --- */
-        .container { max-width: 800px; margin: 0 auto; padding: 10px 15px; }
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 800px;
+            width: 100%;
+        }
 
-        /* HEADER UTAMA (e.g. 3.0 BALAPAN) */
-        .main-section-title {
-            background: rgba(0,0,0,0.3);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-top: 40px;
-            margin-bottom: 10px;
+        /* Logo IPG */
+        .logo-img {
+            height: 50px; /* Saiz logo optimum */
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
             font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+
+        .brand-subtitle {
+            font-size: 0.7rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* --- 3. STRUKTUR RAK --- */
+        .container { max-width: 800px; margin: 0 auto; padding: 15px; }
+
+        .main-section-title {
+            background: white;
+            color: var(--primary);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 35px;
+            margin-bottom: 10px;
+            font-size: 1rem;
             font-weight: 700;
             display: flex; align-items: center; gap: 10px;
             border-left: 5px solid var(--accent);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        /* HEADER SUB-TOPIK (e.g. 3.1 Lari Pecut) */
         .sub-section {
-            margin-left: 10px;
+            margin-left: 8px;
             margin-bottom: 20px;
-            padding-left: 15px;
-            border-left: 2px solid rgba(255,255,255,0.3);
+            padding-left: 12px;
+            border-left: 2px solid rgba(0,0,0,0.1);
         }
         
         .sub-title {
-            color: white;
-            font-size: 0.9rem;
+            color: #444;
+            font-size: 0.85rem;
             font-weight: 600;
-            margin-bottom: 10px;
-            opacity: 0.9;
+            margin-bottom: 8px;
+            margin-top: 15px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         /* GRID VIDEO */
         .video-shelf {
             display: grid;
-            grid-template-columns: 1fr; /* Mobile: 1 Column */
+            grid-template-columns: 1fr; 
             gap: 12px;
         }
-        @media (min-width: 600px) { .video-shelf { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); } }
+        @media (min-width: 600px) { .video-shelf { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); } }
 
         /* --- 4. KAD VIDEO --- */
         .card {
-            background: var(--glass-card);
-            border-radius: 10px;
+            background: white;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex; flex-direction: row; height: 90px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex; flex-direction: row; height: 95px;
             transition: transform 0.2s;
             cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.03);
         }
-        .card:active { transform: scale(0.98); } /* Efek tekan di mobile */
+        .card:active { transform: scale(0.98); background: #f5f5f5; } 
         @media (min-width: 600px) { .card { flex-direction: column; height: auto; } }
 
         .thumb {
-            width: 110px; background: #000; position: relative; flex-shrink: 0;
+            width: 120px; background: #222; position: relative; flex-shrink: 0;
         }
-        @media (min-width: 600px) { .thumb { width: 100%; height: 130px; } }
+        @media (min-width: 600px) { .thumb { width: 100%; height: 140px; } }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
 
         .card-body {
-            padding: 10px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; overflow: hidden;
+            padding: 12px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; overflow: hidden;
         }
         .video-title {
-            font-size: 0.85rem; font-weight: 600; line-height: 1.3;
+            font-size: 0.85rem; font-weight: 600; line-height: 1.35;
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-            color: #333; margin-bottom: 4px;
+            color: #333; margin-bottom: 6px;
         }
-        .video-meta { font-size: 0.7rem; color: #11998e; font-weight: bold; }
+        .video-meta { font-size: 0.7rem; color: var(--primary); font-weight: bold; display: flex; align-items: center; gap: 5px; }
 
         /* --- 5. FAB & MODAL --- */
         .fab-upload {
@@ -119,40 +156,50 @@
             width: 55px; height: 55px;
             background: var(--primary); color: white;
             border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            font-size: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            z-index: 999; border: 2px solid rgba(255,255,255,0.5);
+            font-size: 20px; box-shadow: 0 4px 15px rgba(26, 35, 126, 0.4);
+            z-index: 999; 
         }
 
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 2000;
+            background: rgba(0,0,0,0.6); z-index: 2000;
             display: none; justify-content: center; align-items: flex-end;
+            backdrop-filter: blur(3px);
         }
         .modal-box {
-            background: white; width: 100%; padding: 25px;
+            background: white; width: 100%; padding: 30px 25px;
             border-top-left-radius: 20px; border-top-right-radius: 20px;
-            animation: slideUp 0.3s ease-out; max-height: 85vh; overflow-y: auto;
+            animation: slideUp 0.3s ease-out; max-height: 90vh; overflow-y: auto;
         }
         @media (min-width: 600px) { 
             .modal-overlay { align-items: center; }
-            .modal-box { width: 400px; border-radius: 20px; } 
+            .modal-box { width: 420px; border-radius: 20px; padding: 30px; } 
         }
         @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 
         input, select, textarea {
-            width: 100%; padding: 12px; margin-bottom: 12px;
-            border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; font-size: 16px; box-sizing: border-box;
+            width: 100%; padding: 12px; margin-bottom: 15px;
+            border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; font-size: 15px; box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
         .btn-full {
-            width: 100%; padding: 14px; background: var(--primary); color: white;
-            border: none; border-radius: 8px; font-weight: bold; font-size: 1rem;
+            width: 100%; padding: 15px; background: var(--primary); color: white;
+            border: none; border-radius: 10px; font-weight: bold; font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(26, 35, 126, 0.2);
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="brand"><i class="fas fa-video"></i> MoVO MPU3411</div>
+        <div class="brand-container">
+            <img src="https://imgur.com/kPB26qV.png" alt="Logo IPG" class="logo-img">
+            
+            <div class="brand-text">
+                <div class="brand-title">MoVO MPU3411</div>
+                <div class="brand-subtitle">Unit Kokurikulum IPG Kampus Darulaman</div>
+            </div>
+        </div>
     </nav>
 
     <div class="container">
@@ -212,18 +259,19 @@
 
     <div id="modalUpload" class="modal-overlay" onclick="if(event.target==this)tutupModal()">
         <div class="modal-box">
-            <h3 style="margin-top:0;">Tambah Video</h3>
+            <h3 style="margin-top:0; color:var(--primary);">Tambah Video Baru</h3>
+            <p style="font-size:0.8rem; color:#666; margin-bottom:20px;">Pastikan pautan Google Drive dibuka akses kepada 'Anyone with the link'.</p>
             
             <label>Sub-Topik:</label>
             <select id="topik">
-                <option value="" disabled selected>-- Pilih --</option>
+                <option value="" disabled selected>-- Sila Pilih Kategori --</option>
                 <optgroup label="1.0 & 2.0">
-                    <option value="1.0">1.0 Pengenalan</option>
-                    <option value="2.0">2.0 Kepegawaian</option>
+                    <option value="1.0">1.0 Pengenalan Olahraga</option>
+                    <option value="2.0">2.0 Kepegawaian & Undang-undang</option>
                 </optgroup>
                 <optgroup label="3.0 Balapan">
                     <option value="3.1">3.1 Lari Pecut</option>
-                    <option value="3.2">3.2 Lari Berganti</option>
+                    <option value="3.2">3.2 Lari Berganti-ganti</option>
                     <option value="3.3">3.3 Lari Berpagar</option>
                 </optgroup>
                 <optgroup label="4.0 Padang">
@@ -232,65 +280,58 @@
                     <option value="4.3">4.3 Lompat Tinggi</option>
                 </optgroup>
                 <optgroup label="5.0">
-                    <option value="5.0">5.0 Pengurusan</option>
+                    <option value="5.0">5.0 Pengurusan Fasiliti</option>
                 </optgroup>
             </select>
 
-            <label>Pautan (Drive/YouTube):</label>
+            <label>Pautan Video (Drive/YouTube):</label>
             <input type="url" id="videoLink" placeholder="https://...">
-            <label>Catatan / Tajuk:</label>
-            <textarea id="catatan" rows="2"></textarea>
+            
+            <label>Tajuk / Catatan:</label>
+            <textarea id="catatan" rows="2" placeholder="Contoh: Teknik Fasa Layangan"></textarea>
 
-            <button class="btn-full" onclick="hantarData()">Simpan</button>
-            <div id="loader" style="text-align:center; display:none; margin-top:10px;">Sedang memproses...</div>
+            <button class="btn-full" onclick="hantarData()">SIMPAN VIDEO</button>
+            <div id="loader" style="text-align:center; display:none; margin-top:10px; font-size:0.85rem; color:#666;">Sedang menyimpan...</div>
         </div>
     </div>
 
     <script>
+        // URL API Google Apps Script Anda
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec";
 
         function bukaModal() { document.getElementById('modalUpload').style.display = 'flex'; }
         function tutupModal() { document.getElementById('modalUpload').style.display = 'none'; }
 
+        // Fungsi Tumbnail Pintar
         function getThumb(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
             const match = url.match(regExp);
             if (match && match[2].length === 11) return `<img src="https://img.youtube.com/vi/${match[2]}/mqdefault.jpg">`;
-            return `<div style="width:100%; height:100%; background:#222; display:flex; justify-content:center; align-items:center; color:white;"><i class="fas fa-play"></i></div>`;
+            // Ikon default yang kemas
+            return `<div style="width:100%; height:100%; background:#e0e0e0; display:flex; justify-content:center; align-items:center; color:#999;">
+                        <i class="fas fa-play-circle" style="font-size:2.5rem;"></i>
+                    </div>`;
         }
 
-        // FUNGSI UTAMA: MENGASINGKAN VIDEO MENGIKUT SUB-TOPIK
         function muatTurunData() {
-            // Senarai ID Rak yang wujud
             const validShelves = ['1-0', '2-0', '3-1', '3-2', '3-3', '4-1', '4-2', '4-3', '5-0'];
             
-            // Set loading text
             validShelves.forEach(id => {
-                document.getElementById('shelf-'+id).innerHTML = '<small style="color:white; opacity:0.7;">...</small>';
+                document.getElementById('shelf-'+id).innerHTML = '<small style="color:#666; padding-left:5px;">Sedang memuatkan...</small>';
             });
 
             fetch(WEB_APP_URL)
             .then(res => res.json())
             .then(res => {
                 const data = res.data;
-                
-                // Kosongkan semua rak
                 validShelves.forEach(id => document.getElementById('shelf-'+id).innerHTML = "");
 
                 data.forEach(item => {
                     if(!item.link) return;
-
-                    // LOGIK PENGASINGAN (PARSING)
-                    // Kita ambil "3.1" daripada string "3.1 Lari Pecut" atau "3.1"
-                    // Gantikan titik (.) dengan dash (-) supaya jadi ID HTML (contoh: 3-1)
-                    let code = item.topik.substring(0, 3).replace('.', '-'); 
                     
-                    // Cari rak yang sepadan
+                    // Logic pemetaan topik (3.1 -> shelf-3-1)
+                    let code = item.topik.substring(0, 3).replace('.', '-'); 
                     let targetShelf = document.getElementById('shelf-' + code);
-
-                    // Jika video tu ada kod tapi tak jumpa rak spesifik, masuk rak umum (Fallback)
-                    // Contoh: Jika user pilih topik lama "3.0" tapi rak 3-0 tak wujud, abaikan atau create fallback.
-                    // Untuk kod ini, kita pastikan dropdown hanya hantar kod yang valid (3.1, 3.2 etc)
 
                     if(targetShelf) {
                         const card = document.createElement('div');
@@ -299,21 +340,20 @@
                         card.innerHTML = `
                             <div class="thumb">${getThumb(item.link)}</div>
                             <div class="card-body">
-                                <div class="video-title">${item.catatan || "Video Tanpa Tajuk"}</div>
-                                <div class="video-meta"><i class="fas fa-play-circle"></i> Tonton</div>
+                                <div class="video-title">${item.catatan || "Video Pembelajaran"}</div>
+                                <div class="video-meta"><i class="fas fa-play"></i> Tonton Video</div>
                             </div>
                         `;
                         targetShelf.appendChild(card);
                     }
                 });
 
-                // Letak mesej jika rak kosong
                 validShelves.forEach(id => {
                     let shelf = document.getElementById('shelf-'+id);
-                    if(shelf.innerHTML === "") shelf.innerHTML = '<small style="color:rgba(255,255,255,0.4); font-style:italic;">Tiada video.</small>';
+                    if(shelf.innerHTML === "") shelf.innerHTML = '<small style="color:#aaa; font-style:italic; padding-left:5px;">Tiada bahan.</small>';
                 });
             })
-            .catch(err => alert("Gagal memuat turun data."));
+            .catch(err => alert("Gagal memuat turun data. Sila periksa internet."));
         }
 
         function hantarData() {
@@ -322,7 +362,7 @@
             const catatan = document.getElementById('catatan').value;
             const loader = document.getElementById('loader');
 
-            if(!topik || !link) return alert("Sila isi maklumat.");
+            if(!topik || !link) return alert("Sila pilih Topik dan masukkan Link Video.");
             loader.style.display = 'block';
 
             fetch(WEB_APP_URL, {
@@ -334,8 +374,7 @@
                 loader.style.display = 'none';
                 if(data.result === 'success') {
                     tutupModal();
-                    alert("Berjaya!");
-                    // Reset form
+                    alert("✅ Video Berjaya Disimpan!");
                     document.getElementById('videoLink').value = "";
                     document.getElementById('catatan').value = "";
                     muatTurunData();
