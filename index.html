@@ -11,11 +11,13 @@
     <style>
         /* --- 1. ASAS & WARNA --- */
         :root {
-            --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             --glass-nav: rgba(255, 255, 255, 0.95); 
-            --glass-card: rgba(255, 255, 255, 0.9);
             --primary: #1a237e; 
             --accent: #c62828;
+            --tag-uu: #2196F3; /* Biru untuk Undang-undang */
+            --tag-tl: #4CAF50; /* Hijau untuk Teknik */
+            --tag-lp: #FF9800; /* Oren untuk Pengajaran */
             --text: #333;
         }
 
@@ -23,7 +25,6 @@
             margin: 0; padding: 0;
             font-family: 'Poppins', sans-serif;
             background: var(--bg-gradient);
-            background-attachment: fixed;
             color: var(--text);
             padding-bottom: 100px;
             -webkit-tap-highlight-color: transparent;
@@ -33,7 +34,7 @@
         nav {
             position: sticky; top: 0; z-index: 100;
             background: var(--glass-nav);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0,0,0,0.05);
             padding: 10px 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -60,7 +61,6 @@
 
         .sub-section { margin-left: 8px; margin-bottom: 20px; padding-left: 12px; border-left: 2px solid rgba(0,0,0,0.05); }
         
-        /* Header Sub-Topik & Butang Lihat Semua */
         .sub-header-row {
             display: flex; justify-content: space-between; align-items: flex-end;
             margin-top: 15px; margin-bottom: 8px;
@@ -71,19 +71,18 @@
             font-size: 0.7rem; color: var(--primary); font-weight: bold;
             text-decoration: none; cursor: pointer;
             border: 1px solid var(--primary); padding: 2px 8px; border-radius: 12px;
-            transition: 0.2s; display: none; /* Sembunyi by default */
+            transition: 0.2s; display: none;
         }
-        .view-all-btn:hover { background: var(--primary); color: white; }
 
         /* GRID VIDEO */
-        .video-shelf { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .video-shelf { display: grid; grid-template-columns: 1fr; gap: 12px; }
         @media (min-width: 600px) { .video-shelf { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); } }
 
         /* --- 4. KAD VIDEO --- */
         .card {
             background: white; border-radius: 10px; overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex; flex-direction: row; height: 90px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex; flex-direction: row; height: 105px; /* Tinggi sikit untuk muat badge */
             transition: transform 0.2s; cursor: pointer;
             border: 1px solid rgba(0,0,0,0.03); position: relative;
         }
@@ -100,12 +99,20 @@
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
 
         .card-body { padding: 10px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; overflow: hidden; }
+        
+        /* Badge Kategori Baru */
+        .cat-badge {
+            font-size: 0.6rem; font-weight: bold; color: white;
+            padding: 2px 6px; border-radius: 4px; display: inline-block;
+            margin-bottom: 5px; align-self: flex-start; text-transform: uppercase;
+        }
+
         .video-title {
             font-size: 0.8rem; font-weight: 600; line-height: 1.3;
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
             color: #333; margin-bottom: 5px;
         }
-        .video-meta { font-size: 0.65rem; color: var(--primary); font-weight: bold; display: flex; align-items: center; gap: 5px; }
+        .video-meta { font-size: 0.65rem; color: #666; display: flex; align-items: center; gap: 5px; }
 
         /* --- 5. MODAL & FAB --- */
         .fab-upload {
@@ -121,30 +128,27 @@
             display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px);
         }
 
-        /* Modal Box Umum (Upload & View All) */
         .modal-box {
             background: white; width: 90%; max-width: 600px;
             border-radius: 15px; padding: 25px;
             max-height: 85vh; display: flex; flex-direction: column;
-            animation: slideUp 0.3s ease-out; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease-out;
         }
         @keyframes slideUp { from{transform:translateY(20px); opacity:0} to{transform:translateY(0); opacity:1} }
 
-        /* Table Styles (Untuk Lihat Semua) */
         .table-container { overflow-y: auto; margin-top: 15px; flex-grow: 1; border: 1px solid #eee; border-radius: 8px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         th { background: #f4f4f4; padding: 10px; text-align: left; color: #555; position: sticky; top: 0; }
-        td { padding: 10px; border-bottom: 1px solid #eee; }
-        tr:last-child td { border-bottom: none; }
+        td { padding: 10px; border-bottom: 1px solid #eee; vertical-align: middle;}
+        
         .btn-table-play {
             background: var(--primary); color: white; padding: 5px 10px;
             border-radius: 4px; text-decoration: none; font-size: 0.75rem; white-space: nowrap;
         }
 
-        /* Form Styles */
         input, select, textarea {
             width: 100%; padding: 12px; margin-bottom: 15px;
-            border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; font-size: 15px; box-sizing: border-box;
+            border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; font-size: 14px; box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
         .btn-full {
@@ -152,7 +156,10 @@
             border: none; border-radius: 10px; font-weight: bold; font-size: 1rem;
         }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .modal-header h3 { margin: 0; color: var(--primary); }
+        
+        /* Custom Select Style for Grouping */
+        optgroup { font-weight: bold; color: #000; background: #eee; }
+        option { padding: 5px; background: #fff; color: #333; }
     </style>
 </head>
 <body>
@@ -171,80 +178,49 @@
         
         <div class="main-section-title"><i class="fas fa-book"></i> 1.0 Pengenalan</div>
         <div class="sub-section">
-            <div class="sub-header-row">
-                <div class="sub-title">Video Terkini</div>
-                <div id="btn-view-1-0" class="view-all-btn" onclick="openTableModal('1-0', '1.0 Pengenalan')">Lihat Semua ➜</div>
-            </div>
+            <div class="sub-header-row"><div class="sub-title">Video Terkini</div><div id="btn-view-1-0" class="view-all-btn" onclick="openTableModal('1-0', '1.0 Pengenalan')">Lihat Semua ➜</div></div>
             <div id="shelf-1-0" class="video-shelf"></div>
         </div>
 
         <div class="main-section-title"><i class="fas fa-gavel"></i> 2.0 Kepegawaian</div>
         <div class="sub-section">
-            <div class="sub-header-row">
-                <div class="sub-title">Video Terkini</div>
-                <div id="btn-view-2-0" class="view-all-btn" onclick="openTableModal('2-0', '2.0 Kepegawaian')">Lihat Semua ➜</div>
-            </div>
+            <div class="sub-header-row"><div class="sub-title">Video Terkini</div><div id="btn-view-2-0" class="view-all-btn" onclick="openTableModal('2-0', '2.0 Kepegawaian')">Lihat Semua ➜</div></div>
             <div id="shelf-2-0" class="video-shelf"></div>
         </div>
 
         <div class="main-section-title"><i class="fas fa-running"></i> 3.0 Acara Balapan</div>
         
         <div class="sub-section">
-            <div class="sub-header-row">
-                <div class="sub-title">3.1 Lari Pecut</div>
-                <div id="btn-view-3-1" class="view-all-btn" onclick="openTableModal('3-1', '3.1 Lari Pecut')">Lihat Semua ➜</div>
-            </div>
+            <div class="sub-header-row"><div class="sub-title">3.1 Lari Pecut</div><div id="btn-view-3-1" class="view-all-btn" onclick="openTableModal('3-1', '3.1 Lari Pecut')">Lihat Semua ➜</div></div>
             <div id="shelf-3-1" class="video-shelf"></div>
         </div>
-
         <div class="sub-section">
-            <div class="sub-header-row">
-                <div class="sub-title">3.2 Lari Berganti</div>
-                <div id="btn-view-3-2" class="view-all-btn" onclick="openTableModal('3-2', '3.2 Lari Berganti')">Lihat Semua ➜</div>
-            </div>
+            <div class="sub-header-row"><div class="sub-title">3.2 Lari Berganti</div><div id="btn-view-3-2" class="view-all-btn" onclick="openTableModal('3-2', '3.2 Lari Berganti')">Lihat Semua ➜</div></div>
             <div id="shelf-3-2" class="video-shelf"></div>
         </div>
-
         <div class="sub-section">
-            <div class="sub-header-row">
-                <div class="sub-title">3.3 Lari Berpagar</div>
-                <div id="btn-view-3-3" class="view-all-btn" onclick="openTableModal('3-3', '3.3 Lari Berpagar')">Lihat Semua ➜</div>
-            </div>
+            <div class="sub-header-row"><div class="sub-title">3.3 Lari Berpagar</div><div id="btn-view-3-3" class="view-all-btn" onclick="openTableModal('3-3', '3.3 Lari Berpagar')">Lihat Semua ➜</div></div>
             <div id="shelf-3-3" class="video-shelf"></div>
         </div>
 
         <div class="main-section-title"><i class="fas fa-medal"></i> 4.0 Acara Padang</div>
 
         <div class="sub-section">
-            <div class="sub-header-row">
-                <div class="sub-title">4.1 Lontar Peluru</div>
-                <div id="btn-view-4-1" class="view-all-btn" onclick="openTableModal('4-1', '4.1 Lontar Peluru')">Lihat Semua ➜</div>
-            </div>
+            <div class="sub-header-row"><div class="sub-title">4.1 Lontar Peluru</div><div id="btn-view-4-1" class="view-all-btn" onclick="openTableModal('4-1', '4.1 Lontar Peluru')">Lihat Semua ➜</div></div>
             <div id="shelf-4-1" class="video-shelf"></div>
         </div>
-
         <div class="sub-section">
-            <div class="sub-header-row">
-                <div class="sub-title">4.2 Lompat Jauh</div>
-                <div id="btn-view-4-2" class="view-all-btn" onclick="openTableModal('4-2', '4.2 Lompat Jauh')">Lihat Semua ➜</div>
-            </div>
+            <div class="sub-header-row"><div class="sub-title">4.2 Lompat Jauh</div><div id="btn-view-4-2" class="view-all-btn" onclick="openTableModal('4-2', '4.2 Lompat Jauh')">Lihat Semua ➜</div></div>
             <div id="shelf-4-2" class="video-shelf"></div>
         </div>
-
         <div class="sub-section">
-            <div class="sub-header-row">
-                <div class="sub-title">4.3 Lompat Tinggi</div>
-                <div id="btn-view-4-3" class="view-all-btn" onclick="openTableModal('4-3', '4.3 Lompat Tinggi')">Lihat Semua ➜</div>
-            </div>
+            <div class="sub-header-row"><div class="sub-title">4.3 Lompat Tinggi</div><div id="btn-view-4-3" class="view-all-btn" onclick="openTableModal('4-3', '4.3 Lompat Tinggi')">Lihat Semua ➜</div></div>
             <div id="shelf-4-3" class="video-shelf"></div>
         </div>
 
         <div class="main-section-title"><i class="fas fa-cogs"></i> 5.0 Pengurusan</div>
         <div class="sub-section">
-            <div class="sub-header-row">
-                <div class="sub-title">Video Terkini</div>
-                <div id="btn-view-5-0" class="view-all-btn" onclick="openTableModal('5-0', '5.0 Pengurusan')">Lihat Semua ➜</div>
-            </div>
+            <div class="sub-header-row"><div class="sub-title">Video Terkini</div><div id="btn-view-5-0" class="view-all-btn" onclick="openTableModal('5-0', '5.0 Pengurusan')">Lihat Semua ➜</div></div>
             <div id="shelf-5-0" class="video-shelf"></div>
         </div>
 
@@ -259,32 +235,56 @@
                 <span onclick="tutupAllModals()" style="font-size:1.5rem; color:#999; cursor:pointer;">&times;</span>
             </div>
             
-            <label>Topik / Kemahiran:</label>
+            <label>Pilih Sub-Topik & Kategori:</label>
             <select id="topik">
-                <option value="" disabled selected>-- Pilih --</option>
-                <optgroup label="1.0 & 2.0">
-                    <option value="1.0">1.0 Pengenalan</option>
-                    <option value="2.0">2.0 Kepegawaian</option>
+                <option value="" disabled selected>-- Sila Pilih --</option>
+                
+                <optgroup label="UMUM">
+                    <option value="1.0:1.0 Pengenalan">1.0 Pengenalan Olahraga</option>
+                    <option value="2.0:2.0 Kepegawaian">2.0 Kepegawaian</option>
                 </optgroup>
-                <optgroup label="3.0 Balapan">
-                    <option value="3.1">3.1 Lari Pecut</option>
-                    <option value="3.2">3.2 Lari Berganti</option>
-                    <option value="3.3">3.3 Lari Berpagar</option>
+
+                <optgroup label="3.1 LARI PECUT">
+                    <option value="3.1:Undang-undang">3.1 Undang-undang</option>
+                    <option value="3.1:Teknik Lakuan">3.1 Teknik Lakuan</option>
+                    <option value="3.1:Langkah Pengajaran">3.1 Langkah Pengajaran</option>
                 </optgroup>
-                <optgroup label="4.0 Padang">
-                    <option value="4.1">4.1 Lontar Peluru</option>
-                    <option value="4.2">4.2 Lompat Jauh</option>
-                    <option value="4.3">4.3 Lompat Tinggi</option>
+                <optgroup label="3.2 LARI BERGANTI">
+                    <option value="3.2:Undang-undang">3.2 Undang-undang</option>
+                    <option value="3.2:Teknik Lakuan">3.2 Teknik Lakuan</option>
+                    <option value="3.2:Langkah Pengajaran">3.2 Langkah Pengajaran</option>
                 </optgroup>
+                <optgroup label="3.3 LARI BERPAGAR">
+                    <option value="3.3:Undang-undang">3.3 Undang-undang</option>
+                    <option value="3.3:Teknik Lakuan">3.3 Teknik Lakuan</option>
+                    <option value="3.3:Langkah Pengajaran">3.3 Langkah Pengajaran</option>
+                </optgroup>
+
+                <optgroup label="4.1 LONTAR PELURU">
+                    <option value="4.1:Undang-undang">4.1 Undang-undang</option>
+                    <option value="4.1:Teknik Lakuan">4.1 Teknik Lakuan</option>
+                    <option value="4.1:Langkah Pengajaran">4.1 Langkah Pengajaran</option>
+                </optgroup>
+                <optgroup label="4.2 LOMPAT JAUH">
+                    <option value="4.2:Undang-undang">4.2 Undang-undang</option>
+                    <option value="4.2:Teknik Lakuan">4.2 Teknik Lakuan</option>
+                    <option value="4.2:Langkah Pengajaran">4.2 Langkah Pengajaran</option>
+                </optgroup>
+                <optgroup label="4.3 LOMPAT TINGGI">
+                    <option value="4.3:Undang-undang">4.3 Undang-undang</option>
+                    <option value="4.3:Teknik Lakuan">4.3 Teknik Lakuan</option>
+                    <option value="4.3:Langkah Pengajaran">4.3 Langkah Pengajaran</option>
+                </optgroup>
+                
                 <optgroup label="5.0">
-                    <option value="5.0">5.0 Pengurusan</option>
+                    <option value="5.0:5.0 Pengurusan">5.0 Pengurusan Fasiliti</option>
                 </optgroup>
             </select>
 
             <label>Link (GDrive/YouTube):</label>
             <input type="url" id="videoLink" placeholder="https://...">
-            <label>Tajuk / Nota:</label>
-            <textarea id="catatan" rows="2" placeholder="Tajuk video..."></textarea>
+            <label>Tajuk / Catatan:</label>
+            <textarea id="catatan" rows="2" placeholder="Contoh: Fasa Berlepas..."></textarea>
 
             <button class="btn-full" onclick="hantarData()">SIMPAN</button>
             <div id="loader" style="text-align:center; display:none; margin-top:10px; font-size:0.8rem; color:#666;">Sedang memproses...</div>
@@ -301,12 +301,11 @@
                 <table id="fullTable">
                     <thead>
                         <tr>
-                            <th>Tajuk / Catatan</th>
-                            <th style="width: 80px;">Tindakan</th>
+                            <th>Kategori & Tajuk</th>
+                            <th style="width: 70px;">Tindakan</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody">
-                        </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
             </div>
         </div>
@@ -314,8 +313,6 @@
 
     <script>
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec";
-        
-        // Simpan data global untuk kegunaan Modal Jadual
         let GLOBAL_DATA = [];
 
         function bukaModalUpload() { document.getElementById('modalUpload').style.display = 'flex'; }
@@ -324,36 +321,48 @@
             document.getElementById('modalTable').style.display = 'none'; 
         }
 
-        // Fungsi Buka Modal Jadual
+        // FUNGSI PARSING KATEGORI
+        // Format Data: "3.1:Undang-undang" -> { code: "3-1", category: "Undang-undang" }
+        function parseTopic(topicString) {
+            if(!topicString.includes(':')) return { code: topicString.substring(0,3).replace('.','-'), category: "Umum" };
+            let parts = topicString.split(':');
+            return { code: parts[0].replace('.','-'), category: parts[1] };
+        }
+
+        // DAPATKAN WARNA BADGE
+        function getBadgeColor(category) {
+            if(category.includes('Undang')) return 'background: var(--tag-uu);';
+            if(category.includes('Teknik')) return 'background: var(--tag-tl);';
+            if(category.includes('Pengajaran')) return 'background: var(--tag-lp);';
+            return 'background: #999;'; // Default
+        }
+
         function openTableModal(code, titleName) {
             document.getElementById('tableTitle').innerText = titleName;
             const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = ""; // Bersihkan data lama
+            tbody.innerHTML = "";
 
-            // Filter data dari GLOBAL_DATA mengikut kod topik
             let filteredData = GLOBAL_DATA.filter(item => {
                 if(!item.link) return false;
-                let itemCode = item.topik.substring(0, 3).replace('.', '-');
-                return itemCode === code;
+                let info = parseTopic(item.topik);
+                return info.code === code;
             });
 
             if (filteredData.length === 0) {
                 tbody.innerHTML = "<tr><td colspan='2' style='text-align:center;'>Tiada rekod.</td></tr>";
             } else {
                 filteredData.forEach(item => {
+                    let info = parseTopic(item.topik);
                     let row = `<tr>
                         <td>
-                            <div style="font-weight:600; margin-bottom:4px;">${item.catatan || "Video Tanpa Tajuk"}</div>
-                            <div style="font-size:0.7rem; color:#888;">${new Date(item.timestamp).toLocaleDateString()}</div>
+                            <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
+                            <div style="font-weight:600; font-size:0.85rem;">${item.catatan || "Video Tanpa Tajuk"}</div>
                         </td>
-                        <td>
-                            <a href="${item.link}" target="_blank" class="btn-table-play"><i class="fas fa-play"></i> Tonton</a>
-                        </td>
+                        <td><a href="${item.link}" target="_blank" class="btn-table-play">▶ Tonton</a></td>
                     </tr>`;
                     tbody.innerHTML += row;
                 });
             }
-
             document.getElementById('modalTable').style.display = 'flex';
         }
 
@@ -364,49 +373,45 @@
             return `<div style="width:100%; height:100%; background:#f0f0f0; display:flex; justify-content:center; align-items:center; color:#ccc;"><i class="fas fa-play-circle" style="font-size:2.5rem;"></i></div>`;
         }
 
-        // FUNGSI UTAMA
         function muatTurunData() {
             const validShelves = ['1-0', '2-0', '3-1', '3-2', '3-3', '4-1', '4-2', '4-3', '5-0'];
-            
-            // Set loading text
             validShelves.forEach(id => document.getElementById('shelf-'+id).innerHTML = '<small style="color:#666; padding-left:5px;">...</small>');
 
             fetch(WEB_APP_URL)
             .then(res => res.json())
             .then(res => {
                 let data = res.data;
-                data.reverse(); // Terbalikkan supaya terkini di atas
-                GLOBAL_DATA = data; // Simpan ke variable global untuk table guna nanti
+                data.reverse();
+                GLOBAL_DATA = data;
 
-                // Kosongkan rak
                 validShelves.forEach(id => {
                     document.getElementById('shelf-'+id).innerHTML = "";
-                    document.getElementById('btn-view-'+id).style.display = "none"; // Sembunyi button view all dulu
+                    document.getElementById('btn-view-'+id).style.display = "none";
                 });
 
                 let shelfCounts = {};
 
                 data.forEach(item => {
                     if(!item.link) return;
-                    
-                    let code = item.topik.substring(0, 3).replace('.', '-'); 
-                    let targetShelf = document.getElementById('shelf-' + code);
+                    let info = parseTopic(item.topik);
+                    let targetShelf = document.getElementById('shelf-' + info.code);
 
-                    if (!shelfCounts[code]) shelfCounts[code] = 0;
-                    shelfCounts[code]++; // Kira jumlah video dalam topik ni
+                    if (!shelfCounts[info.code]) shelfCounts[info.code] = 0;
+                    shelfCounts[info.code]++;
 
-                    // Paparkan HANYA 3 TERKINI di muka depan
-                    if(targetShelf && shelfCounts[code] <= 3) {
+                    // LIMIT PAPARAN: 3 Video Terkini
+                    if(targetShelf && shelfCounts[info.code] <= 3) {
                         const card = document.createElement('div');
                         card.className = 'card';
                         card.onclick = function() { window.open(item.link, '_blank'); };
                         
-                        let newTag = (shelfCounts[code] === 1) ? '<div class="new-indicator">TERKINI</div>' : '';
+                        let newTag = (shelfCounts[info.code] === 1) ? '<div class="new-indicator">TERKINI</div>' : '';
 
                         card.innerHTML = `
                             ${newTag}
                             <div class="thumb">${getThumb(item.link)}</div>
                             <div class="card-body">
+                                <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
                                 <div class="video-title">${item.catatan || "Video Pembelajaran"}</div>
                                 <div class="video-meta"><i class="fas fa-play"></i> Tonton</div>
                             </div>
@@ -415,18 +420,13 @@
                     }
                 });
 
-                // Cek Rak: Tunjuk button "Lihat Semua" jika video > 3
                 validShelves.forEach(id => {
                     let totalVideos = shelfCounts[id] || 0;
                     let shelf = document.getElementById('shelf-'+id);
-                    let btn = document.getElementById('btn-view-'+id);
-
-                    if(shelf.innerHTML === "") {
-                        shelf.innerHTML = '<small style="color:#aaa; font-style:italic; padding-left:5px;">Tiada rekod terkini.</small>';
-                    }
-
+                    if(shelf.innerHTML === "") shelf.innerHTML = '<small style="color:#aaa; font-style:italic; padding-left:5px;">Tiada rekod.</small>';
                     if(totalVideos > 3) {
-                        btn.style.display = "block"; // Tunjuk button
+                        let btn = document.getElementById('btn-view-'+id);
+                        btn.style.display = "block";
                         btn.innerText = `Lihat Semua (${totalVideos}) ➜`;
                     }
                 });
@@ -452,7 +452,7 @@
                 loader.style.display = 'none';
                 if(data.result === 'success') {
                     tutupAllModals();
-                    alert("Berjaya!");
+                    alert("✅ Berjaya!");
                     document.getElementById('videoLink').value = "";
                     document.getElementById('catatan').value = "";
                     muatTurunData();
