@@ -3,420 +3,363 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galeri Video MPU3411</title>
+    <title>Modul Berstruktur MPU3411</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* --- 1. REKA BENTUK ASAS (CSS) --- */
+        /* --- CSS STRUKTUR MODUL --- */
         :root {
-            --bg-gradient: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
-            --card-bg: #ffffff;
-            --primary: #134e5e;
-            --accent: #27ae60;
-            --text-main: #333;
+            --bg-color: #f0f2f5;
+            --primary: #2c3e50; /* Warna Tajuk Utama */
+            --accent: #2980b9;  /* Warna Highlight */
+            --glass: rgba(255, 255, 255, 0.95);
         }
 
         body {
             margin: 0;
-            padding: 20px;
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
-            background: var(--bg-gradient);
-            min-height: 100vh;
-            color: var(--text-main);
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg-color);
+            color: #333;
+            padding-bottom: 50px;
         }
 
         /* HEADER */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .brand h1 { margin: 0; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; gap: 10px; }
-        .brand small { color: #666; display: block; margin-top: 2px; font-size: 0.85rem; }
-
-        /* BUTANG MUAT NAIK */
-        .btn-upload {
-            background: var(--accent);
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
             color: white;
-            border: none;
-            padding: 10px 24px;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        header h1 { margin: 0; font-size: 1.8rem; }
+        header p { margin: 5px 0 15px 0; opacity: 0.9; }
+
+        .btn-add {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 8px 20px;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.95rem;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-add:hover { background: white; color: #1a2980; }
+
+        /* --- RAK UTAMA (SECTION) --- */
+        .module-section {
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
             display: flex;
             align-items: center;
-            gap: 8px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            border-left: 5px solid var(--accent);
         }
-        .btn-upload:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4); }
 
-        /* GRID GALERI VIDEO */
-        .video-grid {
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--primary);
+            flex-grow: 1;
+        }
+
+        .badge-count {
+            background: #eee;
+            color: #666;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* GRID VIDEO DALAM RAK */
+        .video-shelf {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsif Automatik */
-            gap: 25px;
-            padding-bottom: 50px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            padding-left: 10px; /* Indent sikit supaya nampak anak */
         }
 
-        /* KAD VIDEO INDIVIDU */
+        /* KAD VIDEO */
         .video-card {
-            background: var(--card-bg);
-            border-radius: 15px;
+            background: white;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             transition: transform 0.2s;
             display: flex;
             flex-direction: column;
-            position: relative;
         }
+        .video-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
 
-        .video-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-
-        /* TUMBNAIL */
-        .thumbnail-box {
-            height: 160px;
-            background: #2c3e50;
+        .thumb {
+            height: 140px;
+            background: #000;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden;
         }
-        .thumbnail-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: opacity 0.3s; }
-        .thumbnail-box:hover img { opacity: 1; }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
         
-        .play-icon {
-            position: absolute;
-            font-size: 3rem;
-            color: rgba(255,255,255,0.9);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            pointer-events: none;
-        }
-
-        /* INFO DALAM KAD */
-        .card-info { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-body { padding: 12px; display: flex; flex-direction: column; flex-grow: 1; }
         
-        .card-tag {
+        .subtopic-tag {
             font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-            background: #eef2f3;
-            padding: 4px 8px;
+            font-weight: bold;
+            color: white;
+            background: var(--accent);
+            padding: 3px 8px;
             border-radius: 4px;
             align-self: flex-start;
+            margin-bottom: 8px;
+            display: inline-block;
         }
 
-        .card-title {
-            font-size: 1rem;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-            color: var(--text-main);
-            line-height: 1.4;
-        }
-
-        .btn-watch {
+        .video-title { font-size: 0.95rem; font-weight: bold; line-height: 1.4; margin-bottom: 10px; color: #333; }
+        
+        .btn-play {
             margin-top: auto;
-            background: var(--primary);
-            color: white;
             text-decoration: none;
+            background: #f8f9fa;
+            color: #333;
             text-align: center;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
             font-weight: bold;
-            font-size: 0.9rem;
-            transition: background 0.2s;
+            border: 1px solid #ddd;
         }
-        .btn-watch:hover { background: #0e3a47; }
+        .btn-play:hover { background: #e2e6ea; }
 
-        /* MODAL (POPUP FORM) */
+        /* MODAL UPLOAD */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            display: none; /* Tersembunyi Default */
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.6); display: none; z-index: 999;
+            justify-content: center; align-items: center;
         }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            animation: slideUp 0.3s ease-out;
+        .modal-box {
+            background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 500px;
         }
-
-        @keyframes slideUp { from {transform: translateY(20px); opacity:0;} to {transform: translateY(0); opacity:1;} }
-
-        .close-btn {
-            position: absolute; top: 20px; right: 20px;
-            font-size: 1.5rem; color: #999; cursor: pointer;
-        }
-        .close-btn:hover { color: #333; }
-
-        /* FORM STYLES */
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; color: #555; }
-        .form-group select, .form-group input, .form-group textarea {
-            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;
-            box-sizing: border-box; font-family: inherit; font-size: 1rem;
-            background: #f9f9f9;
-        }
-        .form-group select:focus, .form-group input:focus { outline: 2px solid var(--accent); background: white; }
-
-        .loader { display: none; text-align: center; margin-top: 15px; color: #666; font-size: 0.9rem; }
+        /* Style form ringkas */
+        input, select, textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
         
-        /* Loading Gallery State */
-        .loading-gallery {
-            text-align: center;
-            color: white;
-            font-size: 1.1rem;
-            grid-column: 1 / -1;
-            padding: 40px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="brand">
-            <h1><i class="fas fa-running"></i> MoVO MPU3411</h1>
-            <small>Modul Video Pengajaran Olahraga</small>
-        </div>
-        <button class="btn-upload" onclick="bukaModal()">
-            <i class="fas fa-cloud-upload-alt"></i> Muat Naik Video
-        </button>
+        <h1>Modul Pengajaran Olahraga</h1>
+        <p>MPU3411 - Video & Sumber Pembelajaran</p>
+        <button class="btn-add" onclick="bukaModal()">+ Tambah Bahan Baru</button>
     </header>
 
-    <div id="gallery" class="video-grid">
-        <div class="loading-gallery">
-            <i class="fas fa-circle-notch fa-spin"></i> Sedang menghubungkan ke Database...
+    <div class="module-section">
+        <div class="section-header">
+            <h2><i class="fas fa-book-open" style="margin-right:10px;"></i> 1.0 Pengenalan Olahraga</h2>
+            <span id="count-1" class="badge-count">0 video</span>
         </div>
+        <div id="shelf-1" class="video-shelf">
+            </div>
+    </div>
+
+    <div class="module-section">
+        <div class="section-header">
+            <h2><i class="fas fa-gavel" style="margin-right:10px;"></i> 2.0 Kepegawaian</h2>
+            <span id="count-2" class="badge-count">0 video</span>
+        </div>
+        <div id="shelf-2" class="video-shelf"></div>
+    </div>
+
+    <div class="module-section">
+        <div class="section-header">
+            <h2><i class="fas fa-running" style="margin-right:10px;"></i> 3.0 Acara Balapan</h2>
+            <span id="count-3" class="badge-count">0 video</span>
+        </div>
+        <div id="shelf-3" class="video-shelf"></div>
+    </div>
+
+    <div class="module-section">
+        <div class="section-header">
+            <h2><i class="fas fa-cloud" style="margin-right:10px;"></i> 4.0 Acara Padang</h2>
+            <span id="count-4" class="badge-count">0 video</span>
+        </div>
+        <div id="shelf-4" class="video-shelf"></div>
+    </div>
+
+    <div class="module-section">
+        <div class="section-header">
+            <h2><i class="fas fa-cogs" style="margin-right:10px;"></i> 5.0 Pengurusan Fasiliti</h2>
+            <span id="count-5" class="badge-count">0 video</span>
+        </div>
+        <div id="shelf-5" class="video-shelf"></div>
     </div>
 
     <div id="uploadModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-btn" onclick="tutupModal()">&times;</span>
-            <h2 style="margin-top:0; color: var(--primary);">Tambah Bahan Baru</h2>
-            <p style="color:#666; font-size:0.9rem; margin-bottom:20px;">Masukkan butiran video pembelajaran di bawah.</p>
+        <div class="modal-box">
+            <h3 style="margin-top:0;">Muat Naik Video</h3>
             
-            <div class="form-group">
-                <label>Topik / Acara:</label>
-                <select id="topik">
-                    <option value="" disabled selected>-- Sila Pilih Kategori --</option>
-                    <optgroup label="1.0 Pengenalan">
-                        <option value="1.0 Pengenalan">1.0 Pengenalan Olahraga</option>
-                    </optgroup>
-                    <optgroup label="2.0 Kepegawaian">
-                        <option value="2.0 Kepegawaian">2.0 Kepegawaian & Undang-undang</option>
-                    </optgroup>
-                    <optgroup label="3.0 Balapan">
-                        <option value="3.1 Lari Pecut">3.1 Lari Pecut</option>
-                        <option value="3.2 Lari Berganti">3.2 Lari Berganti-ganti</option>
-                        <option value="3.3 Lari Berpagar">3.3 Lari Berpagar</option>
-                    </optgroup>
-                    <optgroup label="4.0 Padang">
-                        <option value="4.1 Lontar Peluru">4.1 Lontar Peluru</option>
-                        <option value="4.2 Lompat Jauh">4.2 Lompat Jauh</option>
-                        <option value="4.3 Lompat Tinggi">4.3 Lompat Tinggi</option>
-                    </optgroup>
-                    <optgroup label="5.0 Pengurusan">
-                        <option value="5.0 Trek">5.0 Penyediaan Trek & Sektor</option>
-                    </optgroup>
-                </select>
-            </div>
+            <label>Subtopik / Acara:</label>
+            <select id="topik">
+                <option value="" disabled selected>-- Pilih --</option>
+                <optgroup label="1.0 Pengenalan">
+                    <option value="1.0 Pengenalan Am">1.0 Pengenalan Am</option>
+                </optgroup>
+                <optgroup label="2.0 Kepegawaian">
+                    <option value="2.0 Undang-undang">2.0 Undang-undang</option>
+                </optgroup>
+                <optgroup label="3.0 Balapan">
+                    <option value="3.1 Lari Pecut">3.1 Lari Pecut</option>
+                    <option value="3.2 Lari Berganti">3.2 Lari Berganti</option>
+                    <option value="3.3 Lari Berpagar">3.3 Lari Berpagar</option>
+                </optgroup>
+                <optgroup label="4.0 Padang">
+                    <option value="4.1 Lontar Peluru">4.1 Lontar Peluru</option>
+                    <option value="4.2 Lompat Jauh">4.2 Lompat Jauh</option>
+                    <option value="4.3 Lompat Tinggi">4.3 Lompat Tinggi</option>
+                </optgroup>
+                <optgroup label="5.0 Pengurusan">
+                    <option value="5.0 Trek & Sektor">5.0 Trek & Sektor</option>
+                </optgroup>
+            </select>
 
-            <div class="form-group">
-                <label>Pautan Video (Google Drive / YouTube):</label>
-                <input type="url" id="videoLink" placeholder="https://..." required>
-                <small style="color:#888; font-size:0.75rem;">*Jika Google Drive, pastikan 'Anyone with the link'</small>
-            </div>
+            <label>Link Video:</label>
+            <input type="url" id="videoLink" placeholder="https://...">
+            
+            <label>Tajuk / Catatan:</label>
+            <textarea id="catatan" rows="2" placeholder="Cth: Teknik Ansur Maju"></textarea>
 
-            <div class="form-group">
-                <label>Catatan / Tajuk Video:</label>
-                <textarea id="catatan" rows="3" placeholder="Contoh: Teknik fasa layangan lompat jauh..."></textarea>
-            </div>
-
-            <button class="btn-upload" style="width:100%; justify-content:center;" onclick="hantarData()">
-                Simpan Data
-            </button>
-            <div id="loader" class="loader"><i class="fas fa-spinner fa-spin"></i> Sedang menyimpan...</div>
+            <button onclick="hantarData()" style="width:100%; background:var(--accent); color:white; border:none; padding:10px; border-radius:5px; cursor:pointer;">Simpan</button>
+            <button onclick="tutupModal()" style="width:100%; background:none; border:none; color:red; margin-top:10px; cursor:pointer;">Batal</button>
+            <div id="loader" style="display:none; text-align:center;">Sedang memproses...</div>
         </div>
     </div>
 
     <script>
-        // =================================================================
-        // ⚠️ PENTING: GANTIKAN URL DI BAWAH DENGAN URL APPS SCRIPT ANDA ⚠️
-        // =================================================================
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec"; 
-        // Contoh format betul: "https://script.google.com/macros/s/AKfycby.../exec"
+        // ============================================
+        // ⚠️ GANTIKAN URL API DI BAWAH (WAJIB) ⚠️
+        // ============================================
+        const WEB_APP_URL = "MASUKKAN_URL_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI"; 
 
-        // --- 1. Fungsi Kawalan Modal (Popup) ---
         function bukaModal() { document.getElementById('uploadModal').style.display = 'flex'; }
         function tutupModal() { document.getElementById('uploadModal').style.display = 'none'; }
 
-        // --- 2. Fungsi Hantar Data (Upload) ---
-        function hantarData() {
-            // Cek URL dulu
-            if (WEB_APP_URL.includes("MASUKKAN_URL")) {
-                alert("RALAT: Anda belum masukkan URL Google Apps Script dalam kod HTML!");
-                return;
-            }
+        // Fungsi Tumbnail Pintar
+        function getThumb(url) {
+            try {
+                let match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/))([^&?]*)/);
+                if (match && match[1]) return `<img src="https://img.youtube.com/vi/${match[1]}/mqdefault.jpg">`;
+            } catch (e) {}
+            return `<div style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; color:white; font-size:2rem;"><i class="fas fa-play"></i></div>`;
+        }
 
+        // FUNGSI UTAMA: MENYUSUN DATA KE RAK
+        function muatTurunData() {
+            // Jika URL tak diisi
+            if(WEB_APP_URL.includes("MASUKKAN_URL")) { alert("Sila masukkan URL API Google Script dalam kod HTML"); return; }
+
+            // Set loading text
+            for(let i=1; i<=5; i++) document.getElementById(`shelf-${i}`).innerHTML = '<small style="padding:10px; color:#999;">Memuatkan...</small>';
+
+            fetch(WEB_APP_URL)
+            .then(res => res.json())
+            .then(res => {
+                const data = res.data;
+                
+                // 1. Bersihkan semua rak
+                const shelves = { 
+                    '1': document.getElementById('shelf-1'),
+                    '2': document.getElementById('shelf-2'),
+                    '3': document.getElementById('shelf-3'),
+                    '4': document.getElementById('shelf-4'),
+                    '5': document.getElementById('shelf-5')
+                };
+                
+                // Reset content
+                for(let key in shelves) shelves[key].innerHTML = "";
+
+                // Counter untuk kira jumlah video
+                let counts = { '1':0, '2':0, '3':0, '4':0, '5':0 };
+
+                // 2. Loop setiap video dan susun (Sort)
+                data.forEach(item => {
+                    if(!item.link) return;
+
+                    // Tentukan rak mana berdasarkan nombor depan topik (1.0, 3.1 dsb)
+                    let rakID = item.topik.charAt(0); // Ambil nombor pertama sahaja (1,2,3,4,5)
+                    
+                    if (shelves[rakID]) {
+                        counts[rakID]++; // Tambah kaunter
+
+                        const div = document.createElement('div');
+                        div.className = 'video-card';
+                        div.innerHTML = `
+                            <div class="thumb">${getThumb(item.link)}</div>
+                            <div class="card-body">
+                                <span class="subtopic-tag">${item.topik}</span>
+                                <div class="video-title">${item.catatan || "Video Pembelajaran"}</div>
+                                <a href="${item.link}" target="_blank" class="btn-play">▶ Tonton</a>
+                            </div>
+                        `;
+                        shelves[rakID].appendChild(div); // Masukkan ke dalam rak
+                    }
+                });
+
+                // 3. Kemaskini Badge Jumlah & Handle Rak Kosong
+                for(let i=1; i<=5; i++) {
+                    document.getElementById(`count-${i}`).innerText = counts[i] + " video";
+                    if(counts[i] === 0) {
+                        document.getElementById(`shelf-${i}`).innerHTML = `<small style="padding:10px 0; color:#aaa; font-style:italic;">Belum ada bahan untuk topik ini.</small>`;
+                    }
+                }
+
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Gagal memuat turun data.");
+            });
+        }
+
+        function hantarData() {
             const topik = document.getElementById('topik').value;
             const link = document.getElementById('videoLink').value;
             const catatan = document.getElementById('catatan').value;
             const loader = document.getElementById('loader');
 
-            if(!topik || !link) { alert("Sila lengkapkan Topik dan Pautan Video."); return; }
-            
+            if(!topik || !link) return alert("Sila isi maklumat");
             loader.style.display = 'block';
 
-            // Hantar ke Google Apps Script (Backend)
             fetch(WEB_APP_URL, {
                 method: "POST",
-                body: new URLSearchParams({ 
-                    "action": "insert", 
-                    "topik": topik, 
-                    "link": link, 
-                    "catatan": catatan 
-                })
+                body: new URLSearchParams({ "action": "insert", "topik": topik, "link": link, "catatan": catatan })
             })
             .then(res => res.json())
             .then(data => {
                 loader.style.display = 'none';
                 if(data.result === 'success') {
-                    alert("✅ Video berjaya ditambah!");
                     tutupModal();
-                    // Kosongkan borang
-                    document.getElementById('videoLink').value = "";
-                    document.getElementById('catatan').value = "";
-                    // Refresh galeri
-                    muatTurunData(); 
+                    alert("Berjaya!");
+                    muatTurunData(); // Refresh rak serta merta
                 } else {
-                    alert("❌ Ralat Sistem: " + data.error);
+                    alert("Ralat: " + data.error);
                 }
-            })
-            .catch(err => {
-                loader.style.display = 'none';
-                alert("Gagal menyambung. Periksa sambungan internet.");
-                console.error(err);
             });
         }
 
-        // --- 3. Fungsi Dapatkan Ikon/Gambar Tumbnail ---
-        function getThumbnail(url) {
-            if (!url) return '';
-            
-            // Logik YouTube (Cari ID Video)
-            try {
-                const youtubeRegExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-                const match = url.match(youtubeRegExp);
-
-                if (match && match[2].length === 11) {
-                    // Jika jumpa ID YouTube, guna gambar sebenar
-                    return `<img src="https://img.youtube.com/vi/${match[2]}/mqdefault.jpg" alt="Video Thumb" onerror="this.style.display='none'"> 
-                            <i class="fas fa-play-circle play-icon"></i>`;
-                }
-            } catch (e) { console.log("Bukan link YouTube standard"); }
-
-            // Jika Google Drive atau lain-lain (Guna ikon default)
-            return `<div style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; background:#2c3e50;">
-                        <i class="fas fa-file-video play-icon" style="font-size:3rem; color:rgba(255,255,255,0.5);"></i>
-                    </div>`;
-        }
-
-        // --- 4. Fungsi Muat Turun Senarai Video (View) ---
-        function muatTurunData() {
-            const gallery = document.getElementById('gallery');
-            
-            // Safety Check: Adakah URL sudah diletak?
-            if (!WEB_APP_URL || WEB_APP_URL.includes("MASUKKAN_URL")) {
-                gallery.innerHTML = `
-                    <div style="grid-column: 1/-1; background: #e74c3c; color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                        <h3>⚠️ PERHATIAN</h3>
-                        <p>Anda belum memasukkan URL Google Apps Script.</p>
-                        <p>Sila edit fail HTML ini dan cari baris: <code>const WEB_APP_URL</code></p>
-                    </div>`;
-                return;
-            }
-
-            fetch(WEB_APP_URL)
-            .then(res => res.json())
-            .then(response => {
-                gallery.innerHTML = ""; // Bersihkan loading message
-                const data = response.data;
-
-                // Jika Database kosong
-                if (!data || data.length === 0) {
-                    gallery.innerHTML = `
-                        <div style="grid-column: 1/-1; text-align: center; color: white; padding: 40px; background: rgba(0,0,0,0.2); border-radius: 15px;">
-                            <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                            <p>Tiada video dijumpai. Klik butang 'Muat Naik' di atas untuk bermula.</p>
-                        </div>`;
-                    return;
-                }
-
-                // Loop Data (Terbalikkan supaya data baru di atas)
-                data.reverse().forEach(item => {
-                    // Abaikan baris kosong
-                    if(!item.link && !item.catatan) return;
-
-                    const thumbHTML = getThumbnail(item.link);
-                    
-                    const card = document.createElement('div');
-                    card.className = 'video-card';
-                    card.innerHTML = `
-                        <div class="thumbnail-box">
-                            ${thumbHTML}
-                        </div>
-                        <div class="card-info">
-                            <div class="card-tag">${item.topik || "Umum"}</div>
-                            <h3 class="card-title">${item.catatan || "Video Tanpa Tajuk"}</h3> 
-                            <a href="${item.link}" target="_blank" class="btn-watch">
-                                <i class="fas fa-play"></i> Tonton Video
-                            </a>
-                        </div>
-                    `;
-                    gallery.appendChild(card);
-                });
-            })
-            .catch(error => {
-                console.error(error);
-                gallery.innerHTML = `
-                    <div style="grid-column: 1/-1; background: rgba(231, 76, 60, 0.9); color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                        <i class="fas fa-exclamation-triangle"></i> Gagal memuat turun data.<br>
-                        <small>${error.message}</small>
-                    </div>`;
-            });
-        }
-
-        // Auto Run bila page load
+        // Jalan bila buka
         window.onload = muatTurunData;
-
-        // Tutup modal jika klik luar kotak
-        window.onclick = function(event) {
-            const modal = document.getElementById('uploadModal');
-            if (event.target == modal) tutupModal();
-        }
     </script>
 </body>
 </html>
