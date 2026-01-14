@@ -3,102 +3,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MoVO IPG KDA - Admin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>MoVo (Modul Berasaskan Video) | IPG KDA</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- CSS SAMA SEPERTI SEBELUMNYA DENGAN PENAMBAHAN --- */
+        /* --- 0. THE CORE VARIABLES (THE SOUL) --- */
         :root {
-            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --primary: #1a237e; --accent: #c62828; --text: #333;
-            --tag-uu: #2196F3; --tag-tl: #4CAF50; --tag-lp: #FF9800;
+            --primary: #4361ee;
+            --primary-glow: rgba(67, 97, 238, 0.4);
+            --accent: #f72585;
+            --accent-glow: rgba(247, 37, 133, 0.4);
+            
+            --glass-surface: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-highlight: rgba(255, 255, 255, 0.8);
+            
+            --text-main: #0b0f19;
+            --text-muted: #64748b;
+            
+            --uu-color: #3a0ca3; /* Undang-undang (Deep Indigo) */
+            --tl-color: #00b4d8; /* Teknik (Cyan) */
+            --lp-color: #ff9e00; /* Langkah (Amber) */
+            
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
-        body { margin:0; font-family:'Poppins',sans-serif; background:var(--bg-gradient); color:var(--text); padding-bottom:100px; -webkit-tap-highlight-color:transparent; }
-        
-        /* Nav & Layout */
-        nav { position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); padding:10px 20px; box-shadow:0 4px 15px rgba(0,0,0,0.05); display:flex; justify-content:center; }
-        .brand-container { display:flex; align-items:center; gap:12px; max-width:800px; width:100%; }
-        .logo-img { height:45px; }
-        .brand-title { font-size:1.1rem; font-weight:800; color:var(--primary); line-height:1.1; }
-        .brand-subtitle { font-size:0.65rem; color:#555; text-transform:uppercase; letter-spacing:0.5px; }
-        .container { max-width:800px; margin:0 auto; padding:15px; }
 
-        /* Headers */
-        .main-section-title { background:white; color:var(--primary); padding:12px 15px; border-radius:8px; margin-top:35px; margin-bottom:10px; font-size:1rem; font-weight:700; display:flex; align-items:center; gap:10px; border-left:5px solid var(--accent); box-shadow:0 2px 5px rgba(0,0,0,0.05); }
-        .sub-section { margin-left:8px; margin-bottom:20px; padding-left:12px; border-left:2px solid rgba(0,0,0,0.05); }
-        .sub-header-row { display:flex; justify-content:space-between; align-items:flex-end; margin-top:15px; margin-bottom:8px; }
-        .sub-title { color:#444; font-size:0.85rem; font-weight:600; text-transform:uppercase; margin:0; }
-        .view-all-btn { font-size:0.7rem; color:var(--primary); font-weight:bold; cursor:pointer; border:1px solid var(--primary); padding:2px 8px; border-radius:12px; display:none; }
+        /* --- 1. MESH GRADIENT BACKGROUND --- */
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background-color: #eef2f6;
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-        /* Video Grid & Card */
-        .video-shelf { display:grid; grid-template-columns:1fr; gap:12px; }
-        @media(min-width:600px){ .video-shelf{ grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); } }
-        
-        .card { background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.05); display:flex; flex-direction:row; height:105px; transition:transform 0.2s; position:relative; border:1px solid rgba(0,0,0,0.03); }
-        @media(min-width:600px){ .card{ flex-direction:column; height:auto; } }
-        
-        .thumb { width:120px; background:#222; flex-shrink:0; position:relative; }
-        .thumb img { width:100%; height:100%; object-fit:cover; }
-        @media(min-width:600px){ .thumb{ width:100%; height:135px; } }
-        
-        .card-body { padding:10px; display:flex; flex-direction:column; justify-content:center; flex-grow:1; overflow:hidden; position:relative; }
-        .cat-badge { font-size:0.6rem; font-weight:bold; color:white; padding:2px 6px; border-radius:4px; display:inline-block; margin-bottom:5px; align-self:flex-start; text-transform:uppercase; }
-        .video-title { font-size:0.8rem; font-weight:600; line-height:1.3; color:#333; margin-bottom:5px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-        .video-meta { font-size:0.65rem; color:#666; display:flex; align-items:center; gap:5px; }
-        
-        /* BUTTON EDIT (NEW) */
-        .btn-edit-card { position:absolute; bottom:10px; right:10px; background:#eee; color:#555; width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem; cursor:pointer; z-index:10; }
-        .btn-edit-card:hover { background:var(--primary); color:white; }
+        /* The living background */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            background: #f8fafc;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out;
+        }
+        .orb-1 { width: 50vw; height: 50vw; background: #4cc9f0; top: -10%; left: -10%; animation-delay: 0s; }
+        .orb-2 { width: 40vw; height: 40vw; background: #4361ee; bottom: -10%; right: -5%; animation-delay: -5s; }
+        .orb-3 { width: 30vw; height: 30vw; background: #f72585; top: 40%; left: 30%; animation-delay: -10s; opacity: 0.4; }
 
-        /* Modal & FAB */
-        .fab-upload { position:fixed; bottom:25px; right:25px; width:55px; height:55px; background:var(--primary); color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:20px; box-shadow:0 4px 15px rgba(26,35,126,0.3); z-index:999; cursor:pointer; }
-        .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:2000; display:none; justify-content:center; align-items:center; backdrop-filter:blur(4px); }
-        .modal-box { background:white; width:90%; max-width:500px; border-radius:15px; padding:25px; max-height:85vh; display:flex; flex-direction:column; animation:slideUp 0.3s ease-out; }
-        @keyframes slideUp { from{transform:translateY(20px); opacity:0} to{transform:translateY(0); opacity:1} }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* --- 2. GLASSMORPHISM NAVBAR --- */
+        nav {
+            position: sticky; top: 20px; z-index: 1000;
+            width: 90%; max-width: 1000px; margin: 0 auto;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 12px 24px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            display: flex; align-items: center; gap: 16px;
+            transition: transform 0.3s var(--ease-smooth);
+        }
         
-        /* Form */
-        input, select, textarea { width:100%; padding:12px; margin-bottom:15px; border:1px solid #ddd; border-radius:8px; background:#f8f9fa; font-size:14px; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-        .btn-full { width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; font-weight:bold; font-size:1rem; cursor:pointer; }
-        .btn-delete { width:100%; padding:12px; background:var(--accent); color:white; border:none; border-radius:8px; font-weight:bold; margin-top:10px; cursor:pointer; display:none; } /* Hidden by default */
+        .logo-img { height: 48px; width: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: transform 0.3s; }
+        .logo-img:hover { transform: rotate(-5deg) scale(1.05); }
+
+        .brand-text { display: flex; flex-direction: column; }
+        .brand-title { 
+            font-family: 'Space Grotesk', sans-serif; 
+            font-weight: 700; font-size: 1.25rem; 
+            letter-spacing: -0.03em; color: var(--text-main); 
+        }
+        .brand-subtitle { 
+            font-size: 0.65rem; font-weight: 600; 
+            color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; 
+        }
+
+        /* --- 3. LAYOUT & SECTIONS --- */
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; padding-bottom: 120px; }
+
+        .main-section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem; font-weight: 700;
+            color: var(--text-main);
+            margin-top: 60px; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 12px;
+            position: relative;
+        }
         
-        /* Table */
-        .table-container { overflow-y:auto; margin-top:15px; flex-grow:1; border:1px solid #eee; border-radius:8px; }
-        table { width:100%; border-collapse:collapse; font-size:0.85rem; }
-        td { padding:10px; border-bottom:1px solid #eee; vertical-align:middle; }
-        .btn-table-play { background:var(--primary); color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:0.75rem; white-space:nowrap; margin-right:5px; }
-        .btn-table-edit { background:#757575; color:white; padding:5px 10px; border-radius:4px; text-decoration:none; font-size:0.75rem; cursor:pointer; }
+        .main-section-title i {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.8rem;
+        }
+
+        /* Sub Sections */
+        .sub-section { margin-bottom: 40px; position: relative; }
+        .sub-section::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(to bottom, var(--primary-glow), transparent);
+            border-radius: 2px;
+        }
+        
+        .sub-header-row {
+            display: flex; justify-content: space-between; align-items: baseline;
+            margin-bottom: 16px; padding-left: 16px;
+        }
+        .sub-title {
+            font-size: 0.85rem; font-weight: 700; 
+            color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;
+        }
+
+        .view-all-btn {
+            font-size: 0.75rem; font-weight: 600; color: var(--primary);
+            cursor: pointer; padding: 6px 16px;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 20px; transition: all 0.3s var(--ease-smooth);
+            display: none; /* Hidden by default */
+        }
+        .view-all-btn:hover { background: var(--primary); color: white; transform: translateX(5px); }
+
+        /* --- 4. THE HYPER-CARDS --- */
+        .video-shelf {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px; padding-left: 16px;
+        }
+
+        .card {
+            background: var(--glass-surface);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            transition: all 0.4s var(--ease-elastic);
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+        }
+        /* Desktop Hover Effect */
+        @media (hover: hover) {
+            .card:hover { 
+                transform: translateY(-8px) scale(1.02); 
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+                border-color: var(--glass-highlight);
+            }
+        }
+
+        .new-indicator {
+            position: absolute; top: 10px; left: 10px;
+            background: var(--accent); color: white;
+            font-size: 0.6rem; font-weight: 800;
+            padding: 4px 8px; border-radius: 6px;
+            z-index: 10;
+            box-shadow: 0 4px 10px var(--accent-glow);
+            letter-spacing: 0.05em;
+        }
+
+        .thumb {
+            width: 100%; aspect-ratio: 16/9;
+            background: #e2e8f0; position: relative; overflow: hidden;
+        }
+        .thumb img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s var(--ease-smooth);
+        }
+        .card:hover .thumb img { transform: scale(1.1); }
+        
+        /* Play Button Overlay */
+        .thumb::after {
+            content: '\f04b'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--primary);
+            transition: transform 0.3s var(--ease-elastic);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .card:hover .thumb::after { transform: translate(-50%, -50%) scale(1); }
+
+        .card-body { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; }
+
+        .cat-badge {
+            font-size: 0.6rem; font-weight: 700; color: white;
+            padding: 4px 10px; border-radius: 12px;
+            display: inline-block; margin-bottom: 8px; align-self: flex-start;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .video-title {
+            font-size: 0.95rem; font-weight: 600; line-height: 1.4;
+            color: var(--text-main); margin-bottom: 4px;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+
+        /* Edit Button - Subtle but accessible */
+        .btn-edit-card {
+            position: absolute; bottom: 12px; right: 12px;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.05);
+            color: var(--text-muted);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+            opacity: 0; transform: translateY(10px);
+        }
+        .card:hover .btn-edit-card { opacity: 1; transform: translateY(0); }
+        .btn-edit-card:hover { background: var(--text-main); color: white; }
+
+        /* --- 5. MOBILE OPTIMIZATIONS --- */
+        @media (max-width: 600px) {
+            .video-shelf { display: flex; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory; gap: 16px; }
+            .card { min-width: 260px; scroll-snap-align: center; height: auto; border-radius: 16px; }
+            /* Show edit button on mobile without hover */
+            .btn-edit-card { opacity: 1; transform: translateY(0); background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            /* Horizontal layout for cards in vertical lists if preferred, but grid is nicer here */
+        }
+
+        /* --- 6. THE ORB FAB (Floating Action Button) --- */
+        .fab-upload {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: white; font-size: 24px;
+            box-shadow: 0 10px 30px var(--primary-glow);
+            z-index: 900; cursor: pointer;
+            transition: transform 0.3s var(--ease-elastic);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .fab-upload:hover { transform: scale(1.1) rotate(90deg); }
+
+        /* --- 7. MODAL SYSTEM --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; }
+
+        .modal-box {
+            background: #fff;
+            width: 90%; max-width: 500px;
+            border-radius: 24px; padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.9); opacity: 0; transition: all 0.3s var(--ease-elastic);
+            max-height: 85vh; overflow-y: auto;
+        }
+        .modal-overlay.active .modal-box { transform: scale(1); opacity: 1; }
+
+        /* Form Styling */
+        .form-label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em; }
+        input, select, textarea {
+            width: 100%; padding: 14px; margin-bottom: 20px;
+            border: 2px solid #e2e8f0; border-radius: 12px;
+            background: #f8fafc; color: var(--text-main);
+            font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 500;
+            transition: all 0.2s; box-sizing: border-box;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary); outline: none; background: #fff;
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+
+        .btn-full {
+            width: 100%; padding: 16px;
+            background: linear-gradient(135deg, var(--primary), 80%, var(--accent));
+            color: white; border: none; border-radius: 12px;
+            font-weight: 700; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 10px 20px -5px var(--primary-glow);
+            transition: transform 0.2s;
+        }
+        .btn-full:active { transform: scale(0.98); }
+        
+        .btn-delete {
+            width: 100%; padding: 16px; background: #fee2e2; color: #ef4444;
+            border: none; border-radius: 12px; font-weight: 700;
+            margin-top: 12px; cursor: pointer; transition: 0.2s;
+            display: none;
+        }
+        .btn-delete:hover { background: #fecaca; }
+
+        /* Table Styles */
+        .table-container { 
+            border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin-top: 10px;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8fafc; padding: 16px; text-align: left; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
+        td { padding: 16px; border-top: 1px solid #e2e8f0; font-size: 0.9rem; vertical-align: middle; }
+        tr:hover td { background: #f8fafc; }
+        
+        .action-cell { display: flex; gap: 8px; }
+        .btn-icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; font-size: 0.8rem; transition: 0.2s;
+        }
+        .btn-play-sm { background: rgba(67, 97, 238, 0.1); color: var(--primary); }
+        .btn-edit-sm { background: rgba(100, 116, 139, 0.1); color: var(--text-muted); cursor: pointer; }
+        .btn-play-sm:hover { background: var(--primary); color: white; }
+        .btn-edit-sm:hover { background: var(--text-main); color: white; }
+
+        /* Loader */
+        .loader-dots {
+            display: flex; justify-content: center; gap: 6px; margin-top: 10px; display: none;
+        }
+        .dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: bounce 0.5s infinite alternate; }
+        .dot:nth-child(2) { animation-delay: 0.1s; }
+        .dot:nth-child(3) { animation-delay: 0.2s; }
+        @keyframes bounce { to { transform: translateY(-8px); } }
+
     </style>
 </head>
 <body>
 
+    <div class="ambient-light">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
     <nav>
-        <div class="brand-container">
-            <img src="https://imgur.com/kPB26qV.png" alt="Logo IPG" class="logo-img">
-            <div class="brand-text">
-                <div class="brand-title">MoVO MPU3411</div>
-                <div class="brand-subtitle">Unit Kokurikulum IPG Kampus Darulaman</div>
-            </div>
+        <img src="https://imgur.com/kPB26qV.png" alt="Logo IPG" class="logo-img">
+        <div class="brand-text">
+            <div class="brand-title">MoVO MPU3411</div>
+            <div class="brand-subtitle">Unit Kokurikulum IPG Kampus Darulaman</div>
         </div>
     </nav>
 
     <div class="container" id="mainContainer">
         </div>
 
-    <div class="fab-upload" onclick="bukaModalUpload()"><i class="fas fa-plus"></i></div>
+    <div class="fab-upload" onclick="bukaModalUpload()">
+        <i class="fas fa-plus"></i>
+    </div>
 
     <div id="modalUpload" class="modal-overlay" onclick="if(event.target==this)tutupAllModals()">
         <div class="modal-box">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                <h3 id="modalTitle" style="margin:0; color:var(--primary);">Tambah Video</h3>
-                <span onclick="tutupAllModals()" style="font-size:1.5rem; color:#999; cursor:pointer;">&times;</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                <h2 id="modalTitle" style="margin:0; font-family:'Space Grotesk'; font-weight:700;">Tambah Video</h2>
+                <div onclick="tutupAllModals()" style="cursor:pointer; padding:8px; color:var(--text-muted);"><i class="fas fa-times"></i></div>
             </div>
             
             <input type="hidden" id="editId">
 
-            <label>Kategori:</label>
+            <label class="form-label">Kategori</label>
             <select id="topik">
-                <option value="" disabled selected>-- Pilih --</option>
+                <option value="" disabled selected>Pilih Kategori...</option>
                 <optgroup label="UMUM">
                     <option value="1.0:1.0 Pengenalan">1.0 Pengenalan Olahraga</option>
                     <option value="2.0:2.0 Kepegawaian">2.0 Kepegawaian</option>
@@ -133,28 +412,31 @@
                     <option value="4.3:Teknik Lakuan">4.3 Teknik Lakuan</option>
                     <option value="4.3:Langkah Pengajaran">4.3 Langkah Pengajaran</option>
                 </optgroup>
-                <optgroup label="5.0">
+                <optgroup label="5.0 PENGURUSAN">
                     <option value="5.0:5.0 Pengurusan">5.0 Pengurusan Fasiliti</option>
                 </optgroup>
             </select>
 
-            <label>Pautan:</label>
+            <label class="form-label">Pautan (YouTube/Drive)</label>
             <input type="url" id="videoLink" placeholder="https://...">
-            <label>Catatan:</label>
-            <textarea id="catatan" rows="2"></textarea>
+            
+            <label class="form-label">Tajuk / Catatan</label>
+            <textarea id="catatan" rows="2" placeholder="Masukkan tajuk video..."></textarea>
 
             <button id="btnSubmit" class="btn-full" onclick="hantarData()">SIMPAN</button>
-            <button id="btnDelete" class="btn-delete" onclick="padamData()">PADAM VIDEO</button>
+            <button id="btnDelete" class="btn-delete" onclick="padamData()">PADAM</button>
             
-            <div id="loader" style="text-align:center; display:none; margin-top:10px; color:#666;">Sedang memproses...</div>
+            <div id="loader" class="loader-dots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
         </div>
     </div>
 
     <div id="modalTable" class="modal-overlay" onclick="if(event.target==this)tutupAllModals()">
-        <div class="modal-box" style="height:70vh;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                <h3 id="tableTitle" style="margin:0; color:var(--primary);">Senarai Penuh</h3>
-                <span onclick="tutupAllModals()" style="font-size:1.5rem; cursor:pointer;">&times;</span>
+        <div class="modal-box" style="height:70vh; max-width:600px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h2 id="tableTitle" style="margin:0; font-family:'Space Grotesk'; color:var(--primary);">Senarai Penuh</h2>
+                <div onclick="tutupAllModals()" style="cursor:pointer; padding:5px;"><i class="fas fa-times"></i></div>
             </div>
             <div class="table-container">
                 <table id="fullTable"><tbody id="tableBody"></tbody></table>
@@ -163,21 +445,21 @@
     </div>
 
     <script>
-        // GANTIKAN URL INI!
+        // ================= CONFIGURATION =================
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec";
-        const ADMIN_PIN = "1234"; // PIN Keselamatan
+        const ADMIN_PIN = "1234"; 
         let GLOBAL_DATA = [];
 
-        // Struktur HTML Rak
+        // Definition for UI generation
         const sections = [
-            {id:'1-0', title:'1.0 Pengenalan', icon:'book'},
+            {id:'1-0', title:'1.0 Pengenalan', icon:'book-open'},
             {id:'2-0', title:'2.0 Kepegawaian', icon:'gavel'},
             {id:'3-0', title:'3.0 Acara Balapan', icon:'running', subs:['3-1 Lari Pecut','3-2 Lari Berganti','3-3 Lari Berpagar']},
             {id:'4-0', title:'4.0 Acara Padang', icon:'medal', subs:['4-1 Lontar Peluru','4-2 Lompat Jauh','4-3 Lompat Tinggi']},
-            {id:'5-0', title:'5.0 Pengurusan', icon:'cogs'}
+            {id:'5-0', title:'5.0 Pengurusan', icon:'tools'}
         ];
 
-        // 1. GENERATE HTML (Supaya kod HTML tak panjang berjela)
+        // 1. GENERATE LAYOUT
         function generateLayout() {
             const container = document.getElementById('mainContainer');
             let html = '';
@@ -192,7 +474,7 @@
                         <div class="sub-section">
                             <div class="sub-header-row">
                                 <div class="sub-title">${sub}</div>
-                                <div id="btn-view-${code}" class="view-all-btn" onclick="openTableModal('${code}', '${sub}')">Lihat Semua ➜</div>
+                                <div id="btn-view-${code}" class="view-all-btn" onclick="openTableModal('${code}', '${sub}')">Lihat Semua <i class="fas fa-arrow-right"></i></div>
                             </div>
                             <div id="shelf-${code}" class="video-shelf"></div>
                         </div>`;
@@ -202,7 +484,7 @@
                     <div class="sub-section">
                         <div class="sub-header-row">
                             <div class="sub-title">Video Terkini</div>
-                            <div id="btn-view-${sec.id}" class="view-all-btn" onclick="openTableModal('${sec.id}', '${sec.title}')">Lihat Semua ➜</div>
+                            <div id="btn-view-${sec.id}" class="view-all-btn" onclick="openTableModal('${sec.id}', '${sec.title}')">Lihat Semua <i class="fas fa-arrow-right"></i></div>
                         </div>
                         <div id="shelf-${sec.id}" class="video-shelf"></div>
                     </div>`;
@@ -211,43 +493,7 @@
             container.innerHTML = html;
         }
 
-        // 2. LOGIC MODAL & EDIT
-        function bukaModalUpload() { 
-            resetForm();
-            document.getElementById('modalTitle').innerText = "Tambah Video";
-            document.getElementById('btnSubmit').innerText = "SIMPAN";
-            document.getElementById('btnDelete').style.display = "none";
-            document.getElementById('modalUpload').style.display = 'flex'; 
-        }
-
-        function bukaModalEdit(id, topik, link, catatan) {
-            let pin = prompt("Masukkan PIN Admin untuk Edit:");
-            if(pin !== ADMIN_PIN) return alert("PIN Salah!");
-
-            document.getElementById('modalTitle').innerText = "Kemaskini Video";
-            document.getElementById('editId').value = id;
-            document.getElementById('topik').value = topik;
-            document.getElementById('videoLink').value = link;
-            document.getElementById('catatan').value = catatan;
-            
-            document.getElementById('btnSubmit').innerText = "KEMASKINI";
-            document.getElementById('btnDelete').style.display = "block";
-            
-            document.getElementById('modalUpload').style.display = 'flex';
-        }
-
-        function resetForm() {
-            document.getElementById('editId').value = "";
-            document.getElementById('videoLink').value = "";
-            document.getElementById('catatan').value = "";
-        }
-
-        function tutupAllModals() { 
-            document.getElementById('modalUpload').style.display = 'none'; 
-            document.getElementById('modalTable').style.display = 'none'; 
-        }
-
-        // 3. UTILITIES
+        // 2. DATA UTILITIES
         function parseTopic(topicString) {
             if(!topicString || !topicString.includes(':')) return { code: (topicString||"").substring(0,3).replace('.','-'), category: "Umum" };
             let parts = topicString.split(':');
@@ -255,23 +501,23 @@
         }
 
         function getBadgeColor(category) {
-            if(category.includes('Undang')) return 'background:var(--tag-uu);';
-            if(category.includes('Teknik')) return 'background:var(--tag-tl);';
-            if(category.includes('Pengajaran')) return 'background:var(--tag-lp);';
-            return 'background:#999;';
+            if(category.includes('Undang')) return 'background:var(--uu-color);';
+            if(category.includes('Teknik')) return 'background:var(--tl-color);';
+            if(category.includes('Pengajaran')) return 'background:var(--lp-color);';
+            return 'background:#64748b;';
         }
 
         function getThumb(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
             const match = url.match(regExp);
-            if (match && match[2].length === 11) return `<img src="https://img.youtube.com/vi/${match[2]}/mqdefault.jpg">`;
-            return `<div style="width:100%; height:100%; background:#f0f0f0; display:flex; justify-content:center; align-items:center; color:#ccc;"><i class="fas fa-play-circle" style="font-size:2rem;"></i></div>`;
+            if (match && match[2].length === 11) return `<img src="https://img.youtube.com/vi/${match[2]}/mqdefault.jpg" loading="lazy">`;
+            return `<div style="width:100%; height:100%; background:#f1f5f9; display:flex; justify-content:center; align-items:center; color:#cbd5e1;"><i class="fas fa-play" style="font-size:2rem;"></i></div>`;
         }
 
-        // 4. CORE FUNCTIONS
+        // 3. CORE LOGIC
         function muatTurunData() {
-            // Placeholder Loading
-            document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = '<small style="color:#666;">...</small>');
+            // Skeleton loading
+            document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = '<div style="padding:10px; color:var(--text-muted); font-size:0.8rem; font-style:italic;">Memuatkan data...</div>');
 
             fetch(WEB_APP_URL)
             .then(res => res.json())
@@ -280,7 +526,7 @@
                 data.reverse();
                 GLOBAL_DATA = data;
 
-                // Reset UI
+                // Clear skeletons
                 document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = "");
                 document.querySelectorAll('.view-all-btn').forEach(el => el.style.display = "none");
 
@@ -294,24 +540,21 @@
                     if (!shelfCounts[info.code]) shelfCounts[info.code] = 0;
                     shelfCounts[info.code]++;
 
-                    // Limit 3 terkini
+                    // Limit display to 3
                     if(targetShelf && shelfCounts[info.code] <= 3) {
                         const card = document.createElement('div');
                         card.className = 'card';
                         
                         let newTag = (shelfCounts[info.code] === 1) ? '<div class="new-indicator">TERKINI</div>' : '';
 
-                        // IMPORTANT: Pass data correctly to edit function
-                        // Use encodeURIComponent to handle special characters in strings
                         card.innerHTML = `
                             ${newTag}
                             <div class="thumb" onclick="window.open('${item.link}','_blank')">${getThumb(item.link)}</div>
                             <div class="card-body" onclick="window.open('${item.link}','_blank')">
                                 <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
-                                <div class="video-title">${item.catatan || "Video"}</div>
-                                <div class="video-meta"><i class="fas fa-play"></i> Tonton</div>
+                                <div class="video-title">${item.catatan || "Video Tanpa Tajuk"}</div>
                             </div>
-                            <div class="btn-edit-card" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)">
+                            <div class="btn-edit-card" onclick="event.stopPropagation(); bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)">
                                 <i class="fas fa-pen"></i>
                             </div>
                         `;
@@ -319,26 +562,70 @@
                     }
                 });
 
-                // Show "View All" buttons if needed
+                // Handle Empty / View All
+                document.querySelectorAll('.video-shelf').forEach(el => {
+                     if(el.innerHTML === "") el.innerHTML = '<div style="padding:10px; color:rgba(0,0,0,0.3); font-size:0.8rem;">Tiada bahan.</div>';
+                });
+                
                 for (const [code, count] of Object.entries(shelfCounts)) {
                     if(count > 3) {
                         let btn = document.getElementById('btn-view-'+code);
                         if(btn) {
                             btn.style.display = "block";
-                            btn.innerText = `Lihat Semua (${count}) ➜`;
+                            btn.innerHTML = `Lihat Semua (${count}) <i class="fas fa-arrow-right" style="margin-left:4px;"></i>`;
                         }
                     }
                 }
-                
-                // Handle Empty Shelves
-                 document.querySelectorAll('.video-shelf').forEach(el => {
-                     if(el.innerHTML === "") el.innerHTML = '<small style="color:#aaa; font-style:italic;">Tiada rekod.</small>';
-                 });
 
             })
             .catch(err => console.error(err));
         }
 
+        // 4. MODAL LOGIC
+        function bukaModalUpload() { 
+            resetForm();
+            document.getElementById('modalTitle').innerText = "Tambah Video";
+            document.getElementById('btnSubmit').innerText = "SIMPAN VIDEO";
+            document.getElementById('btnDelete').style.display = "none";
+            
+            const modal = document.getElementById('modalUpload');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function bukaModalEdit(id, topik, link, catatan) {
+            let pin = prompt("Masukkan PIN Admin:");
+            if(pin !== ADMIN_PIN) return alert("Akses Ditolak.");
+
+            document.getElementById('modalTitle').innerText = "Edit Video";
+            document.getElementById('editId').value = id;
+            document.getElementById('topik').value = topik;
+            document.getElementById('videoLink').value = link;
+            document.getElementById('catatan').value = catatan;
+            
+            document.getElementById('btnSubmit').innerText = "KEMASKINI";
+            document.getElementById('btnDelete').style.display = "block";
+            
+            const modal = document.getElementById('modalUpload');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function resetForm() {
+            document.getElementById('editId').value = "";
+            document.getElementById('videoLink').value = "";
+            document.getElementById('catatan').value = "";
+        }
+
+        function tutupAllModals() { 
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(m => {
+                m.classList.remove('active');
+                setTimeout(() => m.style.display = 'none', 300);
+            });
+        }
+
+        // 5. VIEW ALL TABLE
         function openTableModal(code, titleName) {
             document.getElementById('tableTitle').innerText = titleName;
             const tbody = document.getElementById('tableBody');
@@ -355,19 +642,25 @@
                 let row = `<tr>
                     <td>
                         <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
-                        <div style="font-weight:600; font-size:0.85rem;">${item.catatan}</div>
+                        <div style="font-weight:600; font-size:0.9rem; color:var(--text-main);">${item.catatan}</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">${new Date(item.timestamp).toLocaleDateString()}</div>
                     </td>
-                    <td style="display:flex; gap:5px;">
-                        <a href="${item.link}" target="_blank" class="btn-table-play">▶</a>
-                        <div class="btn-table-edit" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)">✎</div>
+                    <td>
+                        <div class="action-cell">
+                            <a href="${item.link}" target="_blank" class="btn-icon btn-play-sm"><i class="fas fa-play"></i></a>
+                            <div class="btn-icon btn-edit-sm" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
+                        </div>
                     </td>
                 </tr>`;
                 tbody.innerHTML += row;
             });
-            document.getElementById('modalTable').style.display = 'flex';
+            
+            const modal = document.getElementById('modalTable');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
         }
 
-        // INSERT & UPDATE
+        // 6. API CALLS
         function hantarData() {
             const id = document.getElementById('editId').value;
             const topik = document.getElementById('topik').value;
@@ -375,28 +668,23 @@
             const catatan = document.getElementById('catatan').value;
             const loader = document.getElementById('loader');
 
-            if(!topik || !link) return alert("Sila isi ruang kosong.");
-            loader.style.display = 'block';
+            if(!topik || !link) return alert("Sila lengkapkan borang.");
+            
+            loader.style.display = 'flex';
+            document.getElementById('btnSubmit').disabled = true;
 
-            // Determine Action: Insert or Edit
             const action = id ? "edit" : "insert";
             
             fetch(WEB_APP_URL, {
                 method: "POST",
-                body: new URLSearchParams({ 
-                    "action": action, 
-                    "id": id, // Only needed for edit
-                    "topik": topik, 
-                    "link": link, 
-                    "catatan": catatan 
-                })
+                body: new URLSearchParams({ "action": action, "id": id, "topik": topik, "link": link, "catatan": catatan })
             })
             .then(res => res.json())
             .then(data => {
                 loader.style.display = 'none';
+                document.getElementById('btnSubmit').disabled = false;
                 if(data.result === 'success') {
                     tutupAllModals();
-                    alert("Berjaya!");
                     muatTurunData();
                 } else {
                     alert("Ralat: " + data.error);
@@ -404,13 +692,12 @@
             });
         }
 
-        // DELETE
         function padamData() {
             const id = document.getElementById('editId').value;
             if(!id) return;
-            if(!confirm("Adakah anda pasti mahu memadam video ini?")) return;
+            if(!confirm("Padam video ini? Tindakan tidak boleh diundur.")) return;
 
-            document.getElementById('loader').style.display = 'block';
+            document.getElementById('loader').style.display = 'flex';
 
             fetch(WEB_APP_URL, {
                 method: "POST",
@@ -421,7 +708,6 @@
                 document.getElementById('loader').style.display = 'none';
                 if(data.result === 'success') {
                     tutupAllModals();
-                    alert("Video dipadam.");
                     muatTurunData();
                 } else {
                     alert("Ralat: " + data.error);
@@ -429,7 +715,7 @@
             });
         }
 
-        // Init
+        // INIT
         generateLayout();
         muatTurunData();
     </script>
