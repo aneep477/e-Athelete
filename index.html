@@ -3,352 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MoVo (Modul Berasaskan Video) | IPG KDA</title>
+    <title>MoVO | IPG KDA</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 0. THE CORE VARIABLES (THE SOUL) --- */
+        /* --- 0. DESIGN TOKENS (Liquid Glass System) --- */
         :root {
+            /* Palette: Deep Ocean & Neon Highlights */
             --primary: #4361ee;
-            --primary-glow: rgba(67, 97, 238, 0.4);
+            --primary-glow: rgba(67, 97, 238, 0.3);
             --accent: #f72585;
-            --accent-glow: rgba(247, 37, 133, 0.4);
+            --accent-glow: rgba(247, 37, 133, 0.3);
             
-            --glass-surface: rgba(255, 255, 255, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --glass-highlight: rgba(255, 255, 255, 0.8);
+            /* Glass Physics */
+            --glass-surface: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shine: rgba(255, 255, 255, 0.8);
             
-            --text-main: #0b0f19;
+            /* Typography Colors */
+            --text-main: #0f172a;
             --text-muted: #64748b;
             
-            --uu-color: #3a0ca3; /* Undang-undang (Deep Indigo) */
-            --tl-color: #00b4d8; /* Teknik (Cyan) */
-            --lp-color: #ff9e00; /* Langkah (Amber) */
+            /* Categories Colors (Neon Muted) */
+            --tag-uu: #4f46e5; /* Indigo */
+            --tag-tl: #06b6d4; /* Cyan */
+            --tag-lp: #f59e0b; /* Amber */
             
-            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            /* Animation Curves */
+            --elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- 1. MESH GRADIENT BACKGROUND --- */
+        /* --- 1. THE CANVAS --- */
         body {
             margin: 0;
             font-family: 'Outfit', sans-serif;
-            background-color: #eef2f6;
+            background: #f1f5f9;
             color: var(--text-main);
-            overflow-x: hidden;
             min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 140px; /* Space for the footer */
         }
 
-        /* The living background */
-        .ambient-light {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden;
-            z-index: -1;
-            background: #f8fafc;
+        /* Animated Mesh Gradient Background */
+        .mesh-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                        radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                        radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            background-size: 200% 200%;
+            animation: gradient-flow 20s ease infinite;
         }
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
-            animation: float 20s infinite ease-in-out;
-        }
-        .orb-1 { width: 50vw; height: 50vw; background: #4cc9f0; top: -10%; left: -10%; animation-delay: 0s; }
-        .orb-2 { width: 40vw; height: 40vw; background: #4361ee; bottom: -10%; right: -5%; animation-delay: -5s; }
-        .orb-3 { width: 30vw; height: 30vw; background: #f72585; top: 40%; left: 30%; animation-delay: -10s; opacity: 0.4; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
+        .mesh-light {
+            position: absolute; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%);
+            mix-blend-mode: overlay;
+            opacity: 0.5;
         }
 
-        /* --- 2. GLASSMORPHISM NAVBAR --- */
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. HEADER (Frosted Bar) --- */
         nav {
-            position: sticky; top: 20px; z-index: 1000;
+            position: sticky; top: 20px; z-index: 100;
             width: 90%; max-width: 1000px; margin: 0 auto;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 12px 24px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
             display: flex; align-items: center; gap: 16px;
-            transition: transform 0.3s var(--ease-smooth);
+            transition: all 0.3s var(--smooth);
         }
         
-        .logo-img { height: 48px; width: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: transform 0.3s; }
-        .logo-img:hover { transform: rotate(-5deg) scale(1.05); }
-
+        .logo-img { height: 44px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        
         .brand-text { display: flex; flex-direction: column; }
         .brand-title { 
-            font-family: 'Space Grotesk', sans-serif; 
-            font-weight: 700; font-size: 1.25rem; 
-            letter-spacing: -0.03em; color: var(--text-main); 
+            font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.2rem; 
+            letter-spacing: -0.02em; color: var(--text-main);
         }
         .brand-subtitle { 
-            font-size: 0.65rem; font-weight: 600; 
-            color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; 
+            font-size: 0.65rem; font-weight: 600; color: var(--primary); 
+            text-transform: uppercase; letter-spacing: 0.05em; 
         }
 
-        /* --- 3. LAYOUT & SECTIONS --- */
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; padding-bottom: 120px; }
+        /* --- 3. LAYOUT GRID --- */
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
 
         .main-section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem; font-weight: 700;
-            color: var(--text-main);
-            margin-top: 60px; margin-bottom: 20px;
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700;
+            margin-top: 50px; margin-bottom: 20px;
             display: flex; align-items: center; gap: 12px;
-            position: relative;
-        }
-        
-        .main-section-title i {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--text-main), var(--primary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* Sub Sections */
-        .sub-section { margin-bottom: 40px; position: relative; }
-        .sub-section::before {
-            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
-            background: linear-gradient(to bottom, var(--primary-glow), transparent);
-            border-radius: 2px;
+        .sub-section { 
+            position: relative; margin-bottom: 30px; 
+            padding-left: 16px; border-left: 2px solid rgba(0,0,0,0.05);
         }
         
         .sub-header-row {
             display: flex; justify-content: space-between; align-items: baseline;
-            margin-bottom: 16px; padding-left: 16px;
+            margin-bottom: 16px;
         }
         .sub-title {
-            font-size: 0.85rem; font-weight: 700; 
-            color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;
+            font-size: 0.8rem; font-weight: 800; color: var(--text-muted); 
+            text-transform: uppercase; letter-spacing: 0.1em;
         }
 
         .view-all-btn {
             font-size: 0.75rem; font-weight: 600; color: var(--primary);
-            cursor: pointer; padding: 6px 16px;
-            background: rgba(67, 97, 238, 0.1);
-            border-radius: 20px; transition: all 0.3s var(--ease-smooth);
-            display: none; /* Hidden by default */
+            cursor: pointer; padding: 6px 14px; border-radius: 20px;
+            background: rgba(67, 97, 238, 0.08); transition: all 0.2s;
+            display: none;
         }
-        .view-all-btn:hover { background: var(--primary); color: white; transform: translateX(5px); }
+        .view-all-btn:hover { background: var(--primary); color: white; transform: translateX(4px); }
 
-        /* --- 4. THE HYPER-CARDS --- */
+        /* --- 4. HYPER CARDS --- */
         .video-shelf {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 20px; padding-left: 16px;
+            gap: 20px;
         }
-
+        
         .card {
             background: var(--glass-surface);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            border-radius: 18px;
             overflow: hidden;
             display: flex; flex-direction: column;
-            transition: all 0.4s var(--ease-elastic);
+            transition: all 0.4s var(--elastic);
             cursor: pointer;
             position: relative;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
         }
-        /* Desktop Hover Effect */
-        @media (hover: hover) {
-            .card:hover { 
-                transform: translateY(-8px) scale(1.02); 
-                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-                border-color: var(--glass-highlight);
-            }
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);
+            border-color: var(--glass-shine);
+            z-index: 10;
         }
 
         .new-indicator {
-            position: absolute; top: 10px; left: 10px;
+            position: absolute; top: 12px; left: 12px; z-index: 10;
             background: var(--accent); color: white;
-            font-size: 0.6rem; font-weight: 800;
-            padding: 4px 8px; border-radius: 6px;
-            z-index: 10;
-            box-shadow: 0 4px 10px var(--accent-glow);
-            letter-spacing: 0.05em;
+            font-size: 0.6rem; font-weight: 800; padding: 4px 10px;
+            border-radius: 20px; box-shadow: 0 4px 10px var(--accent-glow);
         }
 
         .thumb {
-            width: 100%; aspect-ratio: 16/9;
-            background: #e2e8f0; position: relative; overflow: hidden;
+            width: 100%; aspect-ratio: 16/9; background: #e2e8f0; 
+            position: relative; overflow: hidden;
         }
-        .thumb img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.5s var(--ease-smooth);
-        }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--smooth); }
         .card:hover .thumb img { transform: scale(1.1); }
         
-        /* Play Button Overlay */
         .thumb::after {
             content: '\f04b'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 40px; height: 40px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--primary);
-            transition: transform 0.3s var(--ease-elastic);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+            width: 44px; height: 44px; background: rgba(255,255,255,0.9);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--primary); font-size: 1.2rem; transition: transform 0.3s var(--elastic);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         .card:hover .thumb::after { transform: translate(-50%, -50%) scale(1); }
 
         .card-body { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; }
-
+        
         .cat-badge {
             font-size: 0.6rem; font-weight: 700; color: white;
-            padding: 4px 10px; border-radius: 12px;
-            display: inline-block; margin-bottom: 8px; align-self: flex-start;
-            text-transform: uppercase; letter-spacing: 0.05em;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 4px 8px; border-radius: 6px; display: inline-block;
+            margin-bottom: 8px; align-self: flex-start; text-transform: uppercase;
         }
-
         .video-title {
-            font-size: 0.95rem; font-weight: 600; line-height: 1.4;
-            color: var(--text-main); margin-bottom: 4px;
+            font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: var(--text-main);
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
         }
 
-        /* Edit Button - Subtle but accessible */
         .btn-edit-card {
-            position: absolute; bottom: 12px; right: 12px;
-            width: 28px; height: 28px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.05);
-            color: var(--text-muted);
+            position: absolute; bottom: 10px; right: 10px;
+            width: 30px; height: 30px; border-radius: 50%;
+            background: rgba(255,255,255,0.8); color: var(--text-muted);
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.75rem;
-            transition: all 0.2s;
-            opacity: 0; transform: translateY(10px);
+            font-size: 0.8rem; opacity: 0; transform: translateY(10px);
+            transition: all 0.3s var(--elastic);
         }
         .card:hover .btn-edit-card { opacity: 1; transform: translateY(0); }
         .btn-edit-card:hover { background: var(--text-main); color: white; }
 
-        /* --- 5. MOBILE OPTIMIZATIONS --- */
+        /* Mobile Adjustments */
         @media (max-width: 600px) {
-            .video-shelf { display: flex; overflow-x: auto; padding-bottom: 20px; scroll-snap-type: x mandatory; gap: 16px; }
-            .card { min-width: 260px; scroll-snap-align: center; height: auto; border-radius: 16px; }
-            /* Show edit button on mobile without hover */
+            .video-shelf { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; gap: 15px; }
+            .card { min-width: 260px; scroll-snap-align: center; }
             .btn-edit-card { opacity: 1; transform: translateY(0); background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-            /* Horizontal layout for cards in vertical lists if preferred, but grid is nicer here */
         }
 
-        /* --- 6. THE ORB FAB (Floating Action Button) --- */
+        /* --- 5. THE SIGNATURE FOOTER (NEW) --- */
+        footer {
+            margin-top: 80px;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .footer-glass {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 500px;
+        }
+
+        .footer-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 0.9rem;
+            color: var(--primary); letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .footer-name {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600; font-size: 1.1rem;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+        
+        .footer-role {
+            font-size: 0.75rem; color: var(--text-muted);
+            font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- 6. ORB FAB --- */
         .fab-upload {
             position: fixed; bottom: 30px; right: 30px;
-            width: 64px; height: 64px;
+            width: 60px; height: 60px;
             background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            color: white; font-size: 24px;
-            box-shadow: 0 10px 30px var(--primary-glow);
-            z-index: 900; cursor: pointer;
-            transition: transform 0.3s var(--ease-elastic);
-            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            color: white; font-size: 24px; box-shadow: 0 10px 30px var(--primary-glow);
+            z-index: 900; cursor: pointer; border: 2px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s var(--elastic);
         }
         .fab-upload:hover { transform: scale(1.1) rotate(90deg); }
 
-        /* --- 7. MODAL SYSTEM --- */
+        /* --- 7. MODALS --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(11, 15, 25, 0.8);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            display: none; justify-content: center; align-items: center;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px);
+            z-index: 2000; display: none; justify-content: center; align-items: center;
             opacity: 0; transition: opacity 0.3s;
         }
         .modal-overlay.active { opacity: 1; }
 
         .modal-box {
-            background: #fff;
-            width: 90%; max-width: 500px;
+            background: #fff; width: 90%; max-width: 500px;
             border-radius: 24px; padding: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            transform: scale(0.9); opacity: 0; transition: all 0.3s var(--ease-elastic);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            transform: scale(0.9); opacity: 0; transition: all 0.3s var(--elastic);
             max-height: 85vh; overflow-y: auto;
         }
         .modal-overlay.active .modal-box { transform: scale(1); opacity: 1; }
 
-        /* Form Styling */
-        .form-label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em; }
+        /* Forms */
+        .form-label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em; }
         input, select, textarea {
             width: 100%; padding: 14px; margin-bottom: 20px;
-            border: 2px solid #e2e8f0; border-radius: 12px;
-            background: #f8fafc; color: var(--text-main);
-            font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 500;
-            transition: all 0.2s; box-sizing: border-box;
+            border: 2px solid #e2e8f0; border-radius: 12px; background: #f8fafc;
+            font-family: 'Outfit', sans-serif; font-size: 0.95rem;
+            transition: 0.2s; box-sizing: border-box;
         }
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--primary); outline: none; background: #fff;
-            box-shadow: 0 0 0 4px var(--primary-glow);
-        }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); outline: none; background: #fff; }
 
         .btn-full {
-            width: 100%; padding: 16px;
-            background: linear-gradient(135deg, var(--primary), 80%, var(--accent));
+            width: 100%; padding: 16px; background: var(--primary);
             color: white; border: none; border-radius: 12px;
             font-weight: 700; font-size: 1rem; cursor: pointer;
-            box-shadow: 0 10px 20px -5px var(--primary-glow);
-            transition: transform 0.2s;
+            box-shadow: 0 10px 20px -5px var(--primary-glow); transition: 0.2s;
         }
-        .btn-full:active { transform: scale(0.98); }
-        
+        .btn-full:hover { transform: translateY(-2px); }
         .btn-delete {
             width: 100%; padding: 16px; background: #fee2e2; color: #ef4444;
-            border: none; border-radius: 12px; font-weight: 700;
-            margin-top: 12px; cursor: pointer; transition: 0.2s;
-            display: none;
+            border: none; border-radius: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; display: none;
         }
-        .btn-delete:hover { background: #fecaca; }
 
-        /* Table Styles */
-        .table-container { 
-            border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin-top: 10px;
-        }
+        /* Table */
+        .table-container { border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
         table { width: 100%; border-collapse: collapse; }
-        th { background: #f8fafc; padding: 16px; text-align: left; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
-        td { padding: 16px; border-top: 1px solid #e2e8f0; font-size: 0.9rem; vertical-align: middle; }
-        tr:hover td { background: #f8fafc; }
-        
-        .action-cell { display: flex; gap: 8px; }
-        .btn-icon {
-            width: 32px; height: 32px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            text-decoration: none; font-size: 0.8rem; transition: 0.2s;
-        }
-        .btn-play-sm { background: rgba(67, 97, 238, 0.1); color: var(--primary); }
-        .btn-edit-sm { background: rgba(100, 116, 139, 0.1); color: var(--text-muted); cursor: pointer; }
-        .btn-play-sm:hover { background: var(--primary); color: white; }
-        .btn-edit-sm:hover { background: var(--text-main); color: white; }
-
-        /* Loader */
-        .loader-dots {
-            display: flex; justify-content: center; gap: 6px; margin-top: 10px; display: none;
-        }
-        .dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: bounce 0.5s infinite alternate; }
-        .dot:nth-child(2) { animation-delay: 0.1s; }
-        .dot:nth-child(3) { animation-delay: 0.2s; }
-        @keyframes bounce { to { transform: translateY(-8px); } }
-
+        td { padding: 16px; border-top: 1px solid #e2e8f0; vertical-align: middle; }
+        .btn-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="ambient-light">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+    <div class="mesh-bg">
+        <div class="mesh-light"></div>
     </div>
 
     <nav>
@@ -362,15 +324,21 @@
     <div class="container" id="mainContainer">
         </div>
 
-    <div class="fab-upload" onclick="bukaModalUpload()">
-        <i class="fas fa-plus"></i>
-    </div>
+    <footer>
+        <div class="footer-glass">
+            <div class="footer-title">Disediakan Oleh</div>
+            <div class="footer-name">Haniff Faizal Bin Chek Ani</div>
+            <div class="footer-role">Penyelaras MPU3411 • Unit Kokurikulum IPG KDA</div>
+        </div>
+    </footer>
+
+    <div class="fab-upload" onclick="bukaModalUpload()"><i class="fas fa-plus"></i></div>
 
     <div id="modalUpload" class="modal-overlay" onclick="if(event.target==this)tutupAllModals()">
         <div class="modal-box">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                <h2 id="modalTitle" style="margin:0; font-family:'Space Grotesk'; font-weight:700;">Tambah Video</h2>
-                <div onclick="tutupAllModals()" style="cursor:pointer; padding:8px; color:var(--text-muted);"><i class="fas fa-times"></i></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <h2 id="modalTitle" style="margin:0; font-family:'Space Grotesk'; color:var(--text-main);">Tambah Video</h2>
+                <div onclick="tutupAllModals()" style="cursor:pointer; color:var(--text-muted);"><i class="fas fa-times"></i></div>
             </div>
             
             <input type="hidden" id="editId">
@@ -421,22 +389,19 @@
             <input type="url" id="videoLink" placeholder="https://...">
             
             <label class="form-label">Tajuk / Catatan</label>
-            <textarea id="catatan" rows="2" placeholder="Masukkan tajuk video..."></textarea>
+            <textarea id="catatan" rows="2" placeholder="Tajuk video..."></textarea>
 
             <button id="btnSubmit" class="btn-full" onclick="hantarData()">SIMPAN</button>
             <button id="btnDelete" class="btn-delete" onclick="padamData()">PADAM</button>
-            
-            <div id="loader" class="loader-dots">
-                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-            </div>
+            <div id="loader" style="text-align:center; display:none; margin-top:10px; font-size:0.8rem; color:var(--text-muted);">Sedang memproses...</div>
         </div>
     </div>
 
     <div id="modalTable" class="modal-overlay" onclick="if(event.target==this)tutupAllModals()">
         <div class="modal-box" style="height:70vh; max-width:600px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                 <h2 id="tableTitle" style="margin:0; font-family:'Space Grotesk'; color:var(--primary);">Senarai Penuh</h2>
-                <div onclick="tutupAllModals()" style="cursor:pointer; padding:5px;"><i class="fas fa-times"></i></div>
+                <div onclick="tutupAllModals()" style="cursor:pointer;"><i class="fas fa-times"></i></div>
             </div>
             <div class="table-container">
                 <table id="fullTable"><tbody id="tableBody"></tbody></table>
@@ -445,12 +410,11 @@
     </div>
 
     <script>
-        // ================= CONFIGURATION =================
+        // CONFIGURATION
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec";
         const ADMIN_PIN = "1234"; 
         let GLOBAL_DATA = [];
 
-        // Definition for UI generation
         const sections = [
             {id:'1-0', title:'1.0 Pengenalan', icon:'book-open'},
             {id:'2-0', title:'2.0 Kepegawaian', icon:'gavel'},
@@ -466,7 +430,6 @@
             
             sections.forEach(sec => {
                 html += `<div class="main-section-title"><i class="fas fa-${sec.icon}"></i> ${sec.title}</div>`;
-                
                 if(sec.subs) {
                     sec.subs.forEach(sub => {
                         let code = sub.split(' ')[0].replace('.','-');
@@ -501,10 +464,10 @@
         }
 
         function getBadgeColor(category) {
-            if(category.includes('Undang')) return 'background:var(--uu-color);';
-            if(category.includes('Teknik')) return 'background:var(--tl-color);';
-            if(category.includes('Pengajaran')) return 'background:var(--lp-color);';
-            return 'background:#64748b;';
+            if(category.includes('Undang')) return 'background:var(--tag-uu);';
+            if(category.includes('Teknik')) return 'background:var(--tag-tl);';
+            if(category.includes('Pengajaran')) return 'background:var(--tag-lp);';
+            return 'background:#94a3b8;';
         }
 
         function getThumb(url) {
@@ -516,7 +479,6 @@
 
         // 3. CORE LOGIC
         function muatTurunData() {
-            // Skeleton loading
             document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = '<div style="padding:10px; color:var(--text-muted); font-size:0.8rem; font-style:italic;">Memuatkan data...</div>');
 
             fetch(WEB_APP_URL)
@@ -526,7 +488,6 @@
                 data.reverse();
                 GLOBAL_DATA = data;
 
-                // Clear skeletons
                 document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = "");
                 document.querySelectorAll('.view-all-btn').forEach(el => el.style.display = "none");
 
@@ -540,7 +501,6 @@
                     if (!shelfCounts[info.code]) shelfCounts[info.code] = 0;
                     shelfCounts[info.code]++;
 
-                    // Limit display to 3
                     if(targetShelf && shelfCounts[info.code] <= 3) {
                         const card = document.createElement('div');
                         card.className = 'card';
@@ -562,7 +522,6 @@
                     }
                 });
 
-                // Handle Empty / View All
                 document.querySelectorAll('.video-shelf').forEach(el => {
                      if(el.innerHTML === "") el.innerHTML = '<div style="padding:10px; color:rgba(0,0,0,0.3); font-size:0.8rem;">Tiada bahan.</div>';
                 });
@@ -576,18 +535,16 @@
                         }
                     }
                 }
-
             })
             .catch(err => console.error(err));
         }
 
-        // 4. MODAL LOGIC
+        // 4. MODALS
         function bukaModalUpload() { 
             resetForm();
             document.getElementById('modalTitle').innerText = "Tambah Video";
-            document.getElementById('btnSubmit').innerText = "SIMPAN VIDEO";
+            document.getElementById('btnSubmit').innerText = "SIMPAN";
             document.getElementById('btnDelete').style.display = "none";
-            
             const modal = document.getElementById('modalUpload');
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('active'), 10);
@@ -618,14 +575,13 @@
         }
 
         function tutupAllModals() { 
-            const modals = document.querySelectorAll('.modal-overlay');
-            modals.forEach(m => {
+            document.querySelectorAll('.modal-overlay').forEach(m => {
                 m.classList.remove('active');
                 setTimeout(() => m.style.display = 'none', 300);
             });
         }
 
-        // 5. VIEW ALL TABLE
+        // 5. VIEW ALL
         function openTableModal(code, titleName) {
             document.getElementById('tableTitle').innerText = titleName;
             const tbody = document.getElementById('tableBody');
@@ -643,12 +599,11 @@
                     <td>
                         <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
                         <div style="font-weight:600; font-size:0.9rem; color:var(--text-main);">${item.catatan}</div>
-                        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">${new Date(item.timestamp).toLocaleDateString()}</div>
                     </td>
                     <td>
-                        <div class="action-cell">
-                            <a href="${item.link}" target="_blank" class="btn-icon btn-play-sm"><i class="fas fa-play"></i></a>
-                            <div class="btn-icon btn-edit-sm" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
+                        <div style="display:flex; gap:8px;">
+                            <a href="${item.link}" target="_blank" class="btn-icon" style="background:var(--primary-glow); color:var(--primary);"><i class="fas fa-play"></i></a>
+                            <div class="btn-icon" style="background:#f1f5f9; color:var(--text-muted);" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
                         </div>
                     </td>
                 </tr>`;
@@ -660,7 +615,7 @@
             setTimeout(() => modal.classList.add('active'), 10);
         }
 
-        // 6. API CALLS
+        // 6. API ACTIONS
         function hantarData() {
             const id = document.getElementById('editId').value;
             const topik = document.getElementById('topik').value;
@@ -670,7 +625,7 @@
 
             if(!topik || !link) return alert("Sila lengkapkan borang.");
             
-            loader.style.display = 'flex';
+            loader.style.display = 'block';
             document.getElementById('btnSubmit').disabled = true;
 
             const action = id ? "edit" : "insert";
@@ -695,9 +650,9 @@
         function padamData() {
             const id = document.getElementById('editId').value;
             if(!id) return;
-            if(!confirm("Padam video ini? Tindakan tidak boleh diundur.")) return;
+            if(!confirm("Padam video ini?")) return;
 
-            document.getElementById('loader').style.display = 'flex';
+            document.getElementById('loader').style.display = 'block';
 
             fetch(WEB_APP_URL, {
                 method: "POST",
