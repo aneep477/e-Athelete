@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MoVO | Akses Pensyarah</title>
+    <title>MoVO | IPG KDA</title>
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -14,14 +16,21 @@
             --primary: #4361ee;
             --primary-glow: rgba(67, 97, 238, 0.4);
             --accent: #f72585;
+            
             --glass-surface: rgba(255, 255, 255, 0.75);
             --glass-border: rgba(255, 255, 255, 0.6);
+            
             --text-main: #0f172a;
             --text-muted: #64748b;
             
-            --tag-uu: #4f46e5; --tag-tl: #06b6d4; --tag-lp: #f59e0b; 
+            /* File Type Colors */
+            --col-pdf: #ef4444;
+            --col-word: #3b82f6;
+            --col-ppt: #f97316;
+            --col-excel: #22c55e;
+            --col-video: #0f172a;
             
-            --icon-pdf: #ef4444; --icon-word: #3b82f6; --icon-ppt: #f97316; --icon-excel: #22c55e;
+            --tag-uu: #4f46e5; --tag-tl: #06b6d4; --tag-lp: #f59e0b; 
         }
 
         /* --- 1. GLOBAL LAYOUT --- */
@@ -31,14 +40,13 @@
             min-height: 100vh; overflow-x: hidden; padding-bottom: 140px;
         }
 
-        /* Animated Mesh Background */
+        /* Animated Background */
         .mesh-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
                         radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
                         radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
-            background-size: 200% 200%;
-            animation: gradient-flow 20s ease infinite;
+            background-size: 200% 200%; animation: gradient-flow 20s ease infinite;
         }
         .mesh-light {
             position: absolute; width: 100%; height: 100%;
@@ -47,64 +55,54 @@
         }
         @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* --- 2. LOGIN LOCKSCREEN (NEW) --- */
+        /* --- 2. LOGIN SCREEN --- */
         #loginOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(15px);
             z-index: 9999; display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.5s ease;
         }
         .login-box {
-            background: rgba(255, 255, 255, 0.9); padding: 40px;
-            border-radius: 24px; text-align: center; width: 90%; max-width: 350px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 24px;
+            text-align: center; width: 90%; max-width: 350px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
             animation: floatUp 0.6s ease-out;
         }
         @keyframes floatUp { from {transform: translateY(30px); opacity:0;} to {transform: translateY(0); opacity:1;} }
         
-        .login-icon { font-size: 3rem; color: var(--primary); margin-bottom: 20px; filter: drop-shadow(0 4px 10px var(--primary-glow)); }
-        .login-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.5rem; margin: 0 0 10px 0; }
-        .login-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 25px; }
-        
         #passwordInput {
             text-align: center; letter-spacing: 5px; font-weight: 700; font-size: 1.2rem;
             background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 12px;
-            padding: 15px; width: 100%; box-sizing: border-box; margin-bottom: 20px;
+            padding: 15px; width: 100%; box-sizing: border-box; margin: 20px 0;
             transition: 0.3s;
         }
-        #passwordInput:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); background: white; }
+        #passwordInput:focus { outline: none; border-color: var(--primary); background: white; }
         
         .btn-login {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white; border: none; padding: 15px; width: 100%; border-radius: 12px;
-            font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s;
+            font-weight: 700; cursor: pointer; transition: 0.3s;
         }
-        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px var(--primary-glow); }
 
-        /* --- 3. HEADER & NAV --- */
+        /* --- 3. HEADER --- */
         nav {
             position: sticky; top: 20px; z-index: 100;
             width: 90%; max-width: 1000px; margin: 0 auto;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 20px;
-            padding: 12px 24px;
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+            padding: 12px 24px; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
             display: flex; align-items: center; gap: 16px;
         }
         .logo-img { height: 44px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
         .brand-text { display: flex; flex-direction: column; }
-        .brand-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+        .brand-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; }
         .brand-subtitle { font-size: 0.6rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; }
         .logout-btn { margin-left: auto; cursor: pointer; color: var(--accent); font-size: 1.2rem; }
 
-        /* --- 4. SECTIONS & CARDS --- */
+        /* --- 4. LAYOUT --- */
         .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
         .main-section-title {
             font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700;
-            margin-top: 50px; margin-bottom: 20px;
-            display: flex; align-items: center; gap: 12px;
+            margin-top: 50px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
             background: linear-gradient(90deg, var(--text-main), var(--primary));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
@@ -116,24 +114,35 @@
             cursor: pointer; padding: 6px 14px; border-radius: 20px;
             background: rgba(67, 97, 238, 0.08); display: none;
         }
-        
+
+        /* --- 5. CARDS & THUMBNAILS --- */
         .video-shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
         .card {
             background: var(--glass-surface); backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border); border-radius: 18px;
             overflow: hidden; display: flex; flex-direction: column;
-            transition: transform 0.4s var(--smooth); cursor: pointer; position: relative;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative;
         }
         .card:hover { transform: translateY(-8px) scale(1.02); z-index: 10; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15); border-color: white; }
-        
+
         .new-indicator { position: absolute; top: 12px; left: 12px; z-index: 10; background: var(--accent); color: white; font-size: 0.6rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; box-shadow: 0 4px 10px rgba(247, 37, 133, 0.3); }
 
-        .thumb { width: 100%; aspect-ratio: 16/9; background: #e2e8f0; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        /* THUMBNAIL LOGIC */
+        .thumb { width: 100%; aspect-ratio: 16/9; background: #cbd5e1; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
         .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
         .card:hover .thumb img { transform: scale(1.1); }
-        .doc-icon-wrapper { font-size: 3.5rem; color: var(--text-muted); transition: 0.3s; }
-        .card:hover .doc-icon-wrapper { transform: scale(1.1); }
+        
+        /* Video Overlay */
+        .vid-overlay { position:absolute; width:100%; height:100%; background:rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; }
+        .vid-icon { width:40px; height:40px; background:rgba(255,255,255,0.9); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1rem; box-shadow:0 5px 15px rgba(0,0,0,0.3); }
 
+        /* Doc Icons */
+        .doc-thumb { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); transition:0.3s; }
+        .doc-icon { font-size:3rem; margin-bottom:8px; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .doc-label { font-size:0.6rem; font-weight:800; letter-spacing:0.1em; opacity:0.7; }
+        .card:hover .doc-thumb { background:white; }
+
+        /* Content */
         .card-body { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; }
         .cat-badge { font-size: 0.6rem; font-weight: 700; color: white; padding: 4px 8px; border-radius: 6px; display: inline-block; margin-bottom: 8px; align-self: flex-start; text-transform: uppercase; }
         .video-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -153,13 +162,11 @@
             .btn-edit-card { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- 5. FOOTER & FAB --- */
+        /* --- 6. FOOTER --- */
         footer { margin-top: 80px; padding: 40px 20px; text-align: center; }
         .footer-glass { display: inline-block; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); padding: 20px 30px; border-radius: 20px; }
-        .fab-upload { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; box-shadow: 0 10px 30px var(--primary-glow); z-index: 900; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: transform 0.3s; }
-        .fab-upload:hover { transform: scale(1.1) rotate(90deg); }
-
-        /* --- 6. MODALS --- */
+        
+        /* --- 7. MODALS --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.active { opacity: 1; }
         .modal-box { background: #fff; width: 90%; max-width: 500px; border-radius: 24px; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.9); opacity: 0; transition: all 0.3s; max-height: 85vh; overflow-y: auto; }
@@ -170,7 +177,9 @@
         .btn-full { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
         .btn-delete { width: 100%; padding: 16px; background: #fee2e2; color: #ef4444; border: none; border-radius: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; display: none; }
 
-        /* Table */
+        .fab-upload { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; box-shadow: 0 10px 30px var(--primary-glow); z-index: 900; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: transform 0.3s; }
+        .fab-upload:hover { transform: scale(1.1) rotate(90deg); }
+
         .table-container { border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
         table { width: 100%; border-collapse: collapse; }
         td { padding: 16px; border-top: 1px solid #e2e8f0; vertical-align: middle; }
@@ -183,12 +192,12 @@
 
     <div id="loginOverlay">
         <div class="login-box">
-            <div class="login-icon"><i class="fas fa-lock"></i></div>
-            <h2 class="login-title">Akses Pensyarah</h2>
-            <p class="login-desc">Sila masukkan kata laluan keselamatan untuk mengakses modul.</p>
+            <div style="font-size:3rem; color:var(--primary); margin-bottom:10px;"><i class="fas fa-lock"></i></div>
+            <h2 style="font-family:'Space Grotesk'; font-weight:700; margin:0 0 10px 0;">Akses Pensyarah</h2>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:20px;">Sila masukkan PIN keselamatan.</p>
             <input type="password" id="passwordInput" placeholder="PIN" maxlength="15">
             <button class="btn-login" onclick="loginAction()">MASUK</button>
-            <p id="loginError" style="color:var(--accent); font-size:0.8rem; margin-top:10px; display:none;">Kata laluan salah!</p>
+            <p id="loginError" style="color:var(--accent); font-size:0.8rem; margin-top:10px; display:none;">PIN Salah!</p>
         </div>
     </div>
 
@@ -222,7 +231,9 @@
                 <h2 id="modalTitle" style="margin:0; font-family:'Space Grotesk'; color:var(--text-main);">Tambah Bahan</h2>
                 <div onclick="tutupAllModals()" style="cursor:pointer; color:var(--text-muted);"><i class="fas fa-times"></i></div>
             </div>
+            
             <input type="hidden" id="editId">
+
             <label class="form-label">Kategori</label>
             <select id="topik">
                 <option value="" disabled selected>Pilih Kategori...</option>
@@ -264,10 +275,13 @@
                     <option value="5.0:5.0 Pengurusan">5.0 Pengurusan Fasiliti</option>
                 </optgroup>
             </select>
+
             <label class="form-label">Pautan (Video / PDF / Dokumen)</label>
             <input type="url" id="videoLink" placeholder="Paste link Google Drive / YouTube...">
+            
             <label class="form-label">Tajuk Bahan</label>
-            <textarea id="catatan" rows="2" placeholder="Contoh: Nota Kuliah Minggu 1..."></textarea>
+            <textarea id="catatan" rows="2" placeholder="Contoh: Nota Kuliah..."></textarea>
+
             <button id="btnSubmit" class="btn-full" onclick="hantarData()">SIMPAN</button>
             <button id="btnDelete" class="btn-delete" onclick="padamData()">PADAM</button>
             <div id="loader" style="text-align:center; display:none; margin-top:10px; font-size:0.8rem; color:var(--text-muted);">Sedang memproses...</div>
@@ -287,7 +301,7 @@
     </div>
 
     <script>
-        // CONFIG
+        // --- CONFIG ---
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec";
         let CURRENT_PASSWORD = "";
         let GLOBAL_DATA = [];
@@ -300,18 +314,16 @@
             {id:'5-0', title:'5.0 Pengurusan', icon:'tools'}
         ];
 
-        // --- AUTHENTICATION ---
+        // --- AUTH ---
         function loginAction() {
             const pass = document.getElementById('passwordInput').value;
             if(!pass) return;
             CURRENT_PASSWORD = pass;
-            // Cuba fetch data dengan password ini
             document.querySelector('.btn-login').innerText = "MENYEMAK...";
             fetch(WEB_APP_URL + "?password=" + encodeURIComponent(pass))
             .then(res => res.json())
             .then(data => {
                 if(data.result === 'success') {
-                    // Password betul
                     document.getElementById('loginOverlay').style.opacity = 0;
                     setTimeout(() => {
                         document.getElementById('loginOverlay').style.display = 'none';
@@ -324,24 +336,14 @@
                     document.querySelector('.btn-login').innerText = "MASUK";
                 }
             })
-            .catch(err => {
-                alert("Ralat sambungan.");
-                document.querySelector('.btn-login').innerText = "MASUK";
-            });
+            .catch(err => { alert("Ralat sambungan."); document.querySelector('.btn-login').innerText = "MASUK"; });
         }
 
         function checkSession() {
             const saved = sessionStorage.getItem('movo_pass');
-            if(saved) {
-                document.getElementById('passwordInput').value = saved;
-                loginAction();
-            }
+            if(saved) { document.getElementById('passwordInput').value = saved; loginAction(); }
         }
-        
-        function logout() {
-            sessionStorage.removeItem('movo_pass');
-            location.reload();
-        }
+        function logout() { sessionStorage.removeItem('movo_pass'); location.reload(); }
 
         // --- LAYOUT ---
         function generateLayout() {
@@ -375,15 +377,16 @@
             container.innerHTML = html;
         }
 
-        // --- HELPERS ---
+        // --- VISUAL LOGIC ---
         function getFileType(url) {
             url = url.toLowerCase();
             if(url.includes('youtube') || url.includes('youtu.be')) return 'video';
             if(url.includes('.pdf')) return 'pdf';
             if(url.includes('.doc')) return 'word';
             if(url.includes('.ppt')) return 'ppt';
-            if(url.includes('.xls')) return 'excel';
-            if(url.includes('drive.google.com')) return 'doc-generic'; 
+            if(url.includes('.xls') || url.includes('sheet')) return 'excel';
+            if(url.includes('drive.google.com') && !url.includes('video')) return 'doc-generic'; 
+            if(url.includes('drive.google.com') && url.includes('video')) return 'video';
             return 'link';
         }
 
@@ -394,23 +397,24 @@
                 const match = url.match(regExp);
                 const vidId = (match && match[2].length === 11) ? match[2] : null;
                 const imgUrl = vidId ? `https://img.youtube.com/vi/${vidId}/mqdefault.jpg` : '';
-                return `<img src="${imgUrl}" loading="lazy"><div class="overlay-icon" style="position:absolute; background:rgba(255,255,255,0.9); width:40px; height:40px; border-radius:50%; display:flex; justify-content:center; align-items:center; box-shadow:0 5px 15px rgba(0,0,0,0.2);"><i class="fas fa-play" style="color:var(--primary);"></i></div>`;
+                return `<img src="${imgUrl}" loading="lazy"><div class="vid-overlay"><div class="vid-icon"><i class="fas fa-play"></i></div></div>`;
             } 
+            
             let iconClass = 'fa-file-lines'; let color = '#8b5cf6'; let label = 'FAIL';
-            if(type === 'pdf') { iconClass = 'fa-file-pdf'; color = 'var(--icon-pdf)'; label = 'PDF'; }
-            if(type === 'word') { iconClass = 'fa-file-word'; color = 'var(--icon-word)'; label = 'WORD'; }
-            if(type === 'ppt') { iconClass = 'fa-file-powerpoint'; color = 'var(--icon-ppt)'; label = 'SLIDES'; }
-            if(type === 'excel') { iconClass = 'fa-file-excel'; color = 'var(--icon-excel)'; label = 'EXCEL'; }
-            return `<div style="width:100%; height:100%; background:linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); display:flex; flex-direction:column; justify-content:center; align-items:center;">
-                    <i class="fas ${iconClass}" style="font-size:3rem; color:${color}; margin-bottom:10px; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.1));"></i>
-                    <span style="font-size:0.6rem; font-weight:800; color:${color}; letter-spacing:0.1em;">${label}</span></div>`;
+            if(type === 'pdf') { iconClass = 'fa-file-pdf'; color = 'var(--col-pdf)'; label = 'PDF'; }
+            if(type === 'word') { iconClass = 'fa-file-word'; color = 'var(--col-word)'; label = 'WORD'; }
+            if(type === 'ppt') { iconClass = 'fa-file-powerpoint'; color = 'var(--col-ppt)'; label = 'SLIDES'; }
+            if(type === 'excel') { iconClass = 'fa-file-excel'; color = 'var(--col-excel)'; label = 'EXCEL'; }
+            
+            return `<div class="doc-thumb"><i class="fas ${iconClass} doc-icon" style="color:${color}"></i><span class="doc-label" style="color:${color}">${label}</span></div>`;
         }
 
         function getActionText(url) {
             const type = getFileType(url);
-            if(type === 'video') return '<i class="fas fa-play"></i> Tonton Video';
-            return '<i class="fas fa-eye"></i> Lihat Bahan';
+            if(type === 'video') return '<i class="fas fa-play-circle"></i> Tonton Video';
+            return '<i class="fas fa-download"></i> Lihat Bahan';
         }
+
         function parseTopic(topicString) {
             if(!topicString || !topicString.includes(':')) return { code: (topicString||"").substring(0,3).replace('.','-'), category: "Umum" };
             let parts = topicString.split(':');
@@ -423,10 +427,9 @@
             return 'background:#64748b;';
         }
 
-        // --- DATA HANDLING ---
+        // --- DATA PROCESSING ---
         function prosesDataAwal(data) {
-            data.reverse();
-            GLOBAL_DATA = data;
+            data.reverse(); GLOBAL_DATA = data;
             
             document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = "");
             document.querySelectorAll('.view-all-btn').forEach(el => el.style.display = "none");
@@ -466,84 +469,58 @@
             }
         }
 
-        // Re-fetch data function (used after edit/delete)
         function muatTurunDataSemula() {
-            fetch(WEB_APP_URL + "?password=" + encodeURIComponent(CURRENT_PASSWORD))
-            .then(res => res.json())
-            .then(data => {
+            fetch(WEB_APP_URL + "?password=" + encodeURIComponent(CURRENT_PASSWORD)).then(res => res.json()).then(data => {
                 if(data.result === 'success') { prosesDataAwal(data.data); }
             });
         }
 
-        // --- MODAL OPS ---
+        // --- MODAL FUNCTIONS ---
         function bukaModalUpload() { 
-            resetForm();
-            document.getElementById('modalTitle').innerText = "Tambah Bahan";
-            document.getElementById('btnSubmit').innerText = "SIMPAN";
-            document.getElementById('btnDelete').style.display = "none";
-            const modal = document.getElementById('modalUpload');
-            modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10);
+            resetForm(); document.getElementById('modalTitle').innerText = "Tambah Bahan";
+            document.getElementById('btnSubmit').innerText = "SIMPAN"; document.getElementById('btnDelete').style.display = "none";
+            const modal = document.getElementById('modalUpload'); modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10);
         }
         function bukaModalEdit(id, topik, link, catatan) {
             document.getElementById('modalTitle').innerText = "Edit Bahan";
-            document.getElementById('editId').value = id;
-            document.getElementById('topik').value = topik;
-            document.getElementById('videoLink').value = link;
-            document.getElementById('catatan').value = catatan;
-            document.getElementById('btnSubmit').innerText = "KEMASKINI";
-            document.getElementById('btnDelete').style.display = "block";
-            const modal = document.getElementById('modalUpload');
-            modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10);
+            document.getElementById('editId').value = id; document.getElementById('topik').value = topik;
+            document.getElementById('videoLink').value = link; document.getElementById('catatan').value = catatan;
+            document.getElementById('btnSubmit').innerText = "KEMASKINI"; document.getElementById('btnDelete').style.display = "block";
+            const modal = document.getElementById('modalUpload'); modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10);
         }
         function resetForm() { document.getElementById('editId').value = ""; document.getElementById('videoLink').value = ""; document.getElementById('catatan').value = ""; }
-        function tutupAllModals() { 
-            document.querySelectorAll('.modal-overlay').forEach(m => { m.classList.remove('active'); setTimeout(() => m.style.display = 'none', 300); });
-        }
+        function tutupAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => { m.classList.remove('active'); setTimeout(() => m.style.display = 'none', 300); }); }
+
         function openTableModal(code, titleName) {
             document.getElementById('tableTitle').innerText = titleName;
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = "";
+            const tbody = document.getElementById('tableBody'); tbody.innerHTML = "";
             let filteredData = GLOBAL_DATA.filter(item => { if(!item.link) return false; return parseTopic(item.topik).code === code; });
             filteredData.forEach(item => {
                 let info = parseTopic(item.topik);
                 let type = getFileType(item.link);
-                let iconClass = (type === 'video') ? 'fa-play' : 'fa-eye';
+                let iconClass = (type === 'video') ? 'fa-play' : 'fa-file-alt';
                 let row = `<tr>
-                    <td>
-                        <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
-                        <div style="font-weight:600; font-size:0.9rem; color:var(--text-main);">${item.catatan}</div>
-                    </td>
-                    <td>
-                        <div style="display:flex; gap:8px;">
-                            <a href="${item.link}" target="_blank" class="btn-icon" style="background:var(--primary-glow); color:var(--primary);"><i class="fas ${iconClass}"></i></a>
-                            <div class="btn-icon" style="background:#f1f5f9; color:var(--text-muted);" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
-                        </div>
-                    </td>
+                    <td><span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span><div style="font-weight:600; font-size:0.9rem;">${item.catatan}</div></td>
+                    <td><div style="display:flex; gap:8px;">
+                        <a href="${item.link}" target="_blank" class="btn-icon" style="background:var(--primary-glow); color:var(--primary);"><i class="fas ${iconClass}"></i></a>
+                        <div class="btn-icon" style="background:#f1f5f9; color:var(--text-muted);" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
+                    </div></td>
                 </tr>`;
                 tbody.innerHTML += row;
             });
-            const modal = document.getElementById('modalTable');
-            modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10);
+            const modal = document.getElementById('modalTable'); modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10);
         }
 
-        // --- API OPS (WITH PASSWORD) ---
         function hantarData() {
-            const id = document.getElementById('editId').value;
-            const topik = document.getElementById('topik').value;
-            const link = document.getElementById('videoLink').value;
-            const catatan = document.getElementById('catatan').value;
+            const id = document.getElementById('editId').value; const topik = document.getElementById('topik').value;
+            const link = document.getElementById('videoLink').value; const catatan = document.getElementById('catatan').value;
             const loader = document.getElementById('loader');
             if(!topik || !link) return alert("Sila lengkapkan borang.");
             loader.style.display = 'block'; document.getElementById('btnSubmit').disabled = true;
             const action = id ? "edit" : "insert";
-            
             fetch(WEB_APP_URL, {
                 method: "POST",
-                body: new URLSearchParams({ 
-                    "action": action, "id": id, "topik": topik, 
-                    "link": link, "catatan": catatan, 
-                    "password": CURRENT_PASSWORD 
-                })
+                body: new URLSearchParams({ "action": action, "id": id, "topik": topik, "link": link, "catatan": catatan, "password": CURRENT_PASSWORD })
             }).then(res => res.json()).then(data => {
                 loader.style.display = 'none'; document.getElementById('btnSubmit').disabled = false;
                 if(data.result === 'success') { tutupAllModals(); muatTurunDataSemula(); } else { alert("Ralat: " + data.message); }
@@ -553,10 +530,7 @@
             const id = document.getElementById('editId').value;
             if(!id || !confirm("Padam bahan ini?")) return;
             document.getElementById('loader').style.display = 'block';
-            fetch(WEB_APP_URL, { 
-                method: "POST", 
-                body: new URLSearchParams({ "action": "delete", "id": id, "password": CURRENT_PASSWORD }) 
-            })
+            fetch(WEB_APP_URL, { method: "POST", body: new URLSearchParams({ "action": "delete", "id": id, "password": CURRENT_PASSWORD }) })
             .then(res => res.json()).then(data => {
                 document.getElementById('loader').style.display = 'none';
                 if(data.result === 'success') { tutupAllModals(); muatTurunDataSemula(); } else { alert("Ralat: " + data.message); }
