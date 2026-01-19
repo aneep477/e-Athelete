@@ -23,24 +23,20 @@
             --text-main: #0f172a;
             --text-muted: #64748b;
             
-            /* File Type Colors */
-            --col-pdf: #ef4444;
-            --col-word: #3b82f6;
-            --col-ppt: #f97316;
-            --col-excel: #22c55e;
-            --col-video: #0f172a;
+            /* File Colors */
+            --col-pdf: #ef4444; --col-word: #3b82f6;
+            --col-ppt: #f97316; --col-excel: #22c55e;
             
             --tag-uu: #4f46e5; --tag-tl: #06b6d4; --tag-lp: #f59e0b; 
         }
 
-        /* --- 1. GLOBAL LAYOUT --- */
+        /* --- 1. GLOBAL --- */
         body {
             margin: 0; font-family: 'Outfit', sans-serif;
             background: #f1f5f9; color: var(--text-main);
             min-height: 100vh; overflow-x: hidden; padding-bottom: 140px;
         }
 
-        /* Animated Background */
         .mesh-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
@@ -55,39 +51,34 @@
         }
         @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* --- 2. LOGIN SCREEN --- */
+        /* --- 2. LOGIN --- */
         #loginOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(15px);
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px);
             z-index: 9999; display: flex; justify-content: center; align-items: center;
         }
         .login-box {
             background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 24px;
             text-align: center; width: 90%; max-width: 350px;
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            animation: floatUp 0.6s ease-out;
         }
-        @keyframes floatUp { from {transform: translateY(30px); opacity:0;} to {transform: translateY(0); opacity:1;} }
-        
         #passwordInput {
             text-align: center; letter-spacing: 5px; font-weight: 700; font-size: 1.2rem;
             background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 12px;
             padding: 15px; width: 100%; box-sizing: border-box; margin: 20px 0;
-            transition: 0.3s;
         }
         #passwordInput:focus { outline: none; border-color: var(--primary); background: white; }
-        
         .btn-login {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white; border: none; padding: 15px; width: 100%; border-radius: 12px;
-            font-weight: 700; cursor: pointer; transition: 0.3s;
+            font-weight: 700; cursor: pointer;
         }
 
-        /* --- 3. HEADER --- */
+        /* --- 3. NAV --- */
         nav {
             position: sticky; top: 20px; z-index: 100;
             width: 90%; max-width: 1000px; margin: 0 auto;
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 20px;
             padding: 12px 24px; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
             display: flex; align-items: center; gap: 16px;
@@ -98,8 +89,43 @@
         .brand-subtitle { font-size: 0.6rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; }
         .logout-btn { margin-left: auto; cursor: pointer; color: var(--accent); font-size: 1.2rem; }
 
-        /* --- 4. LAYOUT --- */
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        /* --- 4. SEARCH BAR (NEW) --- */
+        .search-wrapper {
+            max-width: 900px; margin: 30px auto 10px auto; padding: 0 20px; position: relative;
+        }
+        .search-input-group {
+            position: relative; display: flex; align-items: center;
+        }
+        .search-icon {
+            position: absolute; left: 20px; color: var(--text-muted); font-size: 1.1rem; pointer-events: none;
+        }
+        #searchInput {
+            width: 100%; padding: 16px 16px 16px 55px; border-radius: 16px;
+            border: 1px solid var(--glass-border); background: rgba(255,255,255,0.6);
+            font-family: 'Outfit', sans-serif; font-size: 1rem; color: var(--text-main);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: all 0.3s;
+            margin-bottom: 0; /* Override default input margin */
+        }
+        #searchInput:focus {
+            background: white; box-shadow: 0 10px 30px rgba(67, 97, 238, 0.15);
+            border-color: var(--primary); outline: none;
+        }
+        .clear-search {
+            position: absolute; right: 20px; color: var(--text-muted); cursor: pointer;
+            display: none; transition: 0.2s;
+        }
+        .clear-search:hover { color: var(--accent); }
+
+        /* --- 5. LAYOUT --- */
+        .container { max-width: 900px; margin: 20px auto; padding: 0 20px; }
+        
+        /* Search Results Area */
+        #searchResultsArea { display: none; margin-top: 20px; }
+        .search-header { 
+            font-family: 'Space Grotesk'; font-size: 1.2rem; margin-bottom: 20px; 
+            color: var(--primary); font-weight: 700;
+        }
+
         .main-section-title {
             font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700;
             margin-top: 50px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
@@ -115,7 +141,7 @@
             background: rgba(67, 97, 238, 0.08); display: none;
         }
 
-        /* --- 5. CARDS & THUMBNAILS --- */
+        /* --- 6. CARDS --- */
         .video-shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
         .card {
             background: var(--glass-surface); backdrop-filter: blur(12px);
@@ -127,22 +153,16 @@
 
         .new-indicator { position: absolute; top: 12px; left: 12px; z-index: 10; background: var(--accent); color: white; font-size: 0.6rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; box-shadow: 0 4px 10px rgba(247, 37, 133, 0.3); }
 
-        /* THUMBNAIL LOGIC */
-        .thumb { width: 100%; aspect-ratio: 16/9; background: #cbd5e1; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        .thumb { width: 100%; aspect-ratio: 16/9; background: #e2e8f0; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
         .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
         .card:hover .thumb img { transform: scale(1.1); }
-        
-        /* Video Overlay */
         .vid-overlay { position:absolute; width:100%; height:100%; background:rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; }
         .vid-icon { width:40px; height:40px; background:rgba(255,255,255,0.9); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1rem; box-shadow:0 5px 15px rgba(0,0,0,0.3); }
-
-        /* Doc Icons */
         .doc-thumb { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); transition:0.3s; }
         .doc-icon { font-size:3rem; margin-bottom:8px; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
         .doc-label { font-size:0.6rem; font-weight:800; letter-spacing:0.1em; opacity:0.7; }
         .card:hover .doc-thumb { background:white; }
 
-        /* Content */
         .card-body { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; }
         .cat-badge { font-size: 0.6rem; font-weight: 700; color: white; padding: 4px 8px; border-radius: 6px; display: inline-block; margin-bottom: 8px; align-self: flex-start; text-transform: uppercase; }
         .video-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -162,11 +182,11 @@
             .btn-edit-card { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- 6. FOOTER --- */
         footer { margin-top: 80px; padding: 40px 20px; text-align: center; }
         .footer-glass { display: inline-block; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); padding: 20px 30px; border-radius: 20px; }
-        
-        /* --- 7. MODALS --- */
+        .fab-upload { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; box-shadow: 0 10px 30px var(--primary-glow); z-index: 900; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: transform 0.3s; }
+        .fab-upload:hover { transform: scale(1.1) rotate(90deg); }
+
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.active { opacity: 1; }
         .modal-box { background: #fff; width: 90%; max-width: 500px; border-radius: 24px; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.9); opacity: 0; transition: all 0.3s; max-height: 85vh; overflow-y: auto; }
@@ -176,9 +196,6 @@
         input, select, textarea { width: 100%; padding: 14px; margin-bottom: 20px; border: 2px solid #e2e8f0; border-radius: 12px; background: #f8fafc; font-family: 'Outfit', sans-serif; font-size: 0.95rem; box-sizing: border-box; }
         .btn-full { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
         .btn-delete { width: 100%; padding: 16px; background: #fee2e2; color: #ef4444; border: none; border-radius: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; display: none; }
-
-        .fab-upload { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; box-shadow: 0 10px 30px var(--primary-glow); z-index: 900; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: transform 0.3s; }
-        .fab-upload:hover { transform: scale(1.1) rotate(90deg); }
 
         .table-container { border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
         table { width: 100%; border-collapse: collapse; }
@@ -211,8 +228,23 @@
             <div class="logout-btn" onclick="logout()" title="Keluar"><i class="fas fa-sign-out-alt"></i></div>
         </nav>
 
-        <div class="container" id="mainContainer">
+        <div class="search-wrapper">
+            <div class="search-input-group">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Cari video, topik, atau dokumen...">
+                <i class="fas fa-times-circle clear-search" onclick="clearSearch()"></i>
             </div>
+        </div>
+
+        <div class="container">
+            <div id="searchResultsArea">
+                <div class="search-header">Hasil Carian</div>
+                <div id="searchGrid" class="video-shelf"></div>
+            </div>
+
+            <div id="mainShelvesArea">
+                </div>
+        </div>
 
         <footer>
             <div class="footer-glass">
@@ -231,9 +263,7 @@
                 <h2 id="modalTitle" style="margin:0; font-family:'Space Grotesk'; color:var(--text-main);">Tambah Bahan</h2>
                 <div onclick="tutupAllModals()" style="cursor:pointer; color:var(--text-muted);"><i class="fas fa-times"></i></div>
             </div>
-            
             <input type="hidden" id="editId">
-
             <label class="form-label">Kategori</label>
             <select id="topik">
                 <option value="" disabled selected>Pilih Kategori...</option>
@@ -275,13 +305,10 @@
                     <option value="5.0:5.0 Pengurusan">5.0 Pengurusan Fasiliti</option>
                 </optgroup>
             </select>
-
             <label class="form-label">Pautan (Video / PDF / Dokumen)</label>
             <input type="url" id="videoLink" placeholder="Paste link Google Drive / YouTube...">
-            
             <label class="form-label">Tajuk Bahan</label>
-            <textarea id="catatan" rows="2" placeholder="Contoh: Nota Kuliah..."></textarea>
-
+            <textarea id="catatan" rows="2" placeholder="Contoh: Nota Kuliah Minggu 1..."></textarea>
             <button id="btnSubmit" class="btn-full" onclick="hantarData()">SIMPAN</button>
             <button id="btnDelete" class="btn-delete" onclick="padamData()">PADAM</button>
             <div id="loader" style="text-align:center; display:none; margin-top:10px; font-size:0.8rem; color:var(--text-muted);">Sedang memproses...</div>
@@ -301,8 +328,9 @@
     </div>
 
     <script>
-        // --- CONFIG ---
+        // CONFIG
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec";
+        const ADMIN_PIN = "1234"; 
         let CURRENT_PASSWORD = "";
         let GLOBAL_DATA = [];
 
@@ -338,16 +366,60 @@
             })
             .catch(err => { alert("Ralat sambungan."); document.querySelector('.btn-login').innerText = "MASUK"; });
         }
-
         function checkSession() {
             const saved = sessionStorage.getItem('movo_pass');
             if(saved) { document.getElementById('passwordInput').value = saved; loginAction(); }
         }
         function logout() { sessionStorage.removeItem('movo_pass'); location.reload(); }
 
+        // --- SEARCH LOGIC (NEW) ---
+        const searchInput = document.getElementById('searchInput');
+        const searchResultsArea = document.getElementById('searchResultsArea');
+        const mainShelvesArea = document.getElementById('mainShelvesArea');
+        const searchGrid = document.getElementById('searchGrid');
+        const clearBtn = document.querySelector('.clear-search');
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            if(term.length > 0) {
+                clearBtn.style.display = 'block';
+                performSearch(term);
+            } else {
+                clearSearch();
+            }
+        });
+
+        function clearSearch() {
+            searchInput.value = '';
+            clearBtn.style.display = 'none';
+            searchResultsArea.style.display = 'none';
+            mainShelvesArea.style.display = 'block';
+        }
+
+        function performSearch(term) {
+            mainShelvesArea.style.display = 'none';
+            searchResultsArea.style.display = 'block';
+            searchGrid.innerHTML = '';
+
+            const results = GLOBAL_DATA.filter(item => {
+                const combined = (item.topik + ' ' + item.catatan).toLowerCase();
+                return combined.includes(term);
+            });
+
+            if(results.length === 0) {
+                searchGrid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--text-muted); margin-top:20px;">Tiada hasil dijumpai.</div>';
+                return;
+            }
+
+            results.forEach(item => {
+                const card = createCardElement(item);
+                searchGrid.appendChild(card);
+            });
+        }
+
         // --- LAYOUT ---
         function generateLayout() {
-            const container = document.getElementById('mainContainer');
+            const container = document.getElementById('mainShelvesArea');
             let html = '';
             sections.forEach(sec => {
                 html += `<div class="main-section-title"><i class="fas fa-${sec.icon}"></i> ${sec.title}</div>`;
@@ -377,7 +449,7 @@
             container.innerHTML = html;
         }
 
-        // --- VISUAL LOGIC ---
+        // --- HELPERS ---
         function getFileType(url) {
             url = url.toLowerCase();
             if(url.includes('youtube') || url.includes('youtu.be')) return 'video';
@@ -399,13 +471,11 @@
                 const imgUrl = vidId ? `https://img.youtube.com/vi/${vidId}/mqdefault.jpg` : '';
                 return `<img src="${imgUrl}" loading="lazy"><div class="vid-overlay"><div class="vid-icon"><i class="fas fa-play"></i></div></div>`;
             } 
-            
             let iconClass = 'fa-file-lines'; let color = '#8b5cf6'; let label = 'FAIL';
             if(type === 'pdf') { iconClass = 'fa-file-pdf'; color = 'var(--col-pdf)'; label = 'PDF'; }
             if(type === 'word') { iconClass = 'fa-file-word'; color = 'var(--col-word)'; label = 'WORD'; }
             if(type === 'ppt') { iconClass = 'fa-file-powerpoint'; color = 'var(--col-ppt)'; label = 'SLIDES'; }
             if(type === 'excel') { iconClass = 'fa-file-excel'; color = 'var(--col-excel)'; label = 'EXCEL'; }
-            
             return `<div class="doc-thumb"><i class="fas ${iconClass} doc-icon" style="color:${color}"></i><span class="doc-label" style="color:${color}">${label}</span></div>`;
         }
 
@@ -414,7 +484,6 @@
             if(type === 'video') return '<i class="fas fa-play-circle"></i> Tonton Video';
             return '<i class="fas fa-download"></i> Lihat Bahan';
         }
-
         function parseTopic(topicString) {
             if(!topicString || !topicString.includes(':')) return { code: (topicString||"").substring(0,3).replace('.','-'), category: "Umum" };
             let parts = topicString.split(':');
@@ -425,6 +494,26 @@
             if(category.includes('Teknik')) return 'background:var(--tag-tl);';
             if(category.includes('Pengajaran')) return 'background:var(--tag-lp);';
             return 'background:#64748b;';
+        }
+
+        // --- CARD CREATION ---
+        function createCardElement(item, isNew = false) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            let info = parseTopic(item.topik);
+            let newTag = isNew ? '<div class="new-indicator">TERKINI</div>' : '';
+            
+            card.innerHTML = `
+                ${newTag}
+                <div class="thumb" onclick="window.open('${item.link}','_blank')">${getThumbContent(item.link)}</div>
+                <div class="card-body" onclick="window.open('${item.link}','_blank')">
+                    <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
+                    <div class="video-title">${item.catatan || "Bahan Tanpa Tajuk"}</div>
+                    <div class="action-text">${getActionText(item.link)}</div>
+                </div>
+                <div class="btn-edit-card" onclick="event.stopPropagation(); bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
+            `;
+            return card;
         }
 
         // --- DATA PROCESSING ---
@@ -439,28 +528,22 @@
                 if(!item.link) return;
                 let info = parseTopic(item.topik);
                 let targetShelf = document.getElementById('shelf-' + info.code);
+                
                 if (!shelfCounts[info.code]) shelfCounts[info.code] = 0;
                 shelfCounts[info.code]++;
 
                 if(targetShelf && shelfCounts[info.code] <= 3) {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    let newTag = (shelfCounts[info.code] === 1) ? '<div class="new-indicator">TERKINI</div>' : '';
-                    card.innerHTML = `
-                        ${newTag}
-                        <div class="thumb" onclick="window.open('${item.link}','_blank')">${getThumbContent(item.link)}</div>
-                        <div class="card-body" onclick="window.open('${item.link}','_blank')">
-                            <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
-                            <div class="video-title">${item.catatan || "Bahan Tanpa Tajuk"}</div>
-                            <div class="action-text">${getActionText(item.link)}</div>
-                        </div>
-                        <div class="btn-edit-card" onclick="event.stopPropagation(); bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
-                    `;
+                    const isNew = (shelfCounts[info.code] === 1);
+                    const card = createCardElement(item, isNew);
                     targetShelf.appendChild(card);
                 }
             });
 
-            document.querySelectorAll('.video-shelf').forEach(el => { if(el.innerHTML === "") el.innerHTML = '<div style="padding:10px; color:rgba(0,0,0,0.3); font-size:0.8rem;">Tiada bahan.</div>'; });
+            document.querySelectorAll('.video-shelf').forEach(el => { 
+                // Only show empty message if we are not in search mode
+                if(el.id !== 'searchGrid' && el.innerHTML === "") el.innerHTML = '<div style="padding:10px; color:rgba(0,0,0,0.3); font-size:0.8rem;">Tiada bahan.</div>'; 
+            });
+            
             for (const [code, count] of Object.entries(shelfCounts)) {
                 if(count > 3) {
                     let btn = document.getElementById('btn-view-'+code);
@@ -475,13 +558,15 @@
             });
         }
 
-        // --- MODAL FUNCTIONS ---
+        // --- MODAL & API OPS ---
         function bukaModalUpload() { 
             resetForm(); document.getElementById('modalTitle').innerText = "Tambah Bahan";
             document.getElementById('btnSubmit').innerText = "SIMPAN"; document.getElementById('btnDelete').style.display = "none";
             const modal = document.getElementById('modalUpload'); modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10);
         }
         function bukaModalEdit(id, topik, link, catatan) {
+            let pin = prompt("Masukkan PIN Admin:");
+            if(pin !== ADMIN_PIN) return alert("Akses Ditolak.");
             document.getElementById('modalTitle').innerText = "Edit Bahan";
             document.getElementById('editId').value = id; document.getElementById('topik').value = topik;
             document.getElementById('videoLink').value = link; document.getElementById('catatan').value = catatan;
