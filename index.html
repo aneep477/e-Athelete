@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MoVO | IPG KDA</title>
+    <title>MoVO | Akses Pensyarah</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -14,23 +12,16 @@
         /* --- 0. DESIGN TOKENS --- */
         :root {
             --primary: #4361ee;
-            --primary-glow: rgba(67, 97, 238, 0.3);
+            --primary-glow: rgba(67, 97, 238, 0.4);
             --accent: #f72585;
-            --glass-surface: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-surface: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.6);
             --text-main: #0f172a;
             --text-muted: #64748b;
             
-            /* File Type Colors */
-            --icon-pdf: #ef4444;
-            --icon-word: #3b82f6;
-            --icon-ppt: #f97316;
-            --icon-excel: #22c55e;
-            --icon-default: #64748b;
-
-            --tag-uu: #4f46e5; 
-            --tag-tl: #06b6d4; 
-            --tag-lp: #f59e0b; 
+            --tag-uu: #4f46e5; --tag-tl: #06b6d4; --tag-lp: #f59e0b; 
+            
+            --icon-pdf: #ef4444; --icon-word: #3b82f6; --icon-ppt: #f97316; --icon-excel: #22c55e;
         }
 
         /* --- 1. GLOBAL LAYOUT --- */
@@ -56,7 +47,42 @@
         }
         @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* --- 2. HEADER --- */
+        /* --- 2. LOGIN LOCKSCREEN (NEW) --- */
+        #loginOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 9999; display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.9); padding: 40px;
+            border-radius: 24px; text-align: center; width: 90%; max-width: 350px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.5);
+            animation: floatUp 0.6s ease-out;
+        }
+        @keyframes floatUp { from {transform: translateY(30px); opacity:0;} to {transform: translateY(0); opacity:1;} }
+        
+        .login-icon { font-size: 3rem; color: var(--primary); margin-bottom: 20px; filter: drop-shadow(0 4px 10px var(--primary-glow)); }
+        .login-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.5rem; margin: 0 0 10px 0; }
+        .login-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 25px; }
+        
+        #passwordInput {
+            text-align: center; letter-spacing: 5px; font-weight: 700; font-size: 1.2rem;
+            background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 12px;
+            padding: 15px; width: 100%; box-sizing: border-box; margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        #passwordInput:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); background: white; }
+        
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white; border: none; padding: 15px; width: 100%; border-radius: 12px;
+            font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px var(--primary-glow); }
+
+        /* --- 3. HEADER & NAV --- */
         nav {
             position: sticky; top: 20px; z-index: 100;
             width: 90%; max-width: 1000px; margin: 0 auto;
@@ -68,12 +94,13 @@
             display: flex; align-items: center; gap: 16px;
         }
         .logo-img { height: 44px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
-        .brand-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em; }
-        .brand-subtitle { font-size: 0.65rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; }
+        .brand-text { display: flex; flex-direction: column; }
+        .brand-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+        .brand-subtitle { font-size: 0.6rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; }
+        .logout-btn { margin-left: auto; cursor: pointer; color: var(--accent); font-size: 1.2rem; }
 
-        /* --- 3. SECTIONS --- */
+        /* --- 4. SECTIONS & CARDS --- */
         .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-
         .main-section-title {
             font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700;
             margin-top: 50px; margin-bottom: 20px;
@@ -81,64 +108,41 @@
             background: linear-gradient(90deg, var(--text-main), var(--primary));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
         .sub-section { margin-bottom: 30px; padding-left: 16px; border-left: 2px solid rgba(0,0,0,0.05); }
         .sub-header-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
         .sub-title { font-size: 0.8rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
-
         .view-all-btn {
             font-size: 0.75rem; font-weight: 600; color: var(--primary);
             cursor: pointer; padding: 6px 14px; border-radius: 20px;
             background: rgba(67, 97, 238, 0.08); display: none;
         }
-
-        /* --- 4. CARDS --- */
-        .video-shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
         
+        .video-shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
         .card {
             background: var(--glass-surface); backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border); border-radius: 18px;
             overflow: hidden; display: flex; flex-direction: column;
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            cursor: pointer; position: relative;
+            transition: transform 0.4s var(--smooth); cursor: pointer; position: relative;
         }
-        .card:hover { transform: translateY(-8px) scale(1.02); border-color: white; z-index: 10; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15); }
+        .card:hover { transform: translateY(-8px) scale(1.02); z-index: 10; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15); border-color: white; }
+        
+        .new-indicator { position: absolute; top: 12px; left: 12px; z-index: 10; background: var(--accent); color: white; font-size: 0.6rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; box-shadow: 0 4px 10px rgba(247, 37, 133, 0.3); }
 
-        .new-indicator {
-            position: absolute; top: 12px; left: 12px; z-index: 10;
-            background: var(--accent); color: white;
-            font-size: 0.6rem; font-weight: 800; padding: 4px 10px;
-            border-radius: 20px; box-shadow: 0 4px 10px rgba(247, 37, 133, 0.3);
-        }
-
-        /* Thumb Logic (Video vs Doc) */
         .thumb { width: 100%; aspect-ratio: 16/9; background: #e2e8f0; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
         .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
         .card:hover .thumb img { transform: scale(1.1); }
-        
-        /* Icon for Docs */
         .doc-icon-wrapper { font-size: 3.5rem; color: var(--text-muted); transition: 0.3s; }
         .card:hover .doc-icon-wrapper { transform: scale(1.1); }
 
         .card-body { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; }
-        .cat-badge {
-            font-size: 0.6rem; font-weight: 700; color: white;
-            padding: 4px 8px; border-radius: 6px; display: inline-block;
-            margin-bottom: 8px; align-self: flex-start; text-transform: uppercase;
-        }
-        .video-title {
-            font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: var(--text-main);
-            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-        }
-        .action-text {
-            font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-top: 8px; display: flex; align-items: center; gap: 5px;
-        }
+        .cat-badge { font-size: 0.6rem; font-weight: 700; color: white; padding: 4px 8px; border-radius: 6px; display: inline-block; margin-bottom: 8px; align-self: flex-start; text-transform: uppercase; }
+        .video-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .action-text { font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-top: 8px; display: flex; align-items: center; gap: 5px; }
 
         .btn-edit-card {
             position: absolute; bottom: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%;
-            background: rgba(255,255,255,0.8); color: var(--text-muted);
-            display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
-            opacity: 0; transform: translateY(10px); transition: 0.3s;
+            background: rgba(255,255,255,0.8); color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; opacity: 0; transform: translateY(10px); transition: 0.3s;
         }
         .card:hover .btn-edit-card { opacity: 1; transform: translateY(0); }
         .btn-edit-card:hover { background: var(--text-main); color: white; }
@@ -151,42 +155,18 @@
 
         /* --- 5. FOOTER & FAB --- */
         footer { margin-top: 80px; padding: 40px 20px; text-align: center; }
-        .footer-glass {
-            display: inline-block; background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5);
-            padding: 20px 30px; border-radius: 20px;
-        }
-        .footer-name { font-weight: 600; font-size: 1.1rem; color: var(--text-main); }
-        
-        .fab-upload {
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            color: white; font-size: 24px; box-shadow: 0 10px 30px var(--primary-glow);
-            z-index: 900; cursor: pointer; border: 2px solid rgba(255,255,255,0.2);
-            transition: transform 0.3s;
-        }
+        .footer-glass { display: inline-block; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); padding: 20px 30px; border-radius: 20px; }
+        .fab-upload { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; box-shadow: 0 10px 30px var(--primary-glow); z-index: 900; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: transform 0.3s; }
         .fab-upload:hover { transform: scale(1.1) rotate(90deg); }
 
         /* --- 6. MODALS --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px);
-            z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.active { opacity: 1; }
-        .modal-box {
-            background: #fff; width: 90%; max-width: 500px; border-radius: 24px; padding: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.9); opacity: 0; transition: all 0.3s;
-            max-height: 85vh; overflow-y: auto;
-        }
+        .modal-box { background: #fff; width: 90%; max-width: 500px; border-radius: 24px; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.9); opacity: 0; transition: all 0.3s; max-height: 85vh; overflow-y: auto; }
         .modal-overlay.active .modal-box { transform: scale(1); opacity: 1; }
-
+        
         .form-label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em; }
-        input, select, textarea {
-            width: 100%; padding: 14px; margin-bottom: 20px; border: 2px solid #e2e8f0; border-radius: 12px;
-            background: #f8fafc; font-family: 'Outfit', sans-serif; font-size: 0.95rem; box-sizing: border-box;
-        }
+        input, select, textarea { width: 100%; padding: 14px; margin-bottom: 20px; border: 2px solid #e2e8f0; border-radius: 12px; background: #f8fafc; font-family: 'Outfit', sans-serif; font-size: 0.95rem; box-sizing: border-box; }
         .btn-full { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
         .btn-delete { width: 100%; padding: 16px; background: #fee2e2; color: #ef4444; border: none; border-radius: 12px; font-weight: 700; margin-top: 10px; cursor: pointer; display: none; }
 
@@ -201,26 +181,40 @@
 
     <div class="mesh-bg"><div class="mesh-light"></div></div>
 
-    <nav>
-        <img src="https://imgur.com/kPB26qV.png" alt="Logo IPG" class="logo-img">
-        <div class="brand-text">
-            <div class="brand-title">MoVO MPU3411</div>
-            <div class="brand-subtitle">Modul & Sumber Digital</div>
+    <div id="loginOverlay">
+        <div class="login-box">
+            <div class="login-icon"><i class="fas fa-lock"></i></div>
+            <h2 class="login-title">Akses Pensyarah</h2>
+            <p class="login-desc">Sila masukkan kata laluan keselamatan untuk mengakses modul.</p>
+            <input type="password" id="passwordInput" placeholder="PIN" maxlength="15">
+            <button class="btn-login" onclick="loginAction()">MASUK</button>
+            <p id="loginError" style="color:var(--accent); font-size:0.8rem; margin-top:10px; display:none;">Kata laluan salah!</p>
         </div>
-    </nav>
+    </div>
 
-    <div class="container" id="mainContainer">
-        </div>
+    <div id="appContent" style="display:none;">
+        <nav>
+            <img src="https://imgur.com/kPB26qV.png" alt="Logo IPG" class="logo-img">
+            <div class="brand-text">
+                <div class="brand-title">MoVO MPU3411</div>
+                <div class="brand-subtitle">Modul & Sumber Digital</div>
+            </div>
+            <div class="logout-btn" onclick="logout()" title="Keluar"><i class="fas fa-sign-out-alt"></i></div>
+        </nav>
 
-    <footer>
-        <div class="footer-glass">
-            <div class="footer-title" style="font-size:0.8rem; color:var(--primary); font-weight:700; margin-bottom:5px;">Disediakan Oleh</div>
-            <div class="footer-name">Haniff Faizal Bin Chek Ani</div>
-            <div class="footer-role" style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Penyelaras MPU3411 • Unit Kokurikulum IPG KDA</div>
-        </div>
-    </footer>
+        <div class="container" id="mainContainer">
+            </div>
 
-    <div class="fab-upload" onclick="bukaModalUpload()"><i class="fas fa-plus"></i></div>
+        <footer>
+            <div class="footer-glass">
+                <div style="font-size:0.8rem; color:var(--primary); font-weight:700; margin-bottom:5px;">Disediakan Oleh</div>
+                <div style="font-weight:600; font-size:1.1rem; color:var(--text-main);">Haniff Faizal Bin Chek Ani</div>
+                <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Penyelaras MPU3411 • Unit Kokurikulum IPG KDA</div>
+            </div>
+        </footer>
+
+        <div class="fab-upload" onclick="bukaModalUpload()"><i class="fas fa-plus"></i></div>
+    </div>
 
     <div id="modalUpload" class="modal-overlay" onclick="if(event.target==this)tutupAllModals()">
         <div class="modal-box">
@@ -228,9 +222,7 @@
                 <h2 id="modalTitle" style="margin:0; font-family:'Space Grotesk'; color:var(--text-main);">Tambah Bahan</h2>
                 <div onclick="tutupAllModals()" style="cursor:pointer; color:var(--text-muted);"><i class="fas fa-times"></i></div>
             </div>
-            
             <input type="hidden" id="editId">
-
             <label class="form-label">Kategori</label>
             <select id="topik">
                 <option value="" disabled selected>Pilih Kategori...</option>
@@ -272,13 +264,10 @@
                     <option value="5.0:5.0 Pengurusan">5.0 Pengurusan Fasiliti</option>
                 </optgroup>
             </select>
-
             <label class="form-label">Pautan (Video / PDF / Dokumen)</label>
-            <input type="url" id="videoLink" placeholder="Paste link Google Drive / YouTube di sini...">
-            
+            <input type="url" id="videoLink" placeholder="Paste link Google Drive / YouTube...">
             <label class="form-label">Tajuk Bahan</label>
             <textarea id="catatan" rows="2" placeholder="Contoh: Nota Kuliah Minggu 1..."></textarea>
-
             <button id="btnSubmit" class="btn-full" onclick="hantarData()">SIMPAN</button>
             <button id="btnDelete" class="btn-delete" onclick="padamData()">PADAM</button>
             <div id="loader" style="text-align:center; display:none; margin-top:10px; font-size:0.8rem; color:var(--text-muted);">Sedang memproses...</div>
@@ -300,7 +289,7 @@
     <script>
         // CONFIG
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec";
-        const ADMIN_PIN = "1234"; 
+        let CURRENT_PASSWORD = "";
         let GLOBAL_DATA = [];
 
         const sections = [
@@ -311,7 +300,50 @@
             {id:'5-0', title:'5.0 Pengurusan', icon:'tools'}
         ];
 
-        // 1. LAYOUT
+        // --- AUTHENTICATION ---
+        function loginAction() {
+            const pass = document.getElementById('passwordInput').value;
+            if(!pass) return;
+            CURRENT_PASSWORD = pass;
+            // Cuba fetch data dengan password ini
+            document.querySelector('.btn-login').innerText = "MENYEMAK...";
+            fetch(WEB_APP_URL + "?password=" + encodeURIComponent(pass))
+            .then(res => res.json())
+            .then(data => {
+                if(data.result === 'success') {
+                    // Password betul
+                    document.getElementById('loginOverlay').style.opacity = 0;
+                    setTimeout(() => {
+                        document.getElementById('loginOverlay').style.display = 'none';
+                        document.getElementById('appContent').style.display = 'block';
+                        sessionStorage.setItem('movo_pass', pass);
+                        prosesDataAwal(data.data);
+                    }, 500);
+                } else {
+                    document.getElementById('loginError').style.display = 'block';
+                    document.querySelector('.btn-login').innerText = "MASUK";
+                }
+            })
+            .catch(err => {
+                alert("Ralat sambungan.");
+                document.querySelector('.btn-login').innerText = "MASUK";
+            });
+        }
+
+        function checkSession() {
+            const saved = sessionStorage.getItem('movo_pass');
+            if(saved) {
+                document.getElementById('passwordInput').value = saved;
+                loginAction();
+            }
+        }
+        
+        function logout() {
+            sessionStorage.removeItem('movo_pass');
+            location.reload();
+        }
+
+        // --- LAYOUT ---
         function generateLayout() {
             const container = document.getElementById('mainContainer');
             let html = '';
@@ -343,49 +375,35 @@
             container.innerHTML = html;
         }
 
-        // 2. HELPER: Detect File Type
+        // --- HELPERS ---
         function getFileType(url) {
             url = url.toLowerCase();
             if(url.includes('youtube') || url.includes('youtu.be')) return 'video';
             if(url.includes('.pdf')) return 'pdf';
-            if(url.includes('.doc') || url.includes('.docx')) return 'word';
-            if(url.includes('.ppt') || url.includes('.pptx')) return 'ppt';
-            if(url.includes('.xls') || url.includes('.xlsx') || url.includes('sheet')) return 'excel';
-            // Default check for Drive links that aren't explicit
+            if(url.includes('.doc')) return 'word';
+            if(url.includes('.ppt')) return 'ppt';
+            if(url.includes('.xls')) return 'excel';
             if(url.includes('drive.google.com')) return 'doc-generic'; 
             return 'link';
         }
 
-        // 3. GENERATE THUMBNAIL / ICON
         function getThumbContent(url) {
             const type = getFileType(url);
-            
             if(type === 'video') {
                 const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
                 const match = url.match(regExp);
                 const vidId = (match && match[2].length === 11) ? match[2] : null;
                 const imgUrl = vidId ? `https://img.youtube.com/vi/${vidId}/mqdefault.jpg` : '';
-                
                 return `<img src="${imgUrl}" loading="lazy"><div class="overlay-icon" style="position:absolute; background:rgba(255,255,255,0.9); width:40px; height:40px; border-radius:50%; display:flex; justify-content:center; align-items:center; box-shadow:0 5px 15px rgba(0,0,0,0.2);"><i class="fas fa-play" style="color:var(--primary);"></i></div>`;
             } 
-            
-            // DOCUMENT ICONS
-            let iconClass = 'fa-file-alt';
-            let color = 'var(--icon-default)';
-            let label = 'DOKUMEN';
-
+            let iconClass = 'fa-file-lines'; let color = '#8b5cf6'; let label = 'FAIL';
             if(type === 'pdf') { iconClass = 'fa-file-pdf'; color = 'var(--icon-pdf)'; label = 'PDF'; }
             if(type === 'word') { iconClass = 'fa-file-word'; color = 'var(--icon-word)'; label = 'WORD'; }
             if(type === 'ppt') { iconClass = 'fa-file-powerpoint'; color = 'var(--icon-ppt)'; label = 'SLIDES'; }
             if(type === 'excel') { iconClass = 'fa-file-excel'; color = 'var(--icon-excel)'; label = 'EXCEL'; }
-            if(type === 'doc-generic') { iconClass = 'fa-file-lines'; color = '#8b5cf6'; label = 'FAIL'; }
-
-            return `
-                <div style="width:100%; height:100%; background:linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); display:flex; flex-direction:column; justify-content:center; align-items:center;">
+            return `<div style="width:100%; height:100%; background:linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); display:flex; flex-direction:column; justify-content:center; align-items:center;">
                     <i class="fas ${iconClass}" style="font-size:3rem; color:${color}; margin-bottom:10px; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.1));"></i>
-                    <span style="font-size:0.6rem; font-weight:800; color:${color}; letter-spacing:0.1em;">${label}</span>
-                </div>
-            `;
+                    <span style="font-size:0.6rem; font-weight:800; color:${color}; letter-spacing:0.1em;">${label}</span></div>`;
         }
 
         function getActionText(url) {
@@ -393,8 +411,6 @@
             if(type === 'video') return '<i class="fas fa-play"></i> Tonton Video';
             return '<i class="fas fa-eye"></i> Lihat Bahan';
         }
-
-        // 4. PARSE & COLORS
         function parseTopic(topicString) {
             if(!topicString || !topicString.includes(':')) return { code: (topicString||"").substring(0,3).replace('.','-'), category: "Umum" };
             let parts = topicString.split(':');
@@ -407,57 +423,59 @@
             return 'background:#64748b;';
         }
 
-        // 5. FETCH DATA
-        function muatTurunData() {
-            document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = '<div style="padding:10px; color:var(--text-muted); font-size:0.8rem;">Memuatkan...</div>');
+        // --- DATA HANDLING ---
+        function prosesDataAwal(data) {
+            data.reverse();
+            GLOBAL_DATA = data;
+            
+            document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = "");
+            document.querySelectorAll('.view-all-btn').forEach(el => el.style.display = "none");
+            let shelfCounts = {};
 
-            fetch(WEB_APP_URL).then(res => res.json()).then(res => {
-                let data = res.data;
-                data.reverse();
-                GLOBAL_DATA = data;
-                
-                document.querySelectorAll('.video-shelf').forEach(el => el.innerHTML = "");
-                document.querySelectorAll('.view-all-btn').forEach(el => el.style.display = "none");
-                let shelfCounts = {};
+            data.forEach(item => {
+                if(!item.link) return;
+                let info = parseTopic(item.topik);
+                let targetShelf = document.getElementById('shelf-' + info.code);
+                if (!shelfCounts[info.code]) shelfCounts[info.code] = 0;
+                shelfCounts[info.code]++;
 
-                data.forEach(item => {
-                    if(!item.link) return;
-                    let info = parseTopic(item.topik);
-                    let targetShelf = document.getElementById('shelf-' + info.code);
-                    if (!shelfCounts[info.code]) shelfCounts[info.code] = 0;
-                    shelfCounts[info.code]++;
-
-                    if(targetShelf && shelfCounts[info.code] <= 3) {
-                        const card = document.createElement('div');
-                        card.className = 'card';
-                        let newTag = (shelfCounts[info.code] === 1) ? '<div class="new-indicator">TERKINI</div>' : '';
-                        
-                        card.innerHTML = `
-                            ${newTag}
-                            <div class="thumb" onclick="window.open('${item.link}','_blank')">${getThumbContent(item.link)}</div>
-                            <div class="card-body" onclick="window.open('${item.link}','_blank')">
-                                <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
-                                <div class="video-title">${item.catatan || "Bahan Tanpa Tajuk"}</div>
-                                <div class="action-text">${getActionText(item.link)}</div>
-                            </div>
-                            <div class="btn-edit-card" onclick="event.stopPropagation(); bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
-                        `;
-                        targetShelf.appendChild(card);
-                    }
-                });
-
-                document.querySelectorAll('.video-shelf').forEach(el => { if(el.innerHTML === "") el.innerHTML = '<div style="padding:10px; color:rgba(0,0,0,0.3); font-size:0.8rem;">Tiada bahan.</div>'; });
-                
-                for (const [code, count] of Object.entries(shelfCounts)) {
-                    if(count > 3) {
-                        let btn = document.getElementById('btn-view-'+code);
-                        if(btn) { btn.style.display = "block"; btn.innerHTML = `Lihat Semua (${count}) <i class="fas fa-arrow-right" style="margin-left:4px;"></i>`; }
-                    }
+                if(targetShelf && shelfCounts[info.code] <= 3) {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    let newTag = (shelfCounts[info.code] === 1) ? '<div class="new-indicator">TERKINI</div>' : '';
+                    card.innerHTML = `
+                        ${newTag}
+                        <div class="thumb" onclick="window.open('${item.link}','_blank')">${getThumbContent(item.link)}</div>
+                        <div class="card-body" onclick="window.open('${item.link}','_blank')">
+                            <span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span>
+                            <div class="video-title">${item.catatan || "Bahan Tanpa Tajuk"}</div>
+                            <div class="action-text">${getActionText(item.link)}</div>
+                        </div>
+                        <div class="btn-edit-card" onclick="event.stopPropagation(); bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
+                    `;
+                    targetShelf.appendChild(card);
                 }
-            }).catch(err => console.error(err));
+            });
+
+            document.querySelectorAll('.video-shelf').forEach(el => { if(el.innerHTML === "") el.innerHTML = '<div style="padding:10px; color:rgba(0,0,0,0.3); font-size:0.8rem;">Tiada bahan.</div>'; });
+            for (const [code, count] of Object.entries(shelfCounts)) {
+                if(count > 3) {
+                    let btn = document.getElementById('btn-view-'+code);
+                    if(btn) { btn.style.display = "block"; btn.innerHTML = `Lihat Semua (${count}) <i class="fas fa-arrow-right" style="margin-left:4px;"></i>`; }
+                }
+            }
         }
 
-        // 6. MODAL OPS
+        // Re-fetch data function (used after edit/delete)
+        function muatTurunDataSemula() {
+            fetch(WEB_APP_URL + "?password=" + encodeURIComponent(CURRENT_PASSWORD))
+            .then(res => res.json())
+            .then(data => {
+                if(data.result === 'success') { prosesDataAwal(data.data); }
+            });
+        }
+
+        // --- MODAL OPS ---
         function bukaModalUpload() { 
             resetForm();
             document.getElementById('modalTitle').innerText = "Tambah Bahan";
@@ -467,8 +485,6 @@
             modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10);
         }
         function bukaModalEdit(id, topik, link, catatan) {
-            let pin = prompt("Masukkan PIN Admin:");
-            if(pin !== ADMIN_PIN) return alert("Akses Ditolak.");
             document.getElementById('modalTitle').innerText = "Edit Bahan";
             document.getElementById('editId').value = id;
             document.getElementById('topik').value = topik;
@@ -483,14 +499,11 @@
         function tutupAllModals() { 
             document.querySelectorAll('.modal-overlay').forEach(m => { m.classList.remove('active'); setTimeout(() => m.style.display = 'none', 300); });
         }
-
-        // 7. VIEW ALL
         function openTableModal(code, titleName) {
             document.getElementById('tableTitle').innerText = titleName;
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = "";
             let filteredData = GLOBAL_DATA.filter(item => { if(!item.link) return false; return parseTopic(item.topik).code === code; });
-
             filteredData.forEach(item => {
                 let info = parseTopic(item.topik);
                 let type = getFileType(item.link);
@@ -513,7 +526,7 @@
             modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10);
         }
 
-        // 8. API OPS
+        // --- API OPS (WITH PASSWORD) ---
         function hantarData() {
             const id = document.getElementById('editId').value;
             const topik = document.getElementById('topik').value;
@@ -523,28 +536,36 @@
             if(!topik || !link) return alert("Sila lengkapkan borang.");
             loader.style.display = 'block'; document.getElementById('btnSubmit').disabled = true;
             const action = id ? "edit" : "insert";
+            
             fetch(WEB_APP_URL, {
                 method: "POST",
-                body: new URLSearchParams({ "action": action, "id": id, "topik": topik, "link": link, "catatan": catatan })
+                body: new URLSearchParams({ 
+                    "action": action, "id": id, "topik": topik, 
+                    "link": link, "catatan": catatan, 
+                    "password": CURRENT_PASSWORD 
+                })
             }).then(res => res.json()).then(data => {
                 loader.style.display = 'none'; document.getElementById('btnSubmit').disabled = false;
-                if(data.result === 'success') { tutupAllModals(); muatTurunData(); } else { alert("Ralat: " + data.error); }
+                if(data.result === 'success') { tutupAllModals(); muatTurunDataSemula(); } else { alert("Ralat: " + data.message); }
             });
         }
         function padamData() {
             const id = document.getElementById('editId').value;
             if(!id || !confirm("Padam bahan ini?")) return;
             document.getElementById('loader').style.display = 'block';
-            fetch(WEB_APP_URL, { method: "POST", body: new URLSearchParams({ "action": "delete", "id": id }) })
+            fetch(WEB_APP_URL, { 
+                method: "POST", 
+                body: new URLSearchParams({ "action": "delete", "id": id, "password": CURRENT_PASSWORD }) 
+            })
             .then(res => res.json()).then(data => {
                 document.getElementById('loader').style.display = 'none';
-                if(data.result === 'success') { tutupAllModals(); muatTurunData(); } else { alert("Ralat: " + data.error); }
+                if(data.result === 'success') { tutupAllModals(); muatTurunDataSemula(); } else { alert("Ralat: " + data.message); }
             });
         }
 
-        // INIT
+        // START
         generateLayout();
-        muatTurunData();
+        checkSession();
     </script>
 </body>
 </html>
