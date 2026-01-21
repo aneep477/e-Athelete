@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MoVO | Akses Pensyarah</title>
+    <title>MoVO | IPG KDA</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,30 +11,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 0. CRITICAL MOBILE FIXES --- */
+        /* --- 0. RESET & VARS --- */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         :root {
             --primary: #4361ee; --primary-glow: rgba(67, 97, 238, 0.4);
             --accent: #f72585; --text-main: #0f172a; --text-muted: #64748b;
             --glass-surface: rgba(255, 255, 255, 0.85); --glass-border: rgba(255, 255, 255, 0.7);
             
-            /* File Icons */
-            --col-pdf: #ef4444; --col-word: #3b82f6; --col-ppt: #f97316; --col-excel: #22c55e;
-            
-            /* Badges */
             --tag-uu: #4f46e5; --tag-tl: #06b6d4; --tag-lp: #f59e0b; 
+            --col-pdf: #ef4444; --col-word: #3b82f6; --col-ppt: #f97316; --col-excel: #22c55e;
         }
+        body { margin:0; font-family:'Outfit', sans-serif; background:#f1f5f9; color:var(--text-main); width:100%; max-width:100%; overflow-x:hidden; padding-bottom:120px; }
 
-        /* --- 1. GLOBAL LAYOUT --- */
-        body { margin:0; font-family:'Outfit', sans-serif; background:#f1f5f9; color:var(--text-main); width:100%; max-width:100%; overflow-x:hidden; padding-bottom:140px; }
-
-        /* Background */
+        /* --- 1. BACKGROUND --- */
         .mesh-bg { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; background:radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%); background-size:200% 200%; animation:gradient-flow 20s ease infinite; }
         .mesh-light { position:absolute; width:100%; height:100%; background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%); mix-blend-mode:overlay; opacity:0.5; }
         @keyframes gradient-flow { 0% {background-position:0% 50%} 50% {background-position:100% 50%} 100% {background-position:0% 50%} }
 
-        /* --- 2. LOGIN SCREEN (PENSYARAH ONLY) --- */
-        #loginOverlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.95); backdrop-filter:blur(15px); z-index:9999; display:flex; justify-content:center; align-items:center; padding:20px; }
+        /* --- 2. LOGIN SCREEN --- */
+        #loginOverlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.95); backdrop-filter:blur(10px); z-index:9999; display:flex; justify-content:center; align-items:center; padding:20px; }
         .login-box { background:rgba(255, 255, 255, 0.95); padding:40px 25px; border-radius:20px; text-align:center; width:100%; max-width:350px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5); }
         .login-input { width:100%; padding:14px; margin-bottom:15px; border:2px solid #e2e8f0; border-radius:12px; background:#f8fafc; font-size:1rem; text-align:center; transition:0.3s; }
         .login-input:focus { border-color:var(--primary); background:white; outline:none; }
@@ -90,7 +85,7 @@
         .new-indicator { position:absolute; top:0; left:0; z-index:10; background:var(--accent); color:white; font-size:0.55rem; font-weight:800; padding:2px 8px; border-bottom-right-radius:10px; }
         .btn-edit-card { position:absolute; bottom:8px; right:8px; width:24px; height:24px; border-radius:50%; background:#f1f5f9; color:var(--text-muted); display:flex; align-items:center; justify-content:center; font-size:0.7rem; z-index:20; border:1px solid #e2e8f0; }
 
-        /* --- 7. FOOTER & FAB --- */
+        /* --- 7. FOOTER --- */
         footer { margin-top:60px; padding:20px; text-align:center; width:100%; }
         .footer-glass { display:inline-block; background:rgba(255, 255, 255, 0.5); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.6); padding:15px 20px; border-radius:16px; width:90%; max-width:400px; position:relative; }
         .admin-log-btn { position:absolute; bottom:15px; right:15px; color:var(--text-muted); opacity:0.6; cursor:pointer; font-size:1.1rem; }
@@ -123,12 +118,14 @@
 
     <div id="loginOverlay">
         <div class="login-box">
-            <div style="font-size:3rem; color:var(--primary); margin-bottom:10px;"><i class="fas fa-chalkboard-teacher"></i></div>
+            <div style="font-size:3rem; color:var(--primary); margin-bottom:10px;"><i class="fas fa-user-tie"></i></div>
             <h2 style="font-family:'Space Grotesk'; font-weight:700; margin:0 0 10px 0;">Akses Pensyarah</h2>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">Sistem ini khas untuk pensyarah sahaja.<br>Sila log masuk untuk rekod penggunaan.</p>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">
+                Sila masukkan Email & PIN untuk akses modul.
+            </p>
             
-            <input type="email" id="emailInput" class="login-input" placeholder="Email Rasmi (Wajib)" style="text-align:left;">
-            <input type="password" id="passwordInput" class="login-input" placeholder="PIN Akses Pensyarah" maxlength="15">
+            <input type="email" id="emailInput" class="login-input" placeholder="Email Rasmi" style="text-align:left;">
+            <input type="password" id="passwordInput" class="login-input" placeholder="PIN: MPU3411IPG" maxlength="15">
             
             <button class="btn-login" onclick="loginAction()">LOG MASUK</button>
             <p id="loginError" style="color:var(--accent); font-size:0.8rem; margin-top:10px; display:none;">Butiran salah!</p>
@@ -167,7 +164,7 @@
                 <div style="font-weight:600; font-size:1rem; color:var(--text-main);">Haniff Faizal Bin Chek Ani</div>
                 <div style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; margin-top:2px;">Penyelaras MPU3411 • Unit Kokurikulum IPG KDA</div>
                 
-                <div class="admin-log-btn" onclick="bukaLogAdmin()" title="Admin Logs"><i class="fas fa-key"></i></div>
+                <div class="admin-log-btn" onclick="bukaLogAdmin()" title="Log Penggunaan"><i class="fas fa-history"></i></div>
             </div>
         </footer>
 
@@ -247,7 +244,7 @@
     <div id="modalLogs" class="modal-overlay" onclick="if(event.target==this)tutupAllModals()">
         <div class="modal-box" style="height:70vh; max-width:600px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h2 style="margin:0; font-family:'Space Grotesk'; color:var(--accent);">Log Aktiviti Pensyarah</h2>
+                <h2 style="margin:0; font-family:'Space Grotesk'; color:var(--accent);">Log Penggunaan</h2>
                 <div onclick="tutupAllModals()" style="cursor:pointer;"><i class="fas fa-times"></i></div>
             </div>
             <div class="table-container">
@@ -260,12 +257,9 @@
     </div>
 
     <script>
-        // --- CONFIG ---
-        // GANTIKAN URL INI DENGAN URL APPS SCRIPT BARU ANDA
+        // --- CONFIG (MASUKKAN URL APPS SCRIPT ANDA) ---
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkKFRpVW0lVab9TGj9Z3xcUBsdk68o32BQ13Z_QR_lc-q-F7YpPxHC29J2XPtc0lAK/exec";
         
-        // PIN ADMIN: Gunakan ini untuk buka Log. (Mesti sama dengan backend)
-        // PIN AKSES: Gunakan ini untuk login biasa.
         let CURRENT_PASSWORD = "";
         let USER_EMAIL = "";
         let GLOBAL_DATA = [];
@@ -286,37 +280,31 @@
             if(!email || !pass) { alert("Sila masukkan Email dan PIN."); return; }
             if(!email.includes('@')) { alert("Format email tidak sah."); return; }
 
-            // Set global vars
             CURRENT_PASSWORD = pass;
             USER_EMAIL = email;
             
             document.querySelector('.btn-login').innerText = "MENYEMAK...";
             
-            // Hantar request ke backend
+            // Hantar ke Backend
             fetch(WEB_APP_URL + "?password=" + encodeURIComponent(pass) + "&email=" + encodeURIComponent(email))
             .then(res => res.json())
             .then(data => {
                 if(data.result === 'success') {
-                    // Login Berjaya
                     document.getElementById('loginOverlay').style.opacity = 0;
                     setTimeout(() => {
                         document.getElementById('loginOverlay').style.display = 'none';
                         document.getElementById('appContent').style.display = 'block';
                         sessionStorage.setItem('movo_pass', pass);
                         sessionStorage.setItem('movo_email', email);
-                        prosesDataAwal(data.data);
+                        prosesDataAwal(data.data.items); // Data is in data.data.items
                     }, 500);
                 } else {
-                    // Login Gagal
                     document.getElementById('loginError').innerText = data.message || "Akses Ditolak.";
                     document.getElementById('loginError').style.display = 'block';
                     document.querySelector('.btn-login').innerText = "LOG MASUK";
                 }
             })
-            .catch(err => { 
-                alert("Ralat sambungan server."); 
-                document.querySelector('.btn-login').innerText = "LOG MASUK"; 
-            });
+            .catch(err => { alert("Ralat sambungan."); document.querySelector('.btn-login').innerText = "LOG MASUK"; });
         }
 
         function checkSession() {
@@ -332,7 +320,7 @@
 
         // --- LOGGING ---
         function logActivity(activityName) {
-            // Hantar log senyap
+            // Log Senyap
             fetch(WEB_APP_URL, {
                 method: "POST",
                 body: new URLSearchParams({ 
@@ -354,11 +342,12 @@
             tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">Memuatkan...</td></tr>';
             document.getElementById('modalLogs').style.display = 'flex';
 
+            // Send Admin PIN + Current User Password (as user auth)
             fetch(WEB_APP_URL + "?action=get_logs&adminPin=" + encodeURIComponent(pin) + "&password=" + encodeURIComponent(CURRENT_PASSWORD))
             .then(res => res.json())
             .then(data => {
                 tbody.innerHTML = "";
-                if(data.result === 'success' && data.data.length > 0) {
+                if(data.result === 'success' && data.data && data.data.length > 0) {
                     data.data.forEach(log => {
                         let row = `<tr>
                             <td><div style="font-size:0.7rem; color:#666;">${new Date(log.masa).toLocaleString()}</div></td>
@@ -542,7 +531,7 @@
         function muatTurunDataSemula() {
             fetch(WEB_APP_URL + "?password=" + encodeURIComponent(CURRENT_PASSWORD) + "&email=" + encodeURIComponent(USER_EMAIL))
             .then(res => res.json())
-            .then(data => { if(data.result === 'success') { prosesDataAwal(data.data); } });
+            .then(data => { if(data.result === 'success') { prosesDataAwal(data.data.items); } });
         }
 
         // --- MODALS ---
@@ -573,7 +562,7 @@
                     <td><span class="cat-badge" style="${getBadgeColor(info.category)}">${info.category}</span><div style="font-weight:600; font-size:0.9rem;">${item.catatan}</div></td>
                     <td><div style="display:flex; gap:8px;">
                         <a href="${item.link}" target="_blank" class="btn-icon" style="background:var(--primary-glow); color:var(--primary);" onclick="logActivity('Akses List: ${item.catatan}')"><i class="fas ${iconClass}"></i></a>
-                        <div class="btn-icon" style="background:#f1f5f9; color:var(--text-muted);" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
+                        <div class="btn-icon btn-table-edit" style="background:#f1f5f9; color:var(--text-muted);" onclick="bukaModalEdit('${item.id}', '${item.topik}', '${item.link}', \`${item.catatan}\`)"><i class="fas fa-pen"></i></div>
                     </div></td>
                 </tr>`;
                 tbody.innerHTML += row;
